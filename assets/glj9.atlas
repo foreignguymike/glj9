@@ -1,9 +1,11 @@
 glj9.png
 size:256,256
 repeat:none
+coin
+bounds:228,244,7,7
 pixel
-bounds:228,247,1,1
+bounds:2,2,1,1
 player
-bounds:2,2,42,20
+bounds:2,5,42,20
 tileset
-bounds:2,24,224,224
+bounds:2,27,224,224

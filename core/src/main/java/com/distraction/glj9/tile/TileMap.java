@@ -34,8 +34,10 @@ public class TileMap {
 
     private int[][] tiles;
     private Entity player;
-    private List<Entity> entities;
+    private List<Entity> ghosts;
+    private List<Entity> collectibles;
     private float stepTimer = 0;
+    private boolean started = false;
 
     public TileMap(Context context) {
         this.context = context;
@@ -45,19 +47,39 @@ public class TileMap {
     public void loadLevel(int level) {
         LevelData data = LevelData.levels[level];
         tiles = flip(data.tiles);
-        entities = new ArrayList<>();
+        ghosts = new ArrayList<>();
+        collectibles = new ArrayList<>();
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
-                player = new Player(context, e.row, e.col, e.direction);
+                player = new Player(context, tiles.length - e.row - 1, e.col, e.direction);
             } else {
-                entities.add(new Collectible(context, e.row, e.col));
+                ghosts.add(new Ghost(context, tiles.length - e.row - 1, e.col, e.direction));
             }
         }
-        for (Entity e : entities) {
-            if (e instanceof Collectible) continue;
-            e.moveDirection(getNextDirection(e));
+        int[][] coll = flip(data.collectibles);
+        for (int row = 0; row < coll.length; row++) {
+            for (int col = 0; col < coll[0].length; col++) {
+                int id = coll[row][col];
+                EntityData.EntityType type;
+                if (id == 1) type = EntityData.EntityType.COIN;
+                else if (id == 2) type = EntityData.EntityType.CANDLE;
+                else if (id == 3) type = EntityData.EntityType.DIAMOND;
+                else continue;
+                collectibles.add(new Collectible(context, type, row, col));
+            }
         }
-        player.moveDirection(getNextDirection(player));
+        started = false;
+    }
+
+    public void start() {
+        if (!started) {
+            started = true;
+            for (Entity e : ghosts) {
+                if (e instanceof Collectible) continue;
+                e.moveDirection(getNextDirection(e));
+            }
+            player.moveDirection(getNextDirection(player));
+        }
     }
 
     public Direction getNextDirection(Entity e) {
@@ -88,26 +110,34 @@ public class TileMap {
     }
 
     public void update(float dt) {
-        stepTimer += dt;
-
-        if (stepTimer > STEP_DURATION) {
-            stepTimer = 0;
-            for (Entity e : entities) {
-                if (e instanceof Collectible) continue;
-                e.finish();
-                e.moveDirection(getNextDirection(e));
+        if (started) {
+            stepTimer += dt;
+            if (stepTimer > STEP_DURATION) {
+                stepTimer = 0;
+                player.finish();
+                player.moveDirection(getNextDirection(player));
+                for (int i = 0; i < collectibles.size(); i++) {
+                    Entity c = collectibles.get(i);
+                    if (player.row == c.row && player.col == c.col) {
+                        collectibles.remove(i);
+                        i--;
+                    }
+                }
+                for (Entity g : ghosts) {
+                    g.finish();
+                    g.moveDirection(getNextDirection(g));
+                }
             }
-            player.finish();
-            player.moveDirection(getNextDirection(player));
         }
 
         float percent = stepTimer / STEP_DURATION;
-        for (Entity e : entities) {
-            e.update(dt);
-            if (!(e instanceof Collectible)) e.move(percent);
+        for (Entity g : ghosts) {
+            g.update(dt);
+            if (started) g.move(percent);
         }
         player.update(dt);
-        player.move(percent);
+        if (started) player.move(percent);
+        for (Entity c : collectibles) c.update(dt);
     }
 
     public void render(SpriteBatch sb) {
@@ -117,7 +147,8 @@ public class TileMap {
                 sb.draw(tileset[tiles[row][col] - 1], col * TILE_SIZE, row * TILE_SIZE);
             }
         }
-        for (Entity e : entities) e.render(sb);
+        for (Entity g : ghosts) g.render(sb);
+        for (Entity c : collectibles) c.render(sb);
         player.render(sb);
     }
 

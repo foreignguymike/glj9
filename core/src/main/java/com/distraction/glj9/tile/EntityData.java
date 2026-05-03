@@ -5,14 +5,22 @@ public class EntityData {
     public enum EntityType {
         PLAYER,
         GHOST,
-        PELLET,
-        SUPER_PELLET;
+        COIN,
+        CANDLE,
+        DIAMOND
     }
 
     public final EntityType type;
     public final int row;
     public final int col;
     public final Direction direction;
+
+    public EntityData(EntityType type, int row, int col) {
+        this.type = type;
+        this.row = row;
+        this.col = col;
+        this.direction = Direction.DOWN;
+    }
 
     public EntityData(EntityType type, int row, int col, Direction direction) {
         this.type = type;

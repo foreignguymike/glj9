@@ -14,6 +14,6 @@ public class Constants {
 
     public static final boolean FULLSCREEN = false;
 
-    public static final Color WATER = Color.valueOf("4CC5E4");
+    public static final Color LEVEL_BG = Color.valueOf("2A2A41");
 
 }
