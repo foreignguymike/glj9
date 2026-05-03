@@ -1,11 +1,15 @@
 glj9.png
-size:256,256
+size:512,256
 repeat:none
+arrows
+bounds:454,238,48,13
 coin
-bounds:228,244,7,7
+bounds:46,18,7,7
 pixel
 bounds:2,2,1,1
 player
 bounds:2,5,42,20
 tileset
+bounds:228,27,224,224
+tileset2
 bounds:2,27,224,224

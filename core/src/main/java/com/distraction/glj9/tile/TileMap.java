@@ -27,31 +27,38 @@ public class TileMap {
         15, 7, 6, 2, 2,10, 3
     };
 
-    private static final float STEP_DURATION = 0.5f;
+    private static final float STEP_DURATION = 0.3f;
 
     private final Context context;
-    private final TextureRegion[] tileset;
+    private final TextureRegion[][] tilesets;
 
     private int[][] tiles;
     private Entity player;
     private List<Entity> ghosts;
+    private List<Entity> arrows;
     private List<Entity> collectibles;
     private float stepTimer = 0;
     private boolean started = false;
 
     public TileMap(Context context) {
         this.context = context;
-        tileset = flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE));
+        tilesets = new TextureRegion[][] {
+            flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
+            flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
+        };
     }
 
     public void loadLevel(int level) {
         LevelData data = LevelData.levels[level];
         tiles = flip(data.tiles);
         ghosts = new ArrayList<>();
+        arrows = new ArrayList<>();
         collectibles = new ArrayList<>();
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
                 player = new Player(context, tiles.length - e.row - 1, e.col, e.direction);
+            } else if (e.type == EntityData.EntityType.ARROW) {
+                arrows.add(new Arrow(context, tiles.length - e.row - 1, e.col, e.direction));
             } else {
                 ghosts.add(new Ghost(context, tiles.length - e.row - 1, e.col, e.direction));
             }
@@ -83,8 +90,18 @@ public class TileMap {
     }
 
     public Direction getNextDirection(Entity e) {
-        Direction direction = e.direction;
         int tile = TILE_ID_TO_MASK[tiles[e.row][e.col] - 1];
+        for (Entity a : arrows) {
+            if (e.row == a.row && e.col == a.col) {
+                e.direction = a.direction;
+                System.out.println("found arrow facing: " + a.direction);
+                if (a.direction == Direction.UP && (tile & WALL_UP) == 0) return Direction.UP;
+                else if (a.direction == Direction.LEFT && (tile & WALL_LEFT) == 0) return Direction.LEFT;
+                else if (a.direction == Direction.DOWN && (tile & WALL_DOWN) == 0) return Direction.DOWN;
+                else if (a.direction == Direction.RIGHT && (tile & WALL_RIGHT) == 0) return Direction.RIGHT;
+            }
+        }
+        Direction direction = e.direction;
         if (direction == Direction.UP) {
             if ((tile & WALL_UP) == 0) return Direction.UP;
             else if ((tile & WALL_RIGHT) == 0) return Direction.RIGHT;
@@ -138,17 +155,19 @@ public class TileMap {
         player.update(dt);
         if (started) player.move(percent);
         for (Entity c : collectibles) c.update(dt);
+        for (Entity a : arrows) a.update(dt);
     }
 
     public void render(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
         for (int row = 0; row < tiles.length; row++) {
             for (int col = 0; col < tiles[0].length; col++) {
-                sb.draw(tileset[tiles[row][col] - 1], col * TILE_SIZE, row * TILE_SIZE);
+                sb.draw(tilesets[(row + col) & 1][tiles[row][col] - 1], col * TILE_SIZE, row * TILE_SIZE);
             }
         }
-        for (Entity g : ghosts) g.render(sb);
+        for (Entity a : arrows) a.render(sb);
         for (Entity c : collectibles) c.render(sb);
+        for (Entity g : ghosts) g.render(sb);
         player.render(sb);
     }
 

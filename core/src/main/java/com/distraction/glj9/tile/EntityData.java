@@ -7,7 +7,8 @@ public class EntityData {
         GHOST,
         COIN,
         CANDLE,
-        DIAMOND
+        DIAMOND,
+        ARROW
     }
 
     public final EntityType type;
