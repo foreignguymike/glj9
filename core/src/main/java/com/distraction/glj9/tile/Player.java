@@ -111,8 +111,7 @@ public class Player extends Entity {
         animation.update(dt);
         if (isDead) {
             deadTimer += dt;
-            if (deadTimer >= 1)
-            y = deady + launchInterpolation.apply(deadTimer - 1) * 20;
+            if (deadTimer >= 1) y = deady + launchInterpolation.apply(deadTimer - 1) * 20;
         }
     }
 

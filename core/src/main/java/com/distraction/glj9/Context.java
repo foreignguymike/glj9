@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.distraction.glj9.screens.PlayScreen;
 import com.distraction.glj9.screens.ScreenManager;
 
 public class Context {
@@ -32,7 +31,8 @@ public class Context {
         }
 
         sb = new SpriteBatch();
-        sm = new ScreenManager(new PlayScreen(this, 0));
+//        sm = new ScreenManager(new com.distraction.glj9.screens.PlayScreen(this, 0));
+        sm = new ScreenManager(new com.distraction.glj9.screens.LevelSelectScreen(this));
     }
 
     public TextureRegion getImage(String key) {

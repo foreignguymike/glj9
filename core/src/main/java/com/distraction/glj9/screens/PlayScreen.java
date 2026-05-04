@@ -40,6 +40,14 @@ public class PlayScreen extends Screen {
         tileMap.redo();
     }
 
+    private void onBack() {
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+            ignoreInput = true;
+            context.sm.replace(new LevelSelectScreen(context));
+        });
+        out.start();
+    }
+
     @Override
     public void input() {
         if (ignoreInput) return;
@@ -56,6 +64,8 @@ public class PlayScreen extends Screen {
         hud.onMouseMove(uim.x, uim.y);
 
         hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) onBack();
     }
 
     @Override

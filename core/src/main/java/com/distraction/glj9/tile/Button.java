@@ -9,7 +9,7 @@ import com.distraction.glj9.utils.Utils;
 
 public class Button extends Entity {
 
-    protected final TextureRegion[] images;
+    private final TextureRegion[] images;
     protected final SimpleCallback callback;
 
     protected boolean hovered;

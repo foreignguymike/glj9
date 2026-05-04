@@ -74,7 +74,7 @@ public class TileMap {
     }
 
     private void loadLevel(int level) {
-        data = LevelData.levels[level];
+        data = LevelData.levels[level - 1];
         tiles = flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
