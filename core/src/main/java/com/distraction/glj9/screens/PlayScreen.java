@@ -31,10 +31,14 @@ public class PlayScreen extends Screen {
         cam.position.x = (Constants.WIDTH - hud.getWidth()) / 2f;
         cam.position.y = tileMap.getHeight() / 2f;
         cam.update();
+
+        in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
+        in.start();
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
     }
 
     private void redo() {
-
+        tileMap.redo();
     }
 
     @Override
@@ -57,6 +61,9 @@ public class PlayScreen extends Screen {
 
     @Override
     public void update(float dt) {
+        in.update(dt);
+        out.update(dt);
+
         tileMap.update(dt);
         bg.update(dt);
         hud.update(dt);
@@ -74,6 +81,10 @@ public class PlayScreen extends Screen {
 
         sb.setProjectionMatrix(cam.combined);
         tileMap.render(sb);
+
+        sb.setProjectionMatrix(uiCam.combined);
+        in.render(sb);
+        out.render(sb);
 
         sb.end();
     }

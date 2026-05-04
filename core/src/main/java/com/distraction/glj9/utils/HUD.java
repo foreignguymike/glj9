@@ -1,7 +1,11 @@
 package com.distraction.glj9.utils;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
@@ -16,6 +20,16 @@ public class HUD extends Entity {
     private final Button startButton;
     private final Button redoButton;
 
+    private int score;
+    private int arrows;
+
+    private final GlyphLayout scoreTitleText;
+    private final GlyphLayout scoreText;
+    private final GlyphLayout arrowsTitleText;
+    private final GlyphLayout arrowsText;
+
+    private final BitmapFont font;
+
     public HUD(
         Context context,
         TileMap tileMap,
@@ -25,6 +39,15 @@ public class HUD extends Entity {
         super(context);
         pixel = context.getPixel();
         this.tileMap = tileMap;
+        w = 40;
+        h = Constants.HEIGHT;
+
+        font = context.getFont();
+
+        scoreTitleText = new GlyphLayout(font, "Score", Constants.WHITE, 1, Align.center, false);
+        scoreText = new GlyphLayout(font, "0", Constants.PINK, 1, Align.center, false);
+        arrowsTitleText = new GlyphLayout(font, "Arrows", Constants.WHITE, 1, Align.center, false);
+        arrowsText = new GlyphLayout(font, tileMap.getRemainingArrows() + "", Constants.PINK, 1, Align.center, false);
 
         startButton = new Button(
             context,
@@ -45,9 +68,6 @@ public class HUD extends Entity {
             onRedo
         );
 
-        w = 40;
-        h = Constants.HEIGHT;
-
         startButton.x = Constants.WIDTH - 19;
         startButton.y = 25;
         redoButton.x = Constants.WIDTH - 19;
@@ -66,7 +86,17 @@ public class HUD extends Entity {
 
     @Override
     public void update(float dt) {
-        super.update(dt);
+        if (tileMap.getScore() != this.score) {
+            this.score = tileMap.getScore();
+            this.scoreText.setText(font, this.score + "", Constants.PINK, 0, Align.center, false);
+        }
+
+        if (tileMap.getRemainingArrows() != this.arrows) {
+            this.arrows = tileMap.getRemainingArrows();
+            this.arrowsText.setText(font, this.arrows + "", Constants.PINK, 0, Align.center, false);
+        }
+
+        startButton.pressed = tileMap.isStarted();
     }
 
     @Override
@@ -77,6 +107,11 @@ public class HUD extends Entity {
             sb.setColor(Constants.HUD_BORDER_COLORS[i]);
             sb.draw(pixel, Constants.WIDTH - w + i, 0, 1, Constants.HEIGHT);
         }
+        sb.setColor(Color.WHITE);
+        font.draw(sb, scoreTitleText, startButton.x, Constants.HEIGHT - 5);
+        font.draw(sb, scoreText, startButton.x, Constants.HEIGHT - 15);
+        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 30);
+        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 40);
         startButton.render(sb);
         redoButton.render(sb);
     }

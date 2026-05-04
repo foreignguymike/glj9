@@ -2,6 +2,7 @@ package com.distraction.glj9;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +12,7 @@ import com.distraction.glj9.screens.ScreenManager;
 public class Context {
 
     private static final String ATLAS = "glj9.atlas";
+    private static final String FONT = "fonts/m5x7_16.fnt";
 
     public AssetManager assets;
 
@@ -20,6 +22,7 @@ public class Context {
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
+        assets.load(FONT, BitmapFont.class);
         assets.finishLoading();
 
         for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
@@ -38,6 +41,10 @@ public class Context {
 
     public TextureRegion getPixel() {
         return getImage("pixel");
+    }
+
+    public BitmapFont getFont() {
+        return assets.get(FONT, BitmapFont.class);
     }
 
     public void dispose() {

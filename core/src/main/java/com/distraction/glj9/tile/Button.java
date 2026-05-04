@@ -12,9 +12,8 @@ public class Button extends Entity {
     private final TextureRegion[] images;
     private final SimpleCallback callback;
 
-    private TextureRegion image;
     private boolean hovered;
-    private boolean pressed;
+    public boolean pressed;
 
     public Button(Context context, TextureRegion[] images, SimpleCallback callback) {
         super(context);
@@ -22,14 +21,10 @@ public class Button extends Entity {
         this.callback = callback;
         w = images[0].getRegionWidth();
         h = images[0].getRegionHeight();
-
-        image = images[0];
     }
 
     public void onMouseMoved(float mx, float my) {
         hovered = contains(mx, my);
-        if (hovered) image = images[1];
-        else image = images[0];
     }
 
     public void onMousePressed(boolean pressed) {
@@ -37,14 +32,17 @@ public class Button extends Entity {
             if (hovered) {
                 if (!this.pressed) callback.callback();
                 this.pressed = true;
-                image = images[2];
             }
+        } else {
+            this.pressed = false;
         }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
-        Utils.drawCentered(sb, image, x, y);
+        if (pressed) Utils.drawCentered(sb, images[2], x, y);
+        else if (hovered) Utils.drawCentered(sb, images[1], x, y);
+        else Utils.drawCentered(sb, images[0], x, y);
     }
 }

@@ -3,9 +3,7 @@ package com.distraction.glj9.tile;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,7 @@ public class TileMap {
 
     private final Context context;
     private final TextureRegion[][] tilesets;
+    private LevelData data;
 
     private int[][] tiles;
     private int numRows;
@@ -48,7 +47,9 @@ public class TileMap {
     private int cursorRow = -1;
     private int cursorCol = -1;
     private int maxArrows;
-    private int numArrowsRemaining;
+    private int remainingArrows;
+
+    private int score;
 
     public TileMap(Context context) {
         this.context = context;
@@ -60,7 +61,7 @@ public class TileMap {
     }
 
     public void loadLevel(int level) {
-        LevelData data = LevelData.levels[level];
+        data = LevelData.levels[level];
         tiles = flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
@@ -91,7 +92,46 @@ public class TileMap {
         started = false;
         cursorRow = numRows / 2;
         cursorCol = numCols / 2;
-        maxArrows = numArrowsRemaining = data.numArrows;
+        maxArrows = data.numArrows;
+        remainingArrows = maxArrows - arrows.size();
+    }
+
+    public void redo() {
+        ghosts = new ArrayList<>();
+        collectibles = new ArrayList<>();
+        for (EntityData e : data.entityDataList) {
+            if (e.type == EntityData.EntityType.PLAYER) {
+                player.setTile(numRows - e.row - 1, e.col);
+                player.direction = e.direction;
+            } else if (e.type == EntityData.EntityType.GHOST) {
+                ghosts.add(new Ghost(context, numRows - e.row - 1, e.col, e.direction));
+            }
+        }
+        int[][] coll = flip(data.collectibles);
+        for (int row = 0; row < coll.length; row++) {
+            for (int col = 0; col < coll[0].length; col++) {
+                int id = coll[row][col];
+                EntityData.EntityType type;
+                if (id == 1) type = EntityData.EntityType.COIN;
+                else if (id == 2) type = EntityData.EntityType.CANDLE;
+                else if (id == 3) type = EntityData.EntityType.DIAMOND;
+                else continue;
+                collectibles.add(new Collectible(context, type, row, col));
+            }
+        }
+        started = false;
+        stepTimer = 0;
+        score = 0;
+        cursorRow = numRows / 2;
+        cursorCol = numCols / 2;
+    }
+
+    public int getRemainingArrows() {
+        return remainingArrows;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public int getWidth() {
@@ -111,15 +151,6 @@ public class TileMap {
         }
     }
 
-    public void onCursorMove(int dr, int dc) {
-        int nr = cursorRow + dr;
-        if (nr < 0 || nr >= numRows) return;
-        int nc = cursorCol + dc;
-        if (nc < 0 || nc >= numCols) return;
-        cursorRow = nr;
-        cursorCol = nc;
-    }
-
     private Entity getExistingArrow() {
         for (Entity a : arrows) {
             if (a.row == cursorRow && a.col == cursorCol) {
@@ -134,8 +165,8 @@ public class TileMap {
         if (cursorRow == -1 || cursorCol == -1) return;
         Entity existingArrow = getExistingArrow();
         if (existingArrow == null) {
-            if (numArrowsRemaining > 0) {
-                numArrowsRemaining--;
+            if (remainingArrows > 0) {
+                remainingArrows--;
                 arrows.add(new Arrow(context, cursorRow, cursorCol, Direction.RIGHT));
             }
         } else {
@@ -146,10 +177,10 @@ public class TileMap {
     public void remove() {
         if (started) return;
         if (cursorRow == -1 || cursorCol == -1) return;
-        if (numArrowsRemaining >= maxArrows) return;
+        if (remainingArrows >= maxArrows) return;
         Entity existingArrow = getExistingArrow();
         if (existingArrow != null) {
-            numArrowsRemaining++;
+            remainingArrows++;
             arrows.remove(existingArrow);
         }
     }
@@ -164,6 +195,10 @@ public class TileMap {
             player.start();
             player.moveDirection(getNextDirection(player));
         }
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 
     public Direction getNextDirection(Entity e) {
@@ -213,6 +248,7 @@ public class TileMap {
                     Entity c = collectibles.get(i);
                     if (player.row == c.row && player.col == c.col) {
                         collectibles.remove(i);
+                        score += 100;
                         i--;
                     }
                 }
