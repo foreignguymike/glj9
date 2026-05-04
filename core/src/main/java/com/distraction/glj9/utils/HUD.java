@@ -10,6 +10,7 @@ import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
 import com.distraction.glj9.tile.Entity;
+import com.distraction.glj9.tile.SpeedButton;
 import com.distraction.glj9.tile.TileMap;
 
 public class HUD extends Entity {
@@ -19,6 +20,7 @@ public class HUD extends Entity {
 
     private final Button startButton;
     private final Button redoButton;
+    private final SpeedButton speedButton;
 
     private int score;
     private int arrows;
@@ -67,21 +69,38 @@ public class HUD extends Entity {
             },
             onRedo
         );
+        speedButton = new SpeedButton(
+            context,
+            new TextureRegion[]{
+                context.getImage("speedbutton"),
+                context.getImage("speedbuttonh"),
+                context.getImage("speedbuttonp")
+            },
+            this::setSpeed
+        );
 
         startButton.x = Constants.WIDTH - 19;
-        startButton.y = 25;
+        startButton.y = 36;
         redoButton.x = Constants.WIDTH - 19;
-        redoButton.y = 10;
+        redoButton.y = 22;
+        speedButton.x = Constants.WIDTH - 19;
+        speedButton.y = 8;
+    }
+
+    private void setSpeed() {
+        tileMap.setSpeed(speedButton.getSpeed());
     }
 
     public void onMouseMove(float mx, float my) {
         startButton.onMouseMoved(mx, my);
         redoButton.onMouseMoved(mx, my);
+        speedButton.onMouseMoved(mx, my);
     }
 
     public void onMousePressed(boolean pressed) {
         startButton.onMousePressed(pressed);
         redoButton.onMousePressed(pressed);
+        speedButton.onMousePressed(pressed);
     }
 
     @Override
@@ -110,10 +129,11 @@ public class HUD extends Entity {
         sb.setColor(Color.WHITE);
         font.draw(sb, scoreTitleText, startButton.x, Constants.HEIGHT - 5);
         font.draw(sb, scoreText, startButton.x, Constants.HEIGHT - 15);
-        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 30);
-        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 40);
+        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 25);
+        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 35);
         startButton.render(sb);
         redoButton.render(sb);
+        speedButton.render(sb);
     }
 
 }

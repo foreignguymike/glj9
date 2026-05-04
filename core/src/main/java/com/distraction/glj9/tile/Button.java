@@ -9,10 +9,10 @@ import com.distraction.glj9.utils.Utils;
 
 public class Button extends Entity {
 
-    private final TextureRegion[] images;
-    private final SimpleCallback callback;
+    protected final TextureRegion[] images;
+    protected final SimpleCallback callback;
 
-    private boolean hovered;
+    protected boolean hovered;
     public boolean pressed;
 
     public Button(Context context, TextureRegion[] images, SimpleCallback callback) {

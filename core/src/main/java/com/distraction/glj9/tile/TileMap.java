@@ -27,7 +27,8 @@ public class TileMap {
         15, 7, 6, 2, 2,10, 3
     };
 
-    private static final float STEP_DURATION = 0.2f;
+    private static final float[] STEP_DURATIONS = new float[] {0.4f, 0.2f, 0.1f};
+    private float stepDuration = 0.4f;
 
     private final Context context;
     private final TextureRegion[][] tilesets;
@@ -58,6 +59,13 @@ public class TileMap {
             flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
         };
         cursor = context.getImage("cursor");
+        setSpeed(1);
+    }
+
+    public void setSpeed(int speed) {
+        float previousPercent = stepTimer / stepDuration;
+        stepDuration = STEP_DURATIONS[speed - 1];
+        stepTimer = stepDuration * previousPercent;
     }
 
     public void loadLevel(int level) {
@@ -241,7 +249,7 @@ public class TileMap {
     public void update(float dt) {
         if (started) {
             stepTimer += dt;
-            if (stepTimer > STEP_DURATION) {
+            if (stepTimer > stepDuration) {
                 stepTimer = 0;
                 player.finish();
                 player.moveDirection(getNextDirection(player));
@@ -260,7 +268,7 @@ public class TileMap {
             }
         }
 
-        float percent = stepTimer / STEP_DURATION;
+        float percent = stepTimer / stepDuration;
         for (Entity g : ghosts) {
             g.update(dt);
             if (started) g.move(percent);
