@@ -56,7 +56,11 @@ public class TileMap {
     private int maxArrows;
     private int remainingArrows;
 
-    private final Comparator<Entity> comp = (e1, e2) -> (int) e2.y - (int) e1.y;
+    private final Comparator<Entity> comp = (e1, e2) -> {
+        int diff = (int) e2.y - (int) e1.y;
+        if (diff == 0 && e2 instanceof Player) return -1;
+        return diff;
+    };
 
     public TileMap(Context context, int level) {
         this.context = context;
@@ -302,11 +306,11 @@ public class TileMap {
     }
 
     public void update(float dt) {
-        if (started) {
+        if (started && !player.isDead()) {
             float beforePercent = stepTimer / stepDuration;
             stepTimer += dt;
-            float afterPercent = stepTimer / stepDuration;
-            if (ghostCollide != null && beforePercent < 0.5f && afterPercent >= 0.5f) {
+            float percent = stepTimer / stepDuration;
+            if (ghostCollide != null && beforePercent < 0.5f && percent >= 0.5f) {
                 doGhostCollide();
             }
             if (stepTimer > stepDuration) {
@@ -336,20 +340,21 @@ public class TileMap {
                     }
                 }
                 findGhostCollide();
+            } else {
+                for (Entity g : ghosts) {
+                    if (started) g.move(percent);
+                }
+                player.move(percent);
             }
         }
 
-        float percent = stepTimer / stepDuration;
-        for (Entity g : ghosts) {
-            g.update(dt);
-            if (started) g.move(percent);
-        }
         player.update(dt);
-        if (started) player.move(percent);
-        for (Entity c : collectibles) c.update(dt);
-        for (Entity a : arrows) a.update(dt);
-
-        sortedEntities.sort(comp);
+        if (!player.isDead()) {
+            for (Entity g : ghosts) g.update(dt);
+            for (Entity c : collectibles) c.update(dt);
+            for (Entity a : arrows) a.update(dt);
+            sortedEntities.sort(comp);
+        }
     }
 
     public void render(SpriteBatch sb) {
@@ -365,6 +370,7 @@ public class TileMap {
         if (!started && cursorRow != -1 && cursorCol != -1) {
             sb.draw(cursor, cursorCol * TILE_SIZE + 1, cursorRow * TILE_SIZE + 1);
         }
+        if (player.isDead()) player.render(sb);
     }
 
     private static TextureRegion[] flat(TextureRegion[][] tileset) {

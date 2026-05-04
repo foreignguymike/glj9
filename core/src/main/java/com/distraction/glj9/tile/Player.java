@@ -3,12 +3,16 @@ package com.distraction.glj9.tile;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.utils.Animation;
 import com.distraction.glj9.Context;
+import com.distraction.glj9.utils.LauchInterpolation;
 import com.distraction.glj9.utils.Utils;
 
 public class Player extends Entity {
+
+    private static final Interpolation launchInterpolation = new LauchInterpolation(7);
 
     private static final float[] IDLE_INTERVAL = new float[] { 0.4f, 0.2f, 0.1f };
     private static final float[] WALK_INTERVAL = new float[] { 1f/20f, 1f/40f, 1f/60f };
@@ -25,6 +29,7 @@ public class Player extends Entity {
     private int superSteps;
 
     private boolean isDead;
+    private float deady;
     private float deadTimer;
 
     protected Player(Context context, int row, int col, Direction direction) {
@@ -88,6 +93,11 @@ public class Player extends Entity {
     public void setDead() {
         isDead = true;
         deadTimer = 0;
+        deady = y;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     @Override
@@ -99,6 +109,11 @@ public class Player extends Entity {
     @Override
     public void update(float dt) {
         animation.update(dt);
+        if (isDead) {
+            deadTimer += dt;
+            if (deadTimer >= 1)
+            y = deady + launchInterpolation.apply(deadTimer - 1) * 20;
+        }
     }
 
     @Override

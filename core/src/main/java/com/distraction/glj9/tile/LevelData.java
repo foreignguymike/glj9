@@ -40,7 +40,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 2, 2, Direction.UP),
-                new EntityData(EntityData.EntityType.GHOST, 3, 1, Direction.UP)
+                new EntityData(EntityData.EntityType.GHOST, 4, 1, Direction.UP)
             },
             2
         )
