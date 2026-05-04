@@ -40,6 +40,7 @@ public class TileMap {
     private int numRows;
     private int numCols;
     private Player player;
+    private Entity ghostCollide = null;
     private List<Entity> ghosts;
     private List<Entity> sortedEntities;
     private List<Entity> arrows;
@@ -225,7 +226,25 @@ public class TileMap {
         return started;
     }
 
-    public Direction getNextDirection(Entity e) {
+    private void findGhostCollide() {
+        for (Entity g : ghosts) {
+            if (player.destrow == g.row && player.destcol == g.col && g.destrow == player.row && g.destcol == player.col) {
+                ghostCollide = g;
+                break;
+            }
+        }
+    }
+
+    private void doGhostCollide() {
+        // todo if player is super
+        // remove ghosts
+        sortedEntities.remove(ghostCollide);
+        ghosts.remove(ghostCollide);
+        ghostCollide = null;
+        // else player loses
+    }
+
+    private Direction getNextDirection(Entity e) {
         int tile = TILE_ID_TO_MASK[tiles[e.row][e.col] - 1];
         for (Entity a : arrows) {
             if (e.row == a.row && e.col == a.col) {
@@ -263,7 +282,12 @@ public class TileMap {
 
     public void update(float dt) {
         if (started) {
+            float beforePercent = stepTimer / stepDuration;
             stepTimer += dt;
+            float afterPercent = stepTimer / stepDuration;
+            if (ghostCollide != null && beforePercent < 0.5f && afterPercent >= 0.5f) {
+                doGhostCollide();
+            }
             if (stepTimer > stepDuration) {
                 stepTimer = 0;
                 player.finish();
@@ -279,7 +303,13 @@ public class TileMap {
                 for (Entity g : ghosts) {
                     g.finish();
                     g.moveDirection(getNextDirection(g));
+                    if (player.row == g.row && player.col == g.col) {
+                        ghostCollide = g;
+                        doGhostCollide();
+                        break;
+                    }
                 }
+                findGhostCollide();
             }
         }
 

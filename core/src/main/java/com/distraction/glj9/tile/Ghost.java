@@ -11,7 +11,6 @@ import com.distraction.glj9.utils.Utils;
 public class Ghost extends Entity {
 
     private final Animation<TextureRegion> animation;
-    private boolean mirror;
 
     private float time;
     private float bouncy;
@@ -22,13 +21,6 @@ public class Ghost extends Entity {
         w = 16;
         h = 16;
         animation = new Animation<>(context.getImage("ghostidle").split(w, h)[0], 0.2f);
-    }
-
-    @Override
-    public void moveDirection(Direction direction) {
-        super.moveDirection(direction);
-        if (direction == Direction.RIGHT) mirror = false;
-        else if (direction == Direction.LEFT) mirror = true;
     }
 
     @Override
@@ -43,6 +35,6 @@ public class Ghost extends Entity {
     public void render(SpriteBatch sb) {
         super.render(sb);
         sb.setColor(Color.WHITE);
-        Utils.drawCentered(sb, animation.get(), x, y + bouncy + 4, mirror);
+        Utils.drawCentered(sb, animation.get(), x, y + bouncy + 4);
     }
 }
