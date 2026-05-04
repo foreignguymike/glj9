@@ -10,7 +10,7 @@ import com.distraction.glj9.utils.Utils;
 
 public class Collectible extends Entity {
 
-    private final EntityData.EntityType type;
+    public final EntityData.EntityType type;
     private final TextureRegion image;
 
     private float time;
@@ -20,9 +20,9 @@ public class Collectible extends Entity {
         super(context, row, col, Direction.UP);
         this.type = type;
 
-        if (type == EntityData.EntityType.COIN) image = context.getImage("coin");
+        if (type == EntityData.EntityType.PELLET) image = context.getImage("pellet");
+        else if (type == EntityData.EntityType.SUPER_PELLET) image = context.getImage("superpellet");
         else if (type == EntityData.EntityType.DIAMOND) image = context.getImage("diamond");
-        else if (type == EntityData.EntityType.CANDLE) image = context.getImage("candle");
         else throw new IllegalArgumentException("Invalid type: " + type);
 
         w = image.getRegionWidth();
@@ -45,6 +45,6 @@ public class Collectible extends Entity {
     public void render(SpriteBatch sb) {
         if (transparent) sb.setColor(Constants.TRANSPARENT);
         else sb.setColor(Color.WHITE);
-        Utils.drawCentered(sb, image, x, y + 6 + offsety, w, h);
+        Utils.drawCentered(sb, image, x, y + 2 + offsety, w, h);
     }
 }

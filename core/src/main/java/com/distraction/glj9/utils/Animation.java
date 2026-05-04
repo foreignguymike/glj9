@@ -18,7 +18,12 @@ public class Animation<T> {
         index = 0;
     }
 
+    public void setInterval(float interval) {
+        this.interval = interval;
+    }
+
     public void update(float dt) {
+        if (interval < 0) return;
         time += dt;
         if (time > interval) {
             time -= interval;

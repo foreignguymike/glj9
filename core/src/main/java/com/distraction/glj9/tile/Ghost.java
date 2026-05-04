@@ -11,17 +11,26 @@ import com.distraction.glj9.utils.Utils;
 
 public class Ghost extends Entity {
 
+    private static final float[] IDLE_INTERVAL = new float[] { 0.4f, 0.2f, 0.1f };
+
     private final Animation<TextureRegion> animation;
 
     private float time;
     private float bouncy;
+
+    private int speed;
 
     protected Ghost(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
 
         w = 16;
         h = 16;
-        animation = new Animation<>(context.getImage("ghostidle").split(w, h)[0], 0.2f);
+        animation = new Animation<>(context.getImage("ghostidle").split(w, h)[0], 0.1f);
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+        animation.setInterval(IDLE_INTERVAL[speed - 1]);
     }
 
     @Override

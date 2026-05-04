@@ -22,13 +22,13 @@ public class HUD extends Entity {
     private final Button redoButton;
     private final SpeedButton speedButton;
 
-    private int score;
+    private int superSteps;
     private int arrows;
 
-    private final GlyphLayout scoreTitleText;
-    private final GlyphLayout scoreText;
     private final GlyphLayout arrowsTitleText;
     private final GlyphLayout arrowsText;
+    private final GlyphLayout superTitleText;
+    private final GlyphLayout superText;
 
     private final BitmapFont font;
 
@@ -46,10 +46,10 @@ public class HUD extends Entity {
 
         font = context.getFont();
 
-        scoreTitleText = new GlyphLayout(font, "Score", Constants.WHITE, 1, Align.center, false);
-        scoreText = new GlyphLayout(font, "0", Constants.PINK, 1, Align.center, false);
         arrowsTitleText = new GlyphLayout(font, "Arrows", Constants.WHITE, 1, Align.center, false);
         arrowsText = new GlyphLayout(font, tileMap.getRemainingArrows() + "", Constants.PINK, 1, Align.center, false);
+        superTitleText = new GlyphLayout(font, "Super", Constants.WHITE, 1, Align.center, false);
+        superText = new GlyphLayout(font, "0", Constants.PINK, 1, Align.center, false);
 
         startButton = new Button(
             context,
@@ -105,16 +105,14 @@ public class HUD extends Entity {
 
     @Override
     public void update(float dt) {
-        if (tileMap.getScore() != this.score) {
-            this.score = tileMap.getScore();
-            this.scoreText.setText(font, this.score + "", Constants.PINK, 0, Align.center, false);
-        }
-
         if (tileMap.getRemainingArrows() != this.arrows) {
             this.arrows = tileMap.getRemainingArrows();
             this.arrowsText.setText(font, this.arrows + "", Constants.PINK, 0, Align.center, false);
         }
-
+        if (tileMap.player.getSuperSteps() != this.superSteps) {
+            this.superSteps = tileMap.player.getSuperSteps();
+            this.superText.setText(font, this.superSteps + "", Constants.PINK, 0, Align.center, false);
+        }
         startButton.pressed = tileMap.isStarted();
     }
 
@@ -127,10 +125,10 @@ public class HUD extends Entity {
             sb.draw(pixel, Constants.WIDTH - w + i, 0, 1, Constants.HEIGHT);
         }
         sb.setColor(Color.WHITE);
-        font.draw(sb, scoreTitleText, startButton.x, Constants.HEIGHT - 5);
-        font.draw(sb, scoreText, startButton.x, Constants.HEIGHT - 15);
-        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 25);
-        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 35);
+        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 5);
+        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 15);
+        font.draw(sb, superTitleText, startButton.x, Constants.HEIGHT - 25);
+        font.draw(sb, superText, startButton.x, Constants.HEIGHT - 35);
         startButton.render(sb);
         redoButton.render(sb);
         speedButton.render(sb);

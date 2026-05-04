@@ -5,8 +5,8 @@ public class EntityData {
     public enum EntityType {
         PLAYER,
         GHOST,
-        COIN,
-        CANDLE,
+        PELLET,
+        SUPER_PELLET,
         DIAMOND,
         ARROW
     }

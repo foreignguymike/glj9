@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Context;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,12 +39,12 @@ public class TileMap {
     private int[][] tiles;
     private int numRows;
     private int numCols;
-    private Player player;
-    private Entity ghostCollide = null;
-    private List<Entity> ghosts;
+    public Player player;
+    private Ghost ghostCollide = null;
+    private List<Ghost> ghosts;
     private List<Entity> sortedEntities;
     private List<Entity> arrows;
-    private List<Entity> collectibles;
+    private List<Collectible> collectibles;
     private float stepTimer = 0;
     private boolean started = false;
 
@@ -56,8 +57,6 @@ public class TileMap {
     private int remainingArrows;
 
     private final Comparator<Entity> comp = (e1, e2) -> (int) e2.y - (int) e1.y;
-
-    private int score;
 
     public TileMap(Context context, int level) {
         this.context = context;
@@ -94,13 +93,14 @@ public class TileMap {
             for (int col = 0; col < coll[0].length; col++) {
                 int id = coll[row][col];
                 EntityData.EntityType type;
-                if (id == 1) type = EntityData.EntityType.COIN;
-                else if (id == 2) type = EntityData.EntityType.CANDLE;
+                if (id == 1) type = EntityData.EntityType.PELLET;
+                else if (id == 2) type = EntityData.EntityType.SUPER_PELLET;
                 else if (id == 3) type = EntityData.EntityType.DIAMOND;
                 else continue;
                 collectibles.add(new Collectible(context, type, row, col));
             }
         }
+        Collections.reverse(collectibles);
         started = false;
         setCursorTile(-1, -1);
         maxArrows = data.numArrows;
@@ -127,16 +127,16 @@ public class TileMap {
             for (int col = 0; col < coll[0].length; col++) {
                 int id = coll[row][col];
                 EntityData.EntityType type;
-                if (id == 1) type = EntityData.EntityType.COIN;
-                else if (id == 2) type = EntityData.EntityType.CANDLE;
+                if (id == 1) type = EntityData.EntityType.PELLET;
+                else if (id == 2) type = EntityData.EntityType.SUPER_PELLET;
                 else if (id == 3) type = EntityData.EntityType.DIAMOND;
                 else continue;
                 collectibles.add(new Collectible(context, type, row, col));
             }
         }
+        Collections.reverse(collectibles);
         started = false;
         stepTimer = 0;
-        score = 0;
         setCursorTile(-1, -1);
         sortedEntities.clear();
         sortedEntities.add(player);
@@ -149,14 +149,11 @@ public class TileMap {
         stepDuration = STEP_DURATIONS[speed - 1];
         stepTimer = stepDuration * previousPercent;
         player.setSpeed(speed);
+        for (Ghost g : ghosts) g.setSpeed(speed);
     }
 
     public int getRemainingArrows() {
         return remainingArrows;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public int getWidth() {
@@ -250,7 +247,7 @@ public class TileMap {
     }
 
     private void findGhostCollide() {
-        for (Entity g : ghosts) {
+        for (Ghost g : ghosts) {
             if (player.destrow == g.row && player.destcol == g.col && g.destrow == player.row && g.destcol == player.col) {
                 ghostCollide = g;
                 break;
@@ -259,12 +256,13 @@ public class TileMap {
     }
 
     private void doGhostCollide() {
-        // todo if player is super
-        // remove ghosts
-        sortedEntities.remove(ghostCollide);
-        ghosts.remove(ghostCollide);
+        if (player.isSuper()) {
+            sortedEntities.remove(ghostCollide);
+            ghosts.remove(ghostCollide);
+        } else {
+            player.setDead();
+        }
         ghostCollide = null;
-        // else player loses
     }
 
     private Direction getNextDirection(Entity e) {
@@ -315,15 +313,20 @@ public class TileMap {
                 stepTimer = 0;
                 player.finish();
                 player.moveDirection(getNextDirection(player));
+                player.decrementSuperStep();
                 for (int i = 0; i < collectibles.size(); i++) {
-                    Entity c = collectibles.get(i);
+                    Collectible c = collectibles.get(i);
                     if (player.row == c.row && player.col == c.col) {
+                        if (c.type == EntityData.EntityType.PELLET) {
+                            // check finish
+                        } else if (c.type == EntityData.EntityType.SUPER_PELLET) {
+                            player.setSuper();
+                        }
                         collectibles.remove(i);
-                        score += 100;
                         i--;
                     }
                 }
-                for (Entity g : ghosts) {
+                for (Ghost g : ghosts) {
                     g.finish();
                     g.moveDirection(getNextDirection(g));
                     if (player.row == g.row && player.col == g.col) {
