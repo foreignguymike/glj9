@@ -213,6 +213,10 @@ public class TileMap {
     public void place() {
         if (started) return;
         if (cursorRow == -1 || cursorCol == -1) return;
+        if (player.row == cursorRow && player.col == cursorCol) {
+            player.rotate();
+            return;
+        }
         Entity existingArrow = getExistingArrow();
         if (existingArrow == null) {
             if (remainingArrows > 0) {

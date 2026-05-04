@@ -10,6 +10,8 @@ import com.distraction.glj9.Context;
 import com.distraction.glj9.utils.LauchInterpolation;
 import com.distraction.glj9.utils.Utils;
 
+import java.util.Arrays;
+
 public class Player extends Entity {
 
     private static final Interpolation launchInterpolation = new LauchInterpolation(7);
@@ -20,7 +22,8 @@ public class Player extends Entity {
 
     private final Animation<TextureRegion> animation;
     private final TextureRegion[][][] sheets;
-    private final TextureRegion[] idleSprites;
+    private final TextureRegion[][] idleSprites;
+    private final TextureRegion[][] walkSprites;
     private final TextureRegion deadImage;
 
     private int speed;
@@ -43,8 +46,16 @@ public class Player extends Entity {
             context.getImage("playerdown").split(w, h),
             context.getImage("playerright").split(w, h),
         };
-        idleSprites = new TextureRegion[]{sheets[direction.ordinal()][0][0], sheets[direction.ordinal()][0][1]};
-        animation = new Animation<>(idleSprites, 0.4f);
+        idleSprites = new TextureRegion[][] {
+            Arrays.copyOfRange(sheets[0][0], 0, 2),
+            Arrays.copyOfRange(sheets[1][0], 0, 2),
+            Arrays.copyOfRange(sheets[2][0], 0, 2),
+            Arrays.copyOfRange(sheets[3][0], 0, 2)
+        };
+        walkSprites = new TextureRegion[][] {
+            sheets[0][1], sheets[1][1], sheets[2][1], sheets[3][1],
+        };
+        animation = new Animation<>(idleSprites[direction.ordinal()], 0.4f);
 
         deadImage = context.getImage("playerdead");
     }
@@ -55,18 +66,18 @@ public class Player extends Entity {
         superSteps = 0;
         isDead = false;
         deadTimer = 0;
-        animation.set(idleSprites, IDLE_INTERVAL[speed - 1]);
+        animation.set(idleSprites[direction.ordinal()], IDLE_INTERVAL[speed - 1]);
     }
 
     public void setSpeed(int speed) {
         this.speed = speed;
-        if (!started) animation.set(idleSprites, IDLE_INTERVAL[speed - 1]);
+        if (!started) animation.set(idleSprites[direction.ordinal()], IDLE_INTERVAL[speed - 1]);
         else animation.set(sheets[direction.ordinal()][1], WALK_INTERVAL[speed - 1]);
     }
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-        animation.set(sheets[direction.ordinal()][1], 0.05f);
+        animation.set(walkSprites[direction.ordinal()], 0.05f);
     }
 
     public int getSuperSteps() {
@@ -101,9 +112,15 @@ public class Player extends Entity {
     }
 
     @Override
+    public void rotate() {
+        super.rotate();
+        animation.set(idleSprites[direction.ordinal()], 0.4f);
+    }
+
+    @Override
     public void moveDirection(Direction direction) {
         super.moveDirection(direction);
-        animation.set(sheets[direction.ordinal()][1], WALK_INTERVAL[speed - 1]);
+        animation.set(walkSprites[direction.ordinal()], WALK_INTERVAL[speed - 1]);
     }
 
     @Override
