@@ -14,7 +14,6 @@ public class Main extends ApplicationAdapter {
 
     private Context context;
 
-    private boolean pixelPerfect = true;
     private FrameBuffer fbo;
     private TextureRegion region;
     private OrthographicCamera cam;
@@ -35,11 +34,11 @@ public class Main extends ApplicationAdapter {
         context.sm.input();
         context.sm.update(Gdx.graphics.getDeltaTime());
 
-        if (pixelPerfect) {
+        if (context.pixelPerfect) {
             fbo.begin();
         }
         context.sm.render();
-        if (pixelPerfect) {
+        if (context.pixelPerfect) {
             fbo.end();
             context.sb.begin();
             context.sb.setColor(Color.WHITE);

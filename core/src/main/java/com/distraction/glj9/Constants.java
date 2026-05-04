@@ -63,4 +63,5 @@ public class Constants {
 
     public static final Color WHITE = COLORS[7];
     public static final Color PINK = COLORS[26];
+    public static final Color TRANSPARENT = new Color(1, 1, 1, 0.5f);
 }

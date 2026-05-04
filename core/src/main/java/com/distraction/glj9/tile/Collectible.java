@@ -1,8 +1,10 @@
 package com.distraction.glj9.tile;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.utils.Utils;
 
@@ -41,6 +43,8 @@ public class Collectible extends Entity {
 
     @Override
     public void render(SpriteBatch sb) {
+        if (transparent) sb.setColor(Constants.TRANSPARENT);
+        else sb.setColor(Color.WHITE);
         Utils.drawCentered(sb, image, x, y + 6 + offsety, w, h);
     }
 }

@@ -50,6 +50,8 @@ public class TileMap {
     private final TextureRegion cursor;
     private int cursorRow = -1;
     private int cursorCol = -1;
+    private List<Entity> transparentEntities;
+
     private int maxArrows;
     private int remainingArrows;
 
@@ -77,6 +79,7 @@ public class TileMap {
         sortedEntities = new ArrayList<>();
         arrows = new ArrayList<>();
         collectibles = new ArrayList<>();
+        transparentEntities = new ArrayList<>();
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
                 player = new Player(context, numRows - e.row - 1, e.col, e.direction);
@@ -99,8 +102,7 @@ public class TileMap {
             }
         }
         started = false;
-        cursorRow = numRows / 2;
-        cursorCol = numCols / 2;
+        setCursorTile(-1, -1);
         maxArrows = data.numArrows;
         remainingArrows = maxArrows - arrows.size();
         sortedEntities.add(player);
@@ -135,8 +137,7 @@ public class TileMap {
         started = false;
         stepTimer = 0;
         score = 0;
-        cursorRow = numRows / 2;
-        cursorCol = numCols / 2;
+        setCursorTile(-1, -1);
         sortedEntities.clear();
         sortedEntities.add(player);
         sortedEntities.addAll(ghosts);
@@ -167,12 +168,34 @@ public class TileMap {
     }
 
     public void onMouseMove(float mx, float my) {
+        if (started) return;
         if (mx > 0 && mx < getWidth() && my > 0 && my < getHeight()) {
-            cursorRow = (int) (my / TILE_SIZE);
-            cursorCol = (int) (mx / TILE_SIZE);
+            setCursorTile((int) (my / TILE_SIZE), (int) (mx / TILE_SIZE));
         } else {
-            cursorRow = cursorCol = -1;
+            setCursorTile(-1, -1);
         }
+    }
+
+    private void setCursorTile(int row, int col) {
+        for (Entity e : transparentEntities) e.transparent = false;
+        transparentEntities.clear();
+        this.cursorRow = row;
+        this.cursorCol = col;
+        if (row == -1 && col == -1) return;
+        if (player.row == row && player.col == col) transparentEntities.add(player);
+        for (Entity g : ghosts) {
+            if (g.row == row && g.col == col) {
+                transparentEntities.add(g);
+                break;
+            }
+        }
+        for (Entity c : collectibles) {
+            if (c.row == row && c.col == col) {
+                transparentEntities.add(c);
+                break;
+            }
+        }
+        for (Entity e : transparentEntities) e.transparent = true;
     }
 
     private Entity getExistingArrow() {
@@ -212,6 +235,7 @@ public class TileMap {
     public void start() {
         if (!started) {
             started = true;
+            setCursorTile(-1, -1);
             for (Entity e : ghosts) {
                 e.start();
                 e.moveDirection(getNextDirection(e));

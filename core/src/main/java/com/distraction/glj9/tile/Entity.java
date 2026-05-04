@@ -23,6 +23,8 @@ public abstract class Entity {
 
     protected boolean started = false;
 
+    protected boolean transparent = false;
+
     protected Entity(Context context) {
         this.context = context;
     }

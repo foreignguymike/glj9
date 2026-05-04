@@ -19,6 +19,8 @@ public class Context {
     public ScreenManager sm;
     public SpriteBatch sb;
 
+    public boolean pixelPerfect = false;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
