@@ -1,4 +1,4 @@
-package com.distraction.glj9;
+package com.distraction.glj9.utils;
 
 public class Animation<T> {
 
@@ -8,6 +8,10 @@ public class Animation<T> {
     private int index;
 
     public Animation(T[] list, float interval) {
+        set(list, interval);
+    }
+
+    public void set(T[] list, float interval) {
         this.list = list;
         this.interval = interval;
     }

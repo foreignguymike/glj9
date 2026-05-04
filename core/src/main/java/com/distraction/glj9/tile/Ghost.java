@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.distraction.glj9.Animation;
+import com.distraction.glj9.utils.Animation;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.Utils;
+import com.distraction.glj9.utils.Utils;
 
 public class Ghost extends Entity {
 

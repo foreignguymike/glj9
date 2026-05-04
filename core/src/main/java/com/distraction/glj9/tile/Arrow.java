@@ -4,18 +4,24 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.Utils;
+import com.distraction.glj9.utils.Utils;
 
 public class Arrow extends Entity {
 
-    private final TextureRegion image;
+    private TextureRegion image;
 
     protected Arrow(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
 
-        w = 14;
-        h = 14;
-        image = context.getImage("arrows").split(12, 13)[0][direction.ordinal()];
+        w = 12;
+        h = 12;
+        image = context.getImage("arrows").split(12, 12)[0][direction.ordinal()];
+    }
+
+    @Override
+    public void rotate() {
+        super.rotate();
+        image = context.getImage("arrows").split(12, 12)[0][direction.ordinal()];
     }
 
     @Override

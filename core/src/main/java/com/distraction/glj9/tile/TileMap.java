@@ -3,14 +3,16 @@ package com.distraction.glj9.tile;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
+import com.distraction.glj9.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TileMap {
 
-    public static final int TILE_SIZE = 32;
+    public static final int TILE_SIZE = 16;
     public static final int TILE_SIZE_2 = TILE_SIZE / 2;
 
     private static final int WALL_UP = 0b1000;
@@ -27,12 +29,14 @@ public class TileMap {
         15, 7, 6, 2, 2,10, 3
     };
 
-    private static final float STEP_DURATION = 0.3f;
+    private static final float STEP_DURATION = 0.2f;
 
     private final Context context;
     private final TextureRegion[][] tilesets;
 
     private int[][] tiles;
+    private int numRows;
+    private int numCols;
     private Entity player;
     private List<Entity> ghosts;
     private List<Entity> arrows;
@@ -40,27 +44,36 @@ public class TileMap {
     private float stepTimer = 0;
     private boolean started = false;
 
+    private final TextureRegion cursor;
+    private int cursorRow = -1;
+    private int cursorCol = -1;
+    private int maxArrows;
+    private int numArrowsRemaining;
+
     public TileMap(Context context) {
         this.context = context;
         tilesets = new TextureRegion[][] {
             flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
             flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
         };
+        cursor = context.getImage("cursor");
     }
 
     public void loadLevel(int level) {
         LevelData data = LevelData.levels[level];
         tiles = flip(data.tiles);
+        numRows = tiles.length;
+        numCols = tiles[0].length;
         ghosts = new ArrayList<>();
         arrows = new ArrayList<>();
         collectibles = new ArrayList<>();
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
-                player = new Player(context, tiles.length - e.row - 1, e.col, e.direction);
+                player = new Player(context, numRows - e.row - 1, e.col, e.direction);
             } else if (e.type == EntityData.EntityType.ARROW) {
-                arrows.add(new Arrow(context, tiles.length - e.row - 1, e.col, e.direction));
+                arrows.add(new Arrow(context, numRows - e.row - 1, e.col, e.direction));
             } else {
-                ghosts.add(new Ghost(context, tiles.length - e.row - 1, e.col, e.direction));
+                ghosts.add(new Ghost(context, numRows - e.row - 1, e.col, e.direction));
             }
         }
         int[][] coll = flip(data.collectibles);
@@ -76,15 +89,79 @@ public class TileMap {
             }
         }
         started = false;
+        cursorRow = numRows / 2;
+        cursorCol = numCols / 2;
+        maxArrows = numArrowsRemaining = data.numArrows;
+    }
+
+    public int getWidth() {
+        return numCols * TILE_SIZE;
+    }
+
+    public int getHeight() {
+        return numRows * TILE_SIZE;
+    }
+
+    public void onMouseMove(float mx, float my) {
+        if (mx > 0 && mx < getWidth() && my > 0 && my < getHeight()) {
+            cursorRow = (int) (my / TILE_SIZE);
+            cursorCol = (int) (mx / TILE_SIZE);
+        } else {
+            cursorRow = cursorCol = -1;
+        }
+    }
+
+    public void onCursorMove(int dr, int dc) {
+        int nr = cursorRow + dr;
+        if (nr < 0 || nr >= numRows) return;
+        int nc = cursorCol + dc;
+        if (nc < 0 || nc >= numCols) return;
+        cursorRow = nr;
+        cursorCol = nc;
+    }
+
+    private Entity getExistingArrow() {
+        for (Entity a : arrows) {
+            if (a.row == cursorRow && a.col == cursorCol) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public void place() {
+        if (started) return;
+        if (cursorRow == -1 || cursorCol == -1) return;
+        Entity existingArrow = getExistingArrow();
+        if (existingArrow == null) {
+            if (numArrowsRemaining > 0) {
+                numArrowsRemaining--;
+                arrows.add(new Arrow(context, cursorRow, cursorCol, Direction.RIGHT));
+            }
+        } else {
+            existingArrow.rotate();
+        }
+    }
+
+    public void remove() {
+        if (started) return;
+        if (cursorRow == -1 || cursorCol == -1) return;
+        if (numArrowsRemaining >= maxArrows) return;
+        Entity existingArrow = getExistingArrow();
+        if (existingArrow != null) {
+            numArrowsRemaining++;
+            arrows.remove(existingArrow);
+        }
     }
 
     public void start() {
         if (!started) {
             started = true;
             for (Entity e : ghosts) {
-                if (e instanceof Collectible) continue;
+                e.start();
                 e.moveDirection(getNextDirection(e));
             }
+            player.start();
             player.moveDirection(getNextDirection(player));
         }
     }
@@ -94,7 +171,6 @@ public class TileMap {
         for (Entity a : arrows) {
             if (e.row == a.row && e.col == a.col) {
                 e.direction = a.direction;
-                System.out.println("found arrow facing: " + a.direction);
                 if (a.direction == Direction.UP && (tile & WALL_UP) == 0) return Direction.UP;
                 else if (a.direction == Direction.LEFT && (tile & WALL_LEFT) == 0) return Direction.LEFT;
                 else if (a.direction == Direction.DOWN && (tile & WALL_DOWN) == 0) return Direction.DOWN;
@@ -160,14 +236,17 @@ public class TileMap {
 
     public void render(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
-        for (int row = 0; row < tiles.length; row++) {
-            for (int col = 0; col < tiles[0].length; col++) {
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
                 sb.draw(tilesets[(row + col) & 1][tiles[row][col] - 1], col * TILE_SIZE, row * TILE_SIZE);
             }
         }
         for (Entity a : arrows) a.render(sb);
         for (Entity c : collectibles) c.render(sb);
         for (Entity g : ghosts) g.render(sb);
+        if (!started && cursorRow != -1 && cursorCol != -1) {
+            sb.draw(cursor, cursorCol * TILE_SIZE + 1, cursorRow * TILE_SIZE + 1);
+        }
         player.render(sb);
     }
 

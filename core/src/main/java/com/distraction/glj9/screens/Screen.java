@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.MyViewport;
+import com.distraction.glj9.utils.MyViewport;
 
 public abstract class Screen {
 
@@ -19,9 +19,10 @@ public abstract class Screen {
 
     protected Viewport viewport;
     protected OrthographicCamera cam;
+    protected final Vector3 m;
     protected Viewport uiViewport;
     protected OrthographicCamera uiCam;
-    protected final Vector3 m;
+    protected final Vector3 uim;
 
     protected SpriteBatch sb;
 
@@ -39,9 +40,10 @@ public abstract class Screen {
         viewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
         cam = (OrthographicCamera) viewport.getCamera();
         uiViewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
-        uiCam = (OrthographicCamera) viewport.getCamera();
+        uiCam = (OrthographicCamera) uiViewport.getCamera();
 
         m = new Vector3();
+        uim = new Vector3();
     }
 
     public void resume() {

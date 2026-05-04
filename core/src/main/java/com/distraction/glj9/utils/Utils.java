@@ -1,4 +1,4 @@
-package com.distraction.glj9;
+package com.distraction.glj9.utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,6 +8,10 @@ public class Utils {
     public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y) {
         float w = image.getRegionWidth();
         float h = image.getRegionHeight();
+        sb.draw(image, x - w / 2, y - h / 2, w, h);
+    }
+
+    public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h) {
         sb.draw(image, x - w / 2, y - h / 2, w, h);
     }
 

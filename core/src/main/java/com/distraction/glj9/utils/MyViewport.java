@@ -1,4 +1,4 @@
-package com.distraction.glj9;
+package com.distraction.glj9.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.FitViewport;

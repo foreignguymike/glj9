@@ -4,15 +4,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.distraction.glj9.Animation;
+import com.distraction.glj9.utils.Animation;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.Utils;
+import com.distraction.glj9.utils.Utils;
 
 public class Player extends Entity {
 
     private final Animation<TextureRegion> animation;
+    private final TextureRegion[] idleSprites;
+    private final TextureRegion[] walkSprites;
     private boolean mirror;
 
+    private boolean started = false;
     private float bouncy;
 
     protected Player(Context context, int row, int col, Direction direction) {
@@ -20,7 +23,15 @@ public class Player extends Entity {
 
         w = 21;
         h = 20;
-        animation = new Animation<>(context.getImage("player").split(w, h)[0], 0.2f);
+        idleSprites = context.getImage("playeridle").split(w, h)[0];
+        walkSprites = context.getImage("playerwalk").split(w, h)[0];
+        animation = new Animation<>(idleSprites, 0.5f);
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        animation.set(walkSprites, 0.2f);
     }
 
     @Override
@@ -33,7 +44,8 @@ public class Player extends Entity {
     @Override
     public void update(float dt) {
         animation.update(dt);
-        bouncy = Math.abs(MathUtils.sin(animation.getProgress() * MathUtils.PI) * 2);
+        if (!started) bouncy = 0f;
+        else bouncy = Math.abs(MathUtils.sin(animation.getProgress() * MathUtils.PI) * 1);
     }
 
     @Override

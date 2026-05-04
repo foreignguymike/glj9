@@ -1,6 +1,7 @@
 package com.distraction.glj9;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,10 @@ public class Context {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
         assets.finishLoading();
+
+        for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
+            t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
 
         sb = new SpriteBatch();
         sm = new ScreenManager(new PlayScreen(this));

@@ -7,14 +7,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.distraction.glj9.Context;
 
-public class Entity {
+public abstract class Entity {
 
     protected Context context;
 
     protected int row, col, destrow, destcol;
-    protected float x, y, startx, starty, destx, desty;
+    public float x;
+    public float y;
+    protected float startx;
+    protected float starty;
+    protected float destx;
+    protected float desty;
     protected int w, h;
     protected Direction direction;
+
+    private boolean started = false;
+
+    protected Entity(Context context) {
+        this.context = context;
+    }
 
     protected Entity(Context context, int row, int col, Direction direction) {
         this.context = context;
@@ -23,6 +34,26 @@ public class Entity {
         this.direction = direction;
 
         setTile(row, col);
+    }
+
+    public void rotate() {
+        if (direction == Direction.UP) direction = Direction.RIGHT;
+        else if (direction == Direction.RIGHT) direction = Direction.DOWN;
+        else if (direction == Direction.DOWN) direction = Direction.LEFT;
+        else direction = Direction.UP;
+    }
+
+    public int getWidth() {
+        return w;
+    }
+
+    public boolean contains(float px, float py) {
+        float w2 = w / 2f;
+        float h2 = h / 2f;
+        return px >= x - w2 &&
+            px <= x + w2 &&
+            py >= y - h2 &&
+            py <= y + h2;
     }
 
     public void setTile(int row, int col) {
@@ -47,6 +78,10 @@ public class Entity {
     public void move(float percent) {
         x = MathUtils.lerp(startx, destx, percent);
         y = MathUtils.lerp(starty, desty, percent);
+    }
+
+    public void start() {
+        started = true;
     }
 
     public void finish() {

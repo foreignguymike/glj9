@@ -5,8 +5,9 @@ public class LevelData {
     public int[][] tiles;
     public int[][] collectibles;
     public EntityData[] entityDataList;
+    public int numArrows;
 
-    public LevelData(int cols, int[] tiles, int[] collectibles, EntityData[] entityDataList) {
+    public LevelData(int cols, int[] tiles, int[] collectibles, EntityData[] entityDataList, int numArrows) {
         int rows = tiles.length / cols;
         this.tiles = new int[rows][cols];
         for (int i = 0; i < tiles.length; i++) {
@@ -17,6 +18,7 @@ public class LevelData {
             this.collectibles[i / cols][i % cols] = collectibles[i];
         }
         this.entityDataList = entityDataList;
+        this.numArrows = numArrows;
     }
 
     public static LevelData[] levels = new LevelData[] {
@@ -37,9 +39,9 @@ public class LevelData {
                 1, 1, 1, 1, 1,
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 2, 2, Direction.UP),
-                new EntityData(EntityData.EntityType.ARROW, 1, 4, Direction.RIGHT)
-            }
+                new EntityData(EntityData.EntityType.PLAYER, 2, 2, Direction.UP)
+            },
+            2
         )
     };
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.SimpleCallback;
+import com.distraction.glj9.utils.SimpleCallback;
 
 public class Transition {
 
