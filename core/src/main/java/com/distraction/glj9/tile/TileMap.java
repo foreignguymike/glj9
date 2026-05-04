@@ -52,23 +52,18 @@ public class TileMap {
 
     private int score;
 
-    public TileMap(Context context) {
+    public TileMap(Context context, int level) {
         this.context = context;
         tilesets = new TextureRegion[][] {
             flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
             flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
         };
         cursor = context.getImage("cursor");
+        loadLevel(level);
         setSpeed(1);
     }
 
-    public void setSpeed(int speed) {
-        float previousPercent = stepTimer / stepDuration;
-        stepDuration = STEP_DURATIONS[speed - 1];
-        stepTimer = stepDuration * previousPercent;
-    }
-
-    public void loadLevel(int level) {
+    private void loadLevel(int level) {
         data = LevelData.levels[level];
         tiles = flip(data.tiles);
         numRows = tiles.length;
@@ -102,6 +97,13 @@ public class TileMap {
         cursorCol = numCols / 2;
         maxArrows = data.numArrows;
         remainingArrows = maxArrows - arrows.size();
+    }
+
+    public void setSpeed(int speed) {
+        float previousPercent = stepTimer / stepDuration;
+        stepDuration = STEP_DURATIONS[speed - 1];
+        stepTimer = stepDuration * previousPercent;
+        player.setSpeed(speed);
     }
 
     public void redo() {

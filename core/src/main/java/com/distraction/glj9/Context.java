@@ -30,7 +30,7 @@ public class Context {
         }
 
         sb = new SpriteBatch();
-        sm = new ScreenManager(new PlayScreen(this));
+        sm = new ScreenManager(new PlayScreen(this, 0));
     }
 
     public TextureRegion getImage(String key) {

@@ -10,11 +10,14 @@ import com.distraction.glj9.utils.Utils;
 
 public class Player extends Entity {
 
+    private static final float[] IDLE_INTERVAL = new float[] { 0.4f, 0.2f, 0.1f };
+    private static final float[] WALK_INTERVAL = new float[] { 1f/20f, 1f/40f, 1f/60f };
+
     private final Animation<TextureRegion> animation;
     private final TextureRegion[][][] sheets;
     private final TextureRegion[] idleSprites;
 
-    private float bouncy;
+    private int speed;
 
     protected Player(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
@@ -32,7 +35,14 @@ public class Player extends Entity {
     }
 
     public void redo() {
-        animation.set(idleSprites, 0.4f);
+        started = false;
+        animation.set(idleSprites, IDLE_INTERVAL[speed - 1]);
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+        if (!started) animation.set(idleSprites, IDLE_INTERVAL[speed - 1]);
+        else animation.set(sheets[direction.ordinal()][1], WALK_INTERVAL[speed - 1]);
     }
 
     public void setDirection(Direction direction) {
@@ -43,14 +53,12 @@ public class Player extends Entity {
     @Override
     public void moveDirection(Direction direction) {
         super.moveDirection(direction);
-        animation.set(sheets[direction.ordinal()][1], 0.05f);
+        animation.set(sheets[direction.ordinal()][1], WALK_INTERVAL[speed - 1]);
     }
 
     @Override
     public void update(float dt) {
         animation.update(dt);
-        if (!started) bouncy = 0f;
-        else bouncy = Math.abs(MathUtils.sin(animation.getProgress() * MathUtils.PI) * 1);
     }
 
     @Override

@@ -14,11 +14,10 @@ public class PlayScreen extends Screen {
     private final Background bg;
     private final HUD hud;
 
-    public PlayScreen(Context context) {
+    public PlayScreen(Context context, int level) {
         super(context);
 
-        tileMap = new TileMap(context);
-        tileMap.loadLevel(0);
+        tileMap = new TileMap(context, level);
 
         bg = new Background(context, context.getImage("bg1"), 3, 3, 16, 16);
         hud = new HUD(
