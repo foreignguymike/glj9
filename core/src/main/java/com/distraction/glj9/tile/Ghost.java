@@ -19,9 +19,9 @@ public class Ghost extends Entity {
     protected Ghost(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
 
-        w = 21;
-        h = 20;
-        animation = new Animation<>(context.getImage("ghost").split(w, h)[0], 0.2f);
+        w = 16;
+        h = 16;
+        animation = new Animation<>(context.getImage("ghostidle").split(w, h)[0], 0.2f);
     }
 
     @Override
@@ -34,17 +34,15 @@ public class Ghost extends Entity {
     @Override
     public void update(float dt) {
         animation.update(dt);
-        if (!started) bouncy = 0f;
-        else {
-            time += dt;
-            bouncy = Math.abs(MathUtils.sin(time * MathUtils.PI) * 2);
-        }
+        time += dt;
+        time %= MathUtils.PI2;
+        bouncy = MathUtils.sin(time * MathUtils.PI) * 2;
     }
 
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
         sb.setColor(Color.WHITE);
-        Utils.drawCentered(sb, animation.get(), x, y + bouncy + 8, mirror);
+        Utils.drawCentered(sb, animation.get(), x, y + bouncy + 4, mirror);
     }
 }

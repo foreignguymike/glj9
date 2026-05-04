@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Context;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TileMap {
@@ -39,6 +41,7 @@ public class TileMap {
     private int numCols;
     private Player player;
     private List<Entity> ghosts;
+    private List<Entity> sortedEntities;
     private List<Entity> arrows;
     private List<Entity> collectibles;
     private float stepTimer = 0;
@@ -49,6 +52,8 @@ public class TileMap {
     private int cursorCol = -1;
     private int maxArrows;
     private int remainingArrows;
+
+    private final Comparator<Entity> comp = (e1, e2) -> (int) e2.y - (int) e1.y;
 
     private int score;
 
@@ -69,6 +74,7 @@ public class TileMap {
         numRows = tiles.length;
         numCols = tiles[0].length;
         ghosts = new ArrayList<>();
+        sortedEntities = new ArrayList<>();
         arrows = new ArrayList<>();
         collectibles = new ArrayList<>();
         for (EntityData e : data.entityDataList) {
@@ -97,13 +103,9 @@ public class TileMap {
         cursorCol = numCols / 2;
         maxArrows = data.numArrows;
         remainingArrows = maxArrows - arrows.size();
-    }
-
-    public void setSpeed(int speed) {
-        float previousPercent = stepTimer / stepDuration;
-        stepDuration = STEP_DURATIONS[speed - 1];
-        stepTimer = stepDuration * previousPercent;
-        player.setSpeed(speed);
+        sortedEntities.add(player);
+        sortedEntities.addAll(ghosts);
+        sortedEntities.sort(comp);
     }
 
     public void redo() {
@@ -135,6 +137,17 @@ public class TileMap {
         score = 0;
         cursorRow = numRows / 2;
         cursorCol = numCols / 2;
+        sortedEntities.clear();
+        sortedEntities.add(player);
+        sortedEntities.addAll(ghosts);
+        sortedEntities.sort(comp);
+    }
+
+    public void setSpeed(int speed) {
+        float previousPercent = stepTimer / stepDuration;
+        stepDuration = STEP_DURATIONS[speed - 1];
+        stepTimer = stepDuration * previousPercent;
+        player.setSpeed(speed);
     }
 
     public int getRemainingArrows() {
@@ -279,6 +292,8 @@ public class TileMap {
         if (started) player.move(percent);
         for (Entity c : collectibles) c.update(dt);
         for (Entity a : arrows) a.update(dt);
+
+        sortedEntities.sort(comp);
     }
 
     public void render(SpriteBatch sb) {
@@ -290,11 +305,10 @@ public class TileMap {
         }
         for (Entity a : arrows) a.render(sb);
         for (Entity c : collectibles) c.render(sb);
-        for (Entity g : ghosts) g.render(sb);
+        for (Entity e : sortedEntities) e.render(sb);
         if (!started && cursorRow != -1 && cursorCol != -1) {
             sb.draw(cursor, cursorCol * TILE_SIZE + 1, cursorRow * TILE_SIZE + 1);
         }
-        player.render(sb);
     }
 
     private static TextureRegion[] flat(TextureRegion[][] tileset) {
