@@ -14,6 +14,8 @@ public class Animation<T> {
     public void set(T[] list, float interval) {
         this.list = list;
         this.interval = interval;
+        time = 0;
+        index = 0;
     }
 
     public void update(float dt) {

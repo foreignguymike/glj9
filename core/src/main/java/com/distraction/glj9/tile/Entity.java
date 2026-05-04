@@ -21,7 +21,7 @@ public abstract class Entity {
     protected int w, h;
     protected Direction direction;
 
-    private boolean started = false;
+    protected boolean started = false;
 
     protected Entity(Context context) {
         this.context = context;

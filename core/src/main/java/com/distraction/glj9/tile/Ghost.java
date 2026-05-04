@@ -13,6 +13,7 @@ public class Ghost extends Entity {
     private final Animation<TextureRegion> animation;
     private boolean mirror;
 
+    private float time;
     private float bouncy;
 
     protected Ghost(Context context, int row, int col, Direction direction) {
@@ -33,7 +34,11 @@ public class Ghost extends Entity {
     @Override
     public void update(float dt) {
         animation.update(dt);
-        bouncy = Math.abs(MathUtils.sin(animation.getProgress() * MathUtils.PI) * 2);
+        if (!started) bouncy = 0f;
+        else {
+            time += dt;
+            bouncy = Math.abs(MathUtils.sin(time * MathUtils.PI) * 2);
+        }
     }
 
     @Override

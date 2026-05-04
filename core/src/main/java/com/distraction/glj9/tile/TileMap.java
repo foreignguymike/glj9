@@ -36,7 +36,7 @@ public class TileMap {
     private int[][] tiles;
     private int numRows;
     private int numCols;
-    private Entity player;
+    private Player player;
     private List<Entity> ghosts;
     private List<Entity> arrows;
     private List<Entity> collectibles;
@@ -102,7 +102,8 @@ public class TileMap {
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
                 player.setTile(numRows - e.row - 1, e.col);
-                player.direction = e.direction;
+                player.setDirection(e.direction);
+                player.redo();
             } else if (e.type == EntityData.EntityType.GHOST) {
                 ghosts.add(new Ghost(context, numRows - e.row - 1, e.col, e.direction));
             }

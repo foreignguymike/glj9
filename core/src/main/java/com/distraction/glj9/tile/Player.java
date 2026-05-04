@@ -11,34 +11,39 @@ import com.distraction.glj9.utils.Utils;
 public class Player extends Entity {
 
     private final Animation<TextureRegion> animation;
+    private final TextureRegion[][][] sheets;
     private final TextureRegion[] idleSprites;
-    private final TextureRegion[] walkSprites;
-    private boolean mirror;
 
-    private boolean started = false;
     private float bouncy;
 
     protected Player(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
 
-        w = 21;
-        h = 20;
-        idleSprites = context.getImage("playeridle").split(w, h)[0];
-        walkSprites = context.getImage("playerwalk").split(w, h)[0];
-        animation = new Animation<>(idleSprites, 0.5f);
+        w = 16;
+        h = 16;
+        sheets = new TextureRegion[][][] {
+            context.getImage("playerup").split(w, h),
+            context.getImage("playerleft").split(w, h),
+            context.getImage("playerdown").split(w, h),
+            context.getImage("playerright").split(w, h),
+        };
+        idleSprites = new TextureRegion[]{sheets[direction.ordinal()][0][0], sheets[direction.ordinal()][0][1]};
+        animation = new Animation<>(idleSprites, 0.4f);
     }
 
-    @Override
-    public void start() {
-        super.start();
-        animation.set(walkSprites, 0.2f);
+    public void redo() {
+        animation.set(idleSprites, 0.4f);
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+        animation.set(sheets[direction.ordinal()][1], 0.05f);
     }
 
     @Override
     public void moveDirection(Direction direction) {
         super.moveDirection(direction);
-        if (direction == Direction.RIGHT) mirror = false;
-        else if (direction == Direction.LEFT) mirror = true;
+        animation.set(sheets[direction.ordinal()][1], 0.05f);
     }
 
     @Override
@@ -52,6 +57,6 @@ public class Player extends Entity {
     public void render(SpriteBatch sb) {
         super.render(sb);
         sb.setColor(Color.WHITE);
-        Utils.drawCentered(sb, animation.get(), x, y + bouncy + 8, mirror);
+        Utils.drawCentered(sb, animation.get(), x, y + 4);
     }
 }
