@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
-import com.distraction.glj9.utils.SimpleCallback;
 import com.distraction.glj9.utils.Utils;
 
 public class LevelTile extends Entity {
@@ -19,6 +18,7 @@ public class LevelTile extends Entity {
 
     private final TextureRegion image;
     private final TextureRegion highlightImage;
+    private final TextureRegion pellet;
     private final LevelCallback callback;
 
     private int level;
@@ -39,6 +39,8 @@ public class LevelTile extends Entity {
 
         font = context.getFont();
         text = new GlyphLayout(font, level + "", Constants.WHITE, 0, Align.center, false);
+
+        pellet = context.getImage("pellet");
 
         setLevel(level);
     }
@@ -69,6 +71,7 @@ public class LevelTile extends Entity {
         if (hovered) Utils.drawCentered(sb, highlightImage, x + 0.5f, y);
         else Utils.drawCentered(sb, image, x + 0.5f, y);
         font.draw(sb, text, x, y + 4);
+        if (context.completedLevels[level - 1]) Utils.drawCentered(sb, pellet, x + 7, y - 7);
     }
 
 }

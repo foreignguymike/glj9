@@ -10,10 +10,11 @@ import com.distraction.glj9.utils.Utils;
 public class SpeedButton extends Button {
 
     private final TextureRegion caret;
-    private int speed = 1;
+    private int speed;
 
-    public SpeedButton(Context context, TextureRegion[] images, SimpleCallback callback) {
+    public SpeedButton(Context context, TextureRegion[] images, int speed, SimpleCallback callback) {
         super(context, images, callback);
+        this.speed = speed;
         caret = context.getImage("speedcaret");
     }
 

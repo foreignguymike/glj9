@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.screens.ScreenManager;
+import com.distraction.glj9.tile.LevelData;
 
 public class Context {
 
@@ -19,6 +20,9 @@ public class Context {
     public SpriteBatch sb;
 
     public boolean pixelPerfect = false;
+
+    public int speed = 1;
+    public final boolean[] completedLevels = new boolean[LevelData.levels.length];
 
     public Context() {
         assets = new AssetManager();

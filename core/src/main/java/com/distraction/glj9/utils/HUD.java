@@ -76,6 +76,7 @@ public class HUD extends Entity {
                 context.getImage("speedbuttonh"),
                 context.getImage("speedbuttonp")
             },
+            context.speed,
             this::setSpeed
         );
 
@@ -88,7 +89,8 @@ public class HUD extends Entity {
     }
 
     private void setSpeed() {
-        tileMap.setSpeed(speedButton.getSpeed());
+        context.speed = speedButton.getSpeed();
+        tileMap.setSpeed(context.speed);
     }
 
     public void onMouseMove(float mx, float my) {

@@ -35,6 +35,7 @@ public class TileMap {
     private final Context context;
     private final TextureRegion[][] tilesets;
     private LevelData data;
+    private final int level;
 
     private int[][] tiles;
     private int numRows;
@@ -64,13 +65,14 @@ public class TileMap {
 
     public TileMap(Context context, int level) {
         this.context = context;
+        this.level = level;
         tilesets = new TextureRegion[][] {
             flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
             flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
         };
         cursor = context.getImage("cursor");
         loadLevel(level);
-        setSpeed(1);
+        setSpeed(context.speed);
     }
 
     private void loadLevel(int level) {
@@ -263,10 +265,17 @@ public class TileMap {
         if (player.isSuper()) {
             sortedEntities.remove(ghostCollide);
             ghosts.remove(ghostCollide);
+            checkComplete();
         } else {
             player.setDead();
         }
         ghostCollide = null;
+    }
+
+    private void checkComplete() {
+        if (collectibles.isEmpty() && ghosts.isEmpty()) {
+            context.completedLevels[level - 1] = true;
+        }
     }
 
     private Direction getNextDirection(Entity e) {
@@ -321,13 +330,10 @@ public class TileMap {
                 for (int i = 0; i < collectibles.size(); i++) {
                     Collectible c = collectibles.get(i);
                     if (player.row == c.row && player.col == c.col) {
-                        if (c.type == EntityData.EntityType.PELLET) {
-                            // check finish
-                        } else if (c.type == EntityData.EntityType.SUPER_PELLET) {
-                            player.setSuper();
-                        }
+                        if (c.type == EntityData.EntityType.SUPER_PELLET) player.setSuper();
                         collectibles.remove(i);
                         i--;
+                        checkComplete();
                     }
                 }
                 for (Ghost g : ghosts) {
@@ -361,7 +367,9 @@ public class TileMap {
         sb.setColor(Color.WHITE);
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                sb.draw(tilesets[(row + col) & 1][tiles[row][col] - 1], col * TILE_SIZE, row * TILE_SIZE);
+                int type = tiles[row][col] - 1;
+                if (type < 0) continue;
+                sb.draw(tilesets[(row + col) & 1][type], col * TILE_SIZE, row * TILE_SIZE);
             }
         }
         for (Entity a : arrows) a.render(sb);
