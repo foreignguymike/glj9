@@ -27,8 +27,8 @@ public class Ghost extends Entity {
     public void update(float dt) {
         animation.update(dt);
         time += dt;
-        time %= MathUtils.PI2;
-        bouncy = MathUtils.sin(time * MathUtils.PI) * 2;
+        if (time > MathUtils.PI2) time -= MathUtils.PI2;
+        bouncy = MathUtils.sin(time * 2) * 2;
     }
 
     @Override
