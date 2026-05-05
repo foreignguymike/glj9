@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="4" height="4" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#4cc5e4" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="7" height="4" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#4cc5e4" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="tileset.tsx"/>
- <layer id="1" name="Tile Layer 1" width="4" height="4">
+ <layer id="1" name="Tile Layer 1" width="7" height="4">
   <data encoding="csv">
-9,48,3,21,
-15,5,32,12,
-29,41,22,12,
-36,48,18,41
+9,48,3,5,48,48,6,
+15,5,32,12,0,0,42,
+29,41,22,12,0,25,24,
+36,48,18,46,48,18,41
 </data>
  </layer>
 </map>

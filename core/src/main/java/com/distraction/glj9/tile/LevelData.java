@@ -126,6 +126,25 @@ public class LevelData {
             2
         ),
         new LevelData(
+            7,
+            new int[] {
+                9,48,3,5,48,48,6,
+                15,5,32,12,0,0,42,
+                29,41,22,12,0,25,24,
+                36,48,18,46,48,18,41
+            },
+            new int[] {
+                1, 1, 1, 1, 1, 0, 0,
+                1, 1, 1, 2, 1, 0, 0,
+                1, 1, 0, 1, 1, 0, 0,
+                1, 1, 1, 1, 1, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 2, 2, Direction.UP)
+            },
+            2
+        ),
+        new LevelData(
             10,
             new int[] {
                 25,5,37,48,48,48,48,48,3,21,

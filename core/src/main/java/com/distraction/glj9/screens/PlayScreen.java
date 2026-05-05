@@ -35,8 +35,8 @@ public class PlayScreen extends Screen {
             this::redo
         );
 
+        // max grid size for locked cam is 5x7
         lockCamera = tileMap.getWidth() < Constants.WIDTH - hud.getWidth() && tileMap.getHeight() < Constants.HEIGHT;
-//        updateCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
 
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
