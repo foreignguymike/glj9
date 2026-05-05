@@ -11,10 +11,14 @@ import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.LevelData;
 import com.distraction.glj9.tile.LevelTile;
+import com.distraction.glj9.utils.Background;
 
 public class LevelSelectScreen extends Screen {
 
     private final TextureRegion pixel;
+    private final TextureRegion titleBg;
+    private final TextureRegion border;
+    private final Background bg;
 
     private final BitmapFont font;
     private final GlyphLayout titleText;
@@ -26,6 +30,9 @@ public class LevelSelectScreen extends Screen {
     public LevelSelectScreen(Context context) {
         super(context);
         pixel = context.getPixel();
+        titleBg = context.getImage("levelselecttitlebg");
+        border = context.getImage("levelselectborder");
+        bg = new Background(context, context.getImage("bg2"), 2, 2, 16, 16);
 
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
@@ -49,7 +56,7 @@ public class LevelSelectScreen extends Screen {
                     this::onLevelSelected
                 );
                 levelTile.x = 12 + 18 * col;
-                levelTile.y = 60 - 18 * row;
+                levelTile.y = 59 - 18 * row;
                 levelTiles[row][col] = levelTile;
                 count++;
                 if (count > maxLevels) levelTile.setVisibility(false);
@@ -58,8 +65,8 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onLevelSelected(int level) {
+        ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
-            ignoreInput = true;
             context.sm.replace(new PlayScreen(context, level));
         });
         out.start();
@@ -94,6 +101,7 @@ public class LevelSelectScreen extends Screen {
     public void update(float dt) {
         in.update(dt);
         out.update(dt);
+        bg.update(dt);
     }
 
     @Override
@@ -102,8 +110,18 @@ public class LevelSelectScreen extends Screen {
         sb.setProjectionMatrix(cam.combined);
         sb.setColor(Constants.LEVEL_SELECT_BG);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+        bg.render(sb);
+        sb.setColor(Constants.DIM_BG);
+        sb.draw(pixel, 3, 2, border.getRegionWidth() / 2f - 5, border.getRegionHeight() - 2);
+        sb.draw(pixel, Constants.WIDTH / 2f + 3, 2, border.getRegionWidth() / 2f - 5, border.getRegionHeight() - 2);
+        sb.setColor(Color.WHITE);
+        sb.draw(border, 1, 1);
 
-        font.draw(sb, titleText, Constants.WIDTH / 2f, Constants.HEIGHT - 8f);
+        sb.setColor(Constants.LEVEL_SELECT_TOP);
+        sb.draw(pixel, 0, Constants.HEIGHT - 9, Constants.WIDTH, 9);
+        sb.setColor(Color.WHITE);
+        sb.draw(titleBg, 0, Constants.HEIGHT - 14);
+        font.draw(sb, titleText, Constants.WIDTH / 2f, Constants.HEIGHT - 5f);
 
         for (int row = 0; row < levelTiles.length; row++) {
             for (int col = 0; col < levelTiles[0].length; col++) {

@@ -11,7 +11,7 @@ import com.distraction.glj9.utils.Utils;
 
 public class Ghost extends Entity {
 
-    private static final float[] IDLE_INTERVAL = new float[] { 0.4f, 0.2f, 0.1f };
+    private static final float[] IDLE_INTERVAL = new float[] { 0.2f, 0.1f, 0.05f };
 
     private final Animation<TextureRegion> animation;
 

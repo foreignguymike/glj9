@@ -41,7 +41,7 @@ public class Background extends Entity {
         sb.setColor(Color.WHITE);
         for (int row = -2; row < numRows; row++) {
             for (int col = -2; col < numCols; col++) {
-                sb.draw(image, x + col * ox + ((row & 1) == 0 ? 0 : ox / 2), y + row * oy);
+                sb.draw(image, x + col * 2 * ox + ((row & 1) == 0 ? 0 : ox), y + row * oy);
             }
         }
     }

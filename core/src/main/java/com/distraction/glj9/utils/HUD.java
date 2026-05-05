@@ -101,7 +101,7 @@ public class HUD extends Entity {
 
     public void onMousePressed(boolean pressed) {
         startButton.onMousePressed(pressed);
-        redoButton.onMousePressed(pressed);
+        if (!tileMap.player.isWin()) redoButton.onMousePressed(pressed);
         speedButton.onMousePressed(pressed);
     }
 

@@ -54,7 +54,8 @@ public class Constants {
         Color.valueOf("29694e") // 35
     };
 
-    public static final Color LEVEL_SELECT_BG = COLORS[13];
+    public static final Color LEVEL_SELECT_BG = COLORS[6];
+    public static final Color LEVEL_SELECT_TOP = COLORS[3];
     public static final Color DIM_BG = Color.valueOf("00000080");
     public static final Color LEVEL_BG = COLORS[21];
 

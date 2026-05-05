@@ -18,15 +18,18 @@ public class Player extends Entity {
 
     private static final float[] IDLE_INTERVAL = new float[] { 0.4f, 0.2f, 0.1f };
     private static final float[] WALK_INTERVAL = new float[] { 1f/20f, 1f/40f, 1f/60f };
+    private static final float[] WIN_INTERVAL = new float[] { 1f/10f, 1f/20f, 1f/30f };
     private static final int TOTAL_SUPER_STEPS = 10;
 
     private final Animation<TextureRegion> animation;
     private final TextureRegion[][][] sheets;
     private final TextureRegion[][] idleSprites;
     private final TextureRegion[][] walkSprites;
+    private final TextureRegion[] winSprites;
     private final TextureRegion deadImage;
 
     private int speed;
+    private float[] currentInterval;
 
     private boolean isSuper;
     private int superSteps;
@@ -34,6 +37,8 @@ public class Player extends Entity {
     private boolean isDead;
     private float deady;
     private float deadTimer;
+
+    private boolean win;
 
     protected Player(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
@@ -55,7 +60,10 @@ public class Player extends Entity {
         walkSprites = new TextureRegion[][] {
             sheets[0][1], sheets[1][1], sheets[2][1], sheets[3][1],
         };
-        animation = new Animation<>(idleSprites[direction.ordinal()], 0.4f);
+        winSprites = context.getImage("playerwin").split(w, h)[0];
+        speed = context.speed;
+        currentInterval = IDLE_INTERVAL;
+        animation = new Animation<>(idleSprites[direction.ordinal()], currentInterval[speed - 1]);
 
         deadImage = context.getImage("playerdead");
     }
@@ -67,12 +75,12 @@ public class Player extends Entity {
         isDead = false;
         deadTimer = 0;
         animation.set(idleSprites[direction.ordinal()], IDLE_INTERVAL[speed - 1]);
+        currentInterval = IDLE_INTERVAL;
     }
 
     public void setSpeed(int speed) {
         this.speed = speed;
-        if (!started) animation.set(idleSprites[direction.ordinal()], IDLE_INTERVAL[speed - 1]);
-        else animation.set(sheets[direction.ordinal()][1], WALK_INTERVAL[speed - 1]);
+        animation.setInterval(currentInterval[speed - 1]);
     }
 
     public void setDirection(Direction direction) {
@@ -111,16 +119,28 @@ public class Player extends Entity {
         return isDead;
     }
 
+    public void setWin() {
+        win = true;
+        currentInterval = WIN_INTERVAL;
+        animation.set(winSprites, currentInterval[speed - 1]);
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
     @Override
     public void rotate() {
         super.rotate();
-        animation.set(idleSprites[direction.ordinal()], 0.4f);
+        currentInterval = IDLE_INTERVAL;
+        animation.set(idleSprites[direction.ordinal()], currentInterval[speed - 1]);
     }
 
     @Override
     public void moveDirection(Direction direction) {
         super.moveDirection(direction);
-        animation.set(walkSprites[direction.ordinal()], WALK_INTERVAL[speed - 1]);
+        currentInterval = WALK_INTERVAL;
+        animation.set(walkSprites[direction.ordinal()], currentInterval[speed - 1]);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class TileMap {
     public static final int TILE_SIZE = 16;
     public static final int TILE_SIZE_2 = TILE_SIZE / 2;
 
+    private static final int WALL_ALL = 0b1111;
     private static final int WALL_UP = 0b1000;
     private static final int WALL_LEFT = 0b0100;
     private static final int WALL_DOWN = 0b0010;
@@ -184,8 +185,11 @@ public class TileMap {
         transparentEntities.clear();
         this.cursorRow = row;
         this.cursorCol = col;
-        if (row == -1 && col == -1) return;
-        if (player.row == row && player.col == col) transparentEntities.add(player);
+        if (row == -1 || col == -1) return;
+        if (tiles[row][col] == 0) {
+            cursorRow = cursorCol = -1;
+            return;
+        }
         for (Entity g : ghosts) {
             if (g.row == row && g.col == col) {
                 transparentEntities.add(g);
@@ -279,6 +283,7 @@ public class TileMap {
     private void checkComplete() {
         if (collectibles.isEmpty() && ghosts.isEmpty()) {
             context.completedLevels[level - 1] = true;
+            player.setWin();
         }
     }
 
@@ -319,7 +324,7 @@ public class TileMap {
     }
 
     public void update(float dt) {
-        if (started && !player.isDead()) {
+        if (started && !player.isDead() && !player.isWin()) {
             float beforePercent = stepTimer / stepDuration;
             stepTimer += dt;
             float percent = stepTimer / stepDuration;
@@ -378,10 +383,10 @@ public class TileMap {
         }
         for (Entity a : arrows) a.render(sb);
         for (Entity c : collectibles) c.render(sb);
-        for (Entity e : sortedEntities) e.render(sb);
         if (!started && cursorRow != -1 && cursorCol != -1) {
             sb.draw(cursor, cursorCol * TILE_SIZE + 1, cursorRow * TILE_SIZE + 1);
         }
+        for (Entity e : sortedEntities) e.render(sb);
         if (player.isDead()) player.render(sb);
     }
 
