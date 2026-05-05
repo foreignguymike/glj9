@@ -2,14 +2,18 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.TileMap;
 import com.distraction.glj9.utils.Background;
 import com.distraction.glj9.utils.HUD;
+import com.distraction.glj9.utils.Utils;
 
 public class PlayScreen extends Screen {
+
+    private static final Interpolation CAM_START_INTERPOLATION = Interpolation.fastSlow;
 
     private static final float CAMERA_PAD = 4f;
     private static final float CAMERA_SPEED = 60;
@@ -17,6 +21,11 @@ public class PlayScreen extends Screen {
     private final TileMap tileMap;
     private final Background bg;
     private final HUD hud;
+
+    private boolean starting;
+    private float startTime;
+    private float dist;
+    private float startx, starty, endx, endy;
 
     private float minX, maxX, minY, maxY;
     private final boolean lockCamera;
@@ -27,11 +36,11 @@ public class PlayScreen extends Screen {
 
         tileMap = new TileMap(context, level);
 
-        bg = new Background(context, context.getImage("bg1"), -2, 2, 16, 16);
+        bg = new Background(context, context.getImage("bg3"), 5, -5, 24, 24);
         hud = new HUD(
             context,
             tileMap,
-            tileMap::start,
+            this::start,
             this::redo
         );
 
@@ -71,8 +80,37 @@ public class PlayScreen extends Screen {
         cam.update();
     }
 
+    private void start() {
+        if (lockCamera) {
+            tileMap.start();
+            return;
+        }
+        if (starting) return;
+
+        startx = cam.position.x;
+        starty = cam.position.y;
+        endx = MathUtils.clamp(tileMap.player.x + hud.getWidth() / 2f, minX, maxX);
+        endy = MathUtils.clamp(tileMap.player.y, minY, maxY);
+        dist = Math.abs(startx - endx) + Math.abs(starty - endy);
+
+        if (dist < 2) {
+            tileMap.start();
+        } else {
+            starting = true;
+            startTime = 0;
+        }
+    }
+
     private void redo() {
         tileMap.redo();
+    }
+
+    private void onNext() {
+        ignoreInput = true;
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+            context.sm.replace(new PlayScreen(context, tileMap.level + 1));
+        });
+        out.start();
     }
 
     private void onBack() {
@@ -97,15 +135,16 @@ public class PlayScreen extends Screen {
         uim.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         uiCam.unproject(uim);
         hud.onMouseMove(uim.x, uim.y);
-
         hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) onBack();
 
-        up = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
-        left = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
-        down = Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN);
-        right = Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        up = Utils.anyKeyPressed(Input.Keys.W, Input.Keys.UP);
+        left = Utils.anyKeyPressed(Input.Keys.A, Input.Keys.LEFT);
+        down = Utils.anyKeyPressed(Input.Keys.S, Input.Keys.DOWN);
+        right = Utils.anyKeyPressed(Input.Keys.D, Input.Keys.RIGHT);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && tileMap.player.isWin()) onNext();
     }
 
     @Override
@@ -116,10 +155,23 @@ public class PlayScreen extends Screen {
         tileMap.update(dt);
         bg.update(dt);
         hud.update(dt);
+        hud.startDown = starting;
 
         if (!lockCamera) {
             if (tileMap.isStarted()) {
                 setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
+            } else if (starting) {
+                startTime += dt;
+                setCameraPosition(startx + CAM_START_INTERPOLATION.apply(startTime) * (endx - startx), starty + CAM_START_INTERPOLATION.apply(startTime) * (endy - starty));
+                float sx = cam.position.x;
+                float sy = cam.position.y;
+                float ex = MathUtils.clamp(tileMap.player.x + hud.getWidth() / 2f, minX, maxX);
+                float ey = MathUtils.clamp(tileMap.player.y, minY, maxY);
+                float dist = Math.abs(sx - ex) + Math.abs(sy - ey);
+                if (dist < 0.5f) {
+                    tileMap.start();
+                    starting = false;
+                }
             } else {
                 float dx = 0f;
                 float dy = 0f;

@@ -46,7 +46,7 @@ public class SpeedButton extends Button {
         float tw = w * speed;
         float xs = x - tw / 2 + w / 2;
         for (int i = 0; i < speed; i++) {
-            Utils.drawCentered(sb, caret, xs + i * w, y + 1 + (pressed ? -2 : 0));
+            Utils.drawCentered(sb, caret, xs + i * w - 0.5f, y + 1 + (pressed ? -1 : 0) - 0.5f);
         }
     }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
+import com.distraction.glj9.tile.Button;
 import com.distraction.glj9.tile.LevelData;
 import com.distraction.glj9.tile.LevelTile;
 import com.distraction.glj9.utils.Background;
@@ -25,7 +26,10 @@ public class LevelSelectScreen extends Screen {
 
     private final LevelTile[][] levelTiles;
     private int maxLevels = LevelData.levels.length;
+    private int maxPages = maxLevels / 12;
     private int page;
+    private final Button pageLeft;
+    private final Button pageRight;
 
     public LevelSelectScreen(Context context) {
         super(context);
@@ -41,16 +45,16 @@ public class LevelSelectScreen extends Screen {
         font = context.getFont();
         titleText = new GlyphLayout(font, "Level Select", Constants.WHITE, 0, Align.center, false);
 
-
-        int count = 0;
+        this.page = context.page;
         TextureRegion levelTileImage = context.getImage("leveltile");
         TextureRegion levelTileHighlightImage = context.getImage("leveltileh");
         levelTiles = new LevelTile[3][4];
         for (int row = 0; row < levelTiles.length; row++) {
             for (int col = 0; col < levelTiles[0].length; col++) {
+                int level = getLevelNumber(row, col, page);
                 LevelTile levelTile = new LevelTile(
                     context,
-                    getLevelNumber(row, col, 0),
+                    level,
                     levelTileImage,
                     levelTileHighlightImage,
                     this::onLevelSelected
@@ -58,8 +62,49 @@ public class LevelSelectScreen extends Screen {
                 levelTile.x = 12 + 18 * col;
                 levelTile.y = 59 - 18 * row;
                 levelTiles[row][col] = levelTile;
-                count++;
-                if (count > maxLevels) levelTile.setVisibility(false);
+                levelTile.setVisibility(level <= maxLevels);
+            }
+        }
+
+        TextureRegion[] left = new TextureRegion[]{
+            context.getImage("pageleft"),
+            context.getImage("pagelefth"),
+            context.getImage("pageleftp"),
+        };
+        pageLeft = new Button(context, left, this::onPageLeft);
+        TextureRegion[] right = new TextureRegion[]{
+            context.getImage("pageright"),
+            context.getImage("pagerighth"),
+            context.getImage("pagerightp"),
+        };
+        pageRight = new Button(context, right, this::onPageRight);
+        pageLeft.x = 30;
+        pageLeft.y = 9;
+        pageRight.x = 50;
+        pageRight.y = 9;
+    }
+
+    private void onPageLeft() {
+        if (page - 1 < 0) return;
+        page--;
+        context.page = page;
+        reloadPage();
+    }
+
+    private void onPageRight() {
+        if (page + 1 > maxPages) return;
+        page++;
+        context.page = page;
+        reloadPage();
+    }
+
+    private void reloadPage() {
+        for (int row = 0; row < levelTiles.length; row++) {
+            for (int col = 0; col < levelTiles[0].length; col++) {
+                LevelTile tile = levelTiles[row][col];
+                int level = getLevelNumber(row, col, page);
+                tile.setLevel(level);
+                tile.setVisibility(level <= maxLevels);
             }
         }
     }
@@ -87,6 +132,8 @@ public class LevelSelectScreen extends Screen {
                 levelTiles[row][col].onMouseMoved(m.x, m.y);
             }
         }
+        pageLeft.onMouseMoved(m.x, m.y);
+        pageRight.onMouseMoved(m.x, m.y);
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             for (int row = 0; row < levelTiles.length; row++) {
@@ -95,6 +142,8 @@ public class LevelSelectScreen extends Screen {
                 }
             }
         }
+        pageLeft.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+        pageRight.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
     }
 
     @Override
@@ -128,6 +177,8 @@ public class LevelSelectScreen extends Screen {
                 levelTiles[row][col].render(sb);
             }
         }
+        pageLeft.render(sb);
+        pageRight.render(sb);
 
         sb.setProjectionMatrix(uiCam.combined);
         sb.setColor(Color.WHITE);

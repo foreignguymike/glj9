@@ -59,6 +59,7 @@
    <wangtile tileid="3" wangid="1,1,0,0,0,0,0,1"/>
    <wangtile tileid="4" wangid="1,1,0,1,0,0,0,1"/>
    <wangtile tileid="5" wangid="1,1,1,1,0,1,0,1"/>
+   <wangtile tileid="6" wangid="1,1,1,1,1,1,1,1"/>
    <wangtile tileid="7" wangid="1,1,1,1,0,1,1,1"/>
    <wangtile tileid="8" wangid="1,1,0,1,0,1,1,1"/>
    <wangtile tileid="9" wangid="0,0,0,1,0,1,0,1"/>
@@ -93,6 +94,7 @@
    <wangtile tileid="39" wangid="0,0,0,1,0,1,0,0"/>
    <wangtile tileid="40" wangid="0,1,1,1,1,1,0,0"/>
    <wangtile tileid="41" wangid="0,1,1,1,0,1,1,1"/>
+   <wangtile tileid="42" wangid="1,1,1,1,1,1,1,1"/>
    <wangtile tileid="43" wangid="0,1,1,1,1,1,1,1"/>
    <wangtile tileid="44" wangid="0,0,0,1,1,1,1,1"/>
    <wangtile tileid="45" wangid="0,1,0,1,1,1,0,0"/>

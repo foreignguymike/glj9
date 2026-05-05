@@ -24,6 +24,8 @@ public class Context {
     public int speed = 1;
     public final boolean[] completedLevels = new boolean[LevelData.levels.length];
 
+    public int page;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);

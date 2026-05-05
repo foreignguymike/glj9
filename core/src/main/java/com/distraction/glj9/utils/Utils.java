@@ -1,5 +1,6 @@
 package com.distraction.glj9.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -21,6 +22,15 @@ public class Utils {
         float nx = flipped ? x + w / 2 : x - w / 2;
         float nw = flipped ? -w : w;
         sb.draw(image, nx, y - h / 2, nw, h);
+    }
+
+    public static boolean anyKeyPressed(int... keys) {
+        for (int k : keys) {
+            if (Gdx.input.isKeyPressed(k)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

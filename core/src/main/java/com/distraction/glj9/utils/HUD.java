@@ -31,6 +31,7 @@ public class HUD extends Entity {
     private final GlyphLayout superText;
 
     private final BitmapFont font;
+    public boolean startDown;
 
     public HUD(
         Context context,
@@ -53,29 +54,17 @@ public class HUD extends Entity {
 
         startButton = new Button(
             context,
-            new TextureRegion[]{
-                context.getImage("startbutton"),
-                context.getImage("startbuttonh"),
-                context.getImage("startbuttonp")
-            },
+            context.getImage("startbuttons").split(32, 10)[0],
             onStart
         );
         redoButton = new Button(
             context,
-            new TextureRegion[]{
-                context.getImage("redobutton"),
-                context.getImage("redobuttonh"),
-                context.getImage("redobuttonp")
-            },
+            context.getImage("redobuttons").split(32, 10)[0],
             onRedo
         );
         speedButton = new SpeedButton(
             context,
-            new TextureRegion[]{
-                context.getImage("speedbutton"),
-                context.getImage("speedbuttonh"),
-                context.getImage("speedbuttonp")
-            },
+            context.getImage("speedbuttons").split(32, 10)[0],
             context.speed,
             this::setSpeed
         );
@@ -115,7 +104,7 @@ public class HUD extends Entity {
             this.superSteps = tileMap.player.getSuperSteps();
             this.superText.setText(font, this.superSteps + "", Constants.PINK, 0, Align.center, false);
         }
-        startButton.pressed = tileMap.isStarted();
+        startButton.pressed = tileMap.isStarted() || startDown;
     }
 
     @Override

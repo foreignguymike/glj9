@@ -65,6 +65,165 @@ public class LevelData {
         new LevelData(
             4,
             new int[] {
+                25,21,0,0,
+                22,23,21,0,
+                29,30,31,14,
+                36,48,49,0
+            },
+            new int[] {
+                1, 0, 0, 0,
+                1, 1, 1, 0,
+                1, 1, 1, 1,
+                1, 1, 1, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 1, Direction.DOWN)
+            },
+            1
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,4,21,
+                22,33,12,
+                45,30,41
+            },
+            new int[] {
+                0, 0, 0,
+                0, 0, 0,
+                0, 1, 2
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 2, 0, Direction.RIGHT),
+                new EntityData(EntityData.EntityType.GHOST, 1, 1, Direction.DOWN)
+            },
+            1
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,4,21,
+                22,33,12,
+                22,33,12,
+                22,33,12,
+                22,33,12,
+                22,33,12,
+                45,30,41
+            },
+            new int[] {
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 0, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 3, 1, Direction.DOWN)
+            },
+            1
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                25,4,4,21,
+                22,33,33,12,
+                45,30,30,41
+            },
+            new int[] {
+                0, 0, 1, 0,
+                0, 0, 0, 0,
+                0, 0, 2, 1
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 1, 1, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 2, 0, Direction.RIGHT)
+            },
+            1
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,4,21,
+                22,33,12,
+                45,30,41
+            },
+            new int[] {
+                0, 0, 0,
+                1, 1, 0,
+                0, 2, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 2, 2, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 0, 2, Direction.DOWN),
+            },
+            1
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,4,21,
+                22,33,12,
+                22,33,12,
+                45,30,41
+            },
+            new int[] {
+                0, 0, 1,
+                0, 0, 2,
+                0, 1, 0,
+                0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 3, 1, Direction.DOWN),
+            },
+            1
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,4,21,
+                22,33,12,
+                22,33,12,
+                45,30,41
+            },
+            new int[] {
+                0, 0, 0,
+                0, 0, 2,
+                0, 1, 0,
+                1, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 3, 1, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 0, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 1, 1, Direction.LEFT),
+            },
+            1
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                25,4,4,21,
+                29,30,30,28,
+                42,0,0,42,
+                36,48,48,49
+            },
+            new int[] {
+                0, 0, 0, 0,
+                0, 1, 0, 1,
+                0, 0, 0, 0,
+                2, 0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 1, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 3, 2, Direction.RIGHT)
+            },
+            1
+        ),
+        new LevelData(
+            4,
+            new int[] {
                 9,48,3,21,
                 15,5,32,12,
                 29,41,22,12,

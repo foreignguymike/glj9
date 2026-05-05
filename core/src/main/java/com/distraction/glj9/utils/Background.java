@@ -24,7 +24,7 @@ public class Background extends Entity {
         this.ox = ox;
         this.oy = oy;
 
-        this.numRows = (int) (H / oy) + 1;
+        this.numRows = (int) (H / oy) + 3;
         this.numCols = (int) (W / ox) + 1;
     }
 

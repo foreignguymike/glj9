@@ -35,7 +35,7 @@ public class TileMap {
     private final Context context;
     private final TextureRegion[][] tilesets;
     private LevelData data;
-    private final int level;
+    public final int level;
 
     private int[][] tiles;
     private int numRows;
@@ -243,6 +243,7 @@ public class TileMap {
     }
 
     public void start() {
+        System.out.println("tilemap start()");
         if (!started) {
             started = true;
             setCursorTile(-1, -1);
@@ -269,6 +270,7 @@ public class TileMap {
     }
 
     private void doGhostCollide() {
+        if (ghostCollide == null) return;
         if (player.isSuper()) {
             sortedEntities.remove(ghostCollide);
             ghosts.remove(ghostCollide);
@@ -352,11 +354,10 @@ public class TileMap {
                     g.setSad(player.isSuper());
                     if (player.row == g.row && player.col == g.col) {
                         ghostCollide = g;
-                        doGhostCollide();
-                        break;
                     }
                 }
                 findGhostCollide();
+                doGhostCollide();
             } else {
                 for (Entity g : ghosts) {
                     if (started) g.move(percent);

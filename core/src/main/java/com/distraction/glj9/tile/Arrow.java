@@ -15,13 +15,13 @@ public class Arrow extends Entity {
 
         w = 12;
         h = 12;
-        image = context.getImage("arrows").split(12, 12)[0][direction.ordinal()];
+        image = context.getImage("arrows").split(w, h)[0][direction.ordinal()];
     }
 
     @Override
     public void rotate() {
         super.rotate();
-        image = context.getImage("arrows").split(12, 12)[0][direction.ordinal()];
+        image = context.getImage("arrows").split(w, h)[0][direction.ordinal()];
     }
 
     @Override
