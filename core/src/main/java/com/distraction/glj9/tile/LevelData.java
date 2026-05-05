@@ -43,32 +43,11 @@ public class LevelData {
         new LevelData(
             5,
             new int[] {
-                9,48,37,48,6,
-                42,0,42,0,42,
-                15,5,35,0,42,
-                29,41,42,0,42,
-                36,48,47,48,49
-            },
-            new int[] {
-                1, 1, 0, 1, 1,
-                1, 0, 1, 0, 1,
-                1, 1, 1, 0, 1,
-                1, 0, 1, 0, 1,
-                1, 1, 1, 1, 1,
-            },
-            new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 0, 2, Direction.DOWN)
-            },
-            2
-        ),
-        new LevelData(
-            5,
-            new int[] {
                 0,0,8,0,0,
-                8,0,42,2,6,
-                42,0,42,0,42,
-                42,0,42,0,42,
-                36,48,47,48,49
+                0,0,42,0,8,
+                0,0,42,0,42,
+                8,0,13,48,49,
+                36,48,49,1,1
             },
             new int[] {
                 0, 0, 2, 0, 0,
@@ -78,10 +57,29 @@ public class LevelData {
                 0, 0, 0, 0, 0,
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 1, 0, Direction.DOWN),
-                new EntityData(EntityData.EntityType.GHOST, 1, 3, Direction.RIGHT)
+                new EntityData(EntityData.EntityType.PLAYER, 1, 4, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 3, 0, Direction.RIGHT)
             },
             1
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                9,48,3,21,
+                15,5,32,12,
+                29,41,22,12,
+                36,48,18,41
+            },
+            new int[] {
+                1, 1, 0, 1,
+                1, 1, 1, 1,
+                1, 1, 1, 1,
+                1, 1, 1, 1
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 2, Direction.DOWN)
+            },
+            2
         ),
         new LevelData(
             5,

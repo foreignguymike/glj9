@@ -15,7 +15,6 @@ public class TileMap {
     public static final int TILE_SIZE = 16;
     public static final int TILE_SIZE_2 = TILE_SIZE / 2;
 
-    private static final int WALL_ALL = 0b1111;
     private static final int WALL_UP = 0b1000;
     private static final int WALL_LEFT = 0b0100;
     private static final int WALL_DOWN = 0b0010;
@@ -339,7 +338,9 @@ public class TileMap {
                 for (int i = 0; i < collectibles.size(); i++) {
                     Collectible c = collectibles.get(i);
                     if (player.row == c.row && player.col == c.col) {
-                        if (c.type == EntityData.EntityType.SUPER_PELLET) player.setSuper();
+                        if (c.type == EntityData.EntityType.SUPER_PELLET) {
+                            player.setSuper();
+                        }
                         collectibles.remove(i);
                         i--;
                         checkComplete();
@@ -348,6 +349,7 @@ public class TileMap {
                 for (Ghost g : ghosts) {
                     g.finish();
                     g.moveDirection(getNextDirection(g));
+                    g.setSad(player.isSuper());
                     if (player.row == g.row && player.col == g.col) {
                         ghostCollide = g;
                         doGhostCollide();
