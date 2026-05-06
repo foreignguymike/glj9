@@ -73,7 +73,7 @@ public class TileMapPreview {
             }
         }
         if (data.numArrows != this.arrows) {
-            arrowsText.setText(font, "Arrows: 0", Constants.WHITE, 0, Align.center, false);
+            arrowsText.setText(font, "Arrows: " + data.numArrows, Constants.WHITE, 0, Align.center, false);
         }
         this.arrows = data.numArrows;
     }
