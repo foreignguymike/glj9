@@ -41,7 +41,9 @@ public class PlayScreen extends Screen {
             context,
             tileMap,
             this::start,
-            this::redo
+            this::onBack,
+            this::redo,
+            this::onNext
         );
 
         // max grid size for locked cam is 5x7
@@ -137,14 +139,10 @@ public class PlayScreen extends Screen {
         hud.onMouseMove(uim.x, uim.y);
         hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) onBack();
-
         up = Utils.anyKeyPressed(Input.Keys.W, Input.Keys.UP);
         left = Utils.anyKeyPressed(Input.Keys.A, Input.Keys.LEFT);
         down = Utils.anyKeyPressed(Input.Keys.S, Input.Keys.DOWN);
         right = Utils.anyKeyPressed(Input.Keys.D, Input.Keys.RIGHT);
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && tileMap.player.isWin()) onNext();
     }
 
     @Override

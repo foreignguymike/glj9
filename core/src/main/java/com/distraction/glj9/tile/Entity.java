@@ -82,8 +82,9 @@ public abstract class Entity {
         y = MathUtils.lerp(starty, desty, percent);
     }
 
-    public void start() {
+    public void start(Direction direction) {
         started = true;
+        moveDirection(direction);
     }
 
     public void finish() {

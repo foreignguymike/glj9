@@ -244,11 +244,9 @@ public class TileMap {
             started = true;
             setCursorTile(-1, -1);
             for (Entity e : ghosts) {
-                e.start();
-                e.moveDirection(getNextDirection(e));
+                e.start(getNextDirection(e));
             }
-            player.start();
-            player.moveDirection(getNextDirection(player));
+            player.start(getNextDirection(player));
         }
     }
 

@@ -18,8 +18,10 @@ public class HUD extends Entity {
     private final TextureRegion pixel;
     private final TileMap tileMap;
 
-    private final Button startButton;
+    private final Button nextLevelButton;
+    private final Button backButton;
     private final Button redoButton;
+    private final Button startButton;
     private final SpeedButton speedButton;
 
     private int superSteps;
@@ -37,7 +39,9 @@ public class HUD extends Entity {
         Context context,
         TileMap tileMap,
         SimpleCallback onStart,
-        SimpleCallback onRedo
+        SimpleCallback onBack,
+        SimpleCallback onRedo,
+        SimpleCallback onNext
     ) {
         super(context);
         pixel = context.getPixel();
@@ -52,15 +56,26 @@ public class HUD extends Entity {
         superTitleText = new GlyphLayout(font, "Super", Constants.WHITE, 1, Align.center, false);
         superText = new GlyphLayout(font, "0", Constants.PINK, 1, Align.center, false);
 
+        TextureRegion[][] nextLevel = context.getImage("nextlevelbuttons").split(60, 10);
+        nextLevelButton = new Button(
+            context,
+            new TextureRegion[]{nextLevel[0][0], nextLevel[1][0], nextLevel[2][0]},
+            onNext
+        );
+        backButton = new Button(
+            context,
+            context.getImage("backbuttons").split(10, 10)[0],
+            onBack
+        );
+        redoButton = new Button(
+            context,
+            context.getImage("redobuttons").split(10, 10)[0],
+            onRedo
+        );
         startButton = new Button(
             context,
             context.getImage("startbuttons").split(32, 10)[0],
             onStart
-        );
-        redoButton = new Button(
-            context,
-            context.getImage("redobuttons").split(32, 10)[0],
-            onRedo
         );
         speedButton = new SpeedButton(
             context,
@@ -69,12 +84,16 @@ public class HUD extends Entity {
             this::setSpeed
         );
 
+        nextLevelButton.x = (Constants.WIDTH - w) / 2f;
+        nextLevelButton.y = 8;
+        backButton.x = Constants.WIDTH - 27;
+        backButton.y = Constants.HEIGHT - 10;
+        redoButton.x = Constants.WIDTH - 10;
+        redoButton.y = Constants.HEIGHT - 10;
         startButton.x = Constants.WIDTH - 19;
-        startButton.y = 36;
-        redoButton.x = Constants.WIDTH - 19;
-        redoButton.y = 22;
+        startButton.y = 23;
         speedButton.x = Constants.WIDTH - 19;
-        speedButton.y = 8;
+        speedButton.y = 10;
     }
 
     private void setSpeed() {
@@ -82,15 +101,23 @@ public class HUD extends Entity {
         tileMap.setSpeed(context.speed);
     }
 
+    private boolean nextLevelVisible() {
+        return tileMap.player.isWin();
+    }
+
     public void onMouseMove(float mx, float my) {
-        startButton.onMouseMoved(mx, my);
+        if (nextLevelVisible()) nextLevelButton.onMouseMoved(mx, my);
+        backButton.onMouseMoved(mx, my);
         redoButton.onMouseMoved(mx, my);
+        startButton.onMouseMoved(mx, my);
         speedButton.onMouseMoved(mx, my);
     }
 
     public void onMousePressed(boolean pressed) {
+        if (nextLevelVisible()) nextLevelButton.onMousePressed(pressed);
+        backButton.onMousePressed(pressed);
+        redoButton.onMousePressed(pressed);
         startButton.onMousePressed(pressed);
-        if (!tileMap.player.isWin()) redoButton.onMousePressed(pressed);
         speedButton.onMousePressed(pressed);
     }
 
@@ -116,12 +143,14 @@ public class HUD extends Entity {
             sb.draw(pixel, Constants.WIDTH - w + i, 0, 1, Constants.HEIGHT);
         }
         sb.setColor(Color.WHITE);
-        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 5);
-        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 15);
-        font.draw(sb, superTitleText, startButton.x, Constants.HEIGHT - 25);
-        font.draw(sb, superText, startButton.x, Constants.HEIGHT - 35);
-        startButton.render(sb);
+        font.draw(sb, arrowsTitleText, startButton.x, Constants.HEIGHT - 19);
+        font.draw(sb, arrowsText, startButton.x, Constants.HEIGHT - 29);
+        font.draw(sb, superTitleText, startButton.x, Constants.HEIGHT - 39);
+        font.draw(sb, superText, startButton.x, Constants.HEIGHT - 51);
+        if (nextLevelVisible()) nextLevelButton.render(sb);
+        backButton.render(sb);
         redoButton.render(sb);
+        startButton.render(sb);
         speedButton.render(sb);
     }
 

@@ -28,6 +28,8 @@ public class Player extends Entity {
     private final TextureRegion[] winSprites;
     private final TextureRegion deadImage;
 
+    private Direction lastStartedDirection;
+
     private int speed;
     private float[] currentInterval;
 
@@ -42,6 +44,7 @@ public class Player extends Entity {
 
     protected Player(Context context, int row, int col, Direction direction) {
         super(context, row, col, direction);
+        lastStartedDirection = direction;
 
         w = 16;
         h = 16;
@@ -69,13 +72,19 @@ public class Player extends Entity {
     }
 
     public void redo() {
+        win = false;
         started = false;
         isSuper = false;
         superSteps = 0;
         isDead = false;
         deadTimer = 0;
+        direction = lastStartedDirection;
         animation.set(idleSprites[direction.ordinal()], IDLE_INTERVAL[speed - 1]);
         currentInterval = IDLE_INTERVAL;
+    }
+
+    public void setLastStartedDirection(Direction direction) {
+        lastStartedDirection = direction;
     }
 
     public void setSpeed(int speed) {
@@ -130,8 +139,15 @@ public class Player extends Entity {
     }
 
     @Override
+    public void start(Direction direction) {
+        super.start(direction);
+        setLastStartedDirection(direction);
+    }
+
+    @Override
     public void rotate() {
         super.rotate();
+        setLastStartedDirection(direction);
         currentInterval = IDLE_INTERVAL;
         animation.set(idleSprites[direction.ordinal()], currentInterval[speed - 1]);
     }
