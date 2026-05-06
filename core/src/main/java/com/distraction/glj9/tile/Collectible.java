@@ -22,7 +22,6 @@ public class Collectible extends Entity {
 
         if (type == EntityData.EntityType.PELLET) image = context.getImage("pellet");
         else if (type == EntityData.EntityType.SUPER_PELLET) image = context.getImage("superpellet");
-        else if (type == EntityData.EntityType.DIAMOND) image = context.getImage("diamond");
         else throw new IllegalArgumentException("Invalid type: " + type);
 
         w = image.getRegionWidth();

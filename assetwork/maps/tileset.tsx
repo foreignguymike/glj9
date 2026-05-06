@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.1" name="tileset" tilewidth="32" tileheight="32" tilecount="49" columns="7">
- <image source="tileset.png" width="224" height="224"/>
+<tileset version="1.10" tiledversion="1.12.1" name="tileset" tilewidth="16" tileheight="16" tilecount="49" columns="7">
+ <image source="tileset.png" width="112" height="112"/>
  <wangsets>
   <wangset name="walk set" type="mixed" tile="-1">
    <wangcolor name="" color="#ff0000" tile="-1" probability="1"/>

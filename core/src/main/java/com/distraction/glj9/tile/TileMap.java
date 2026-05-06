@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Context;
+import com.distraction.glj9.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,8 +68,8 @@ public class TileMap {
         this.context = context;
         this.level = level;
         tilesets = new TextureRegion[][] {
-            flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
-            flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
+            Utils.flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
+            Utils.flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
         };
         cursor = context.getImage("cursor");
         loadLevel(level);
@@ -77,7 +78,7 @@ public class TileMap {
 
     private void loadLevel(int level) {
         data = LevelData.levels[level - 1];
-        tiles = flip(data.tiles);
+        tiles = Utils.flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
         ghosts = new ArrayList<>();
@@ -88,20 +89,17 @@ public class TileMap {
         for (EntityData e : data.entityDataList) {
             if (e.type == EntityData.EntityType.PLAYER) {
                 player = new Player(context, numRows - e.row - 1, e.col, e.direction);
-            } else if (e.type == EntityData.EntityType.ARROW) {
-                arrows.add(new Arrow(context, numRows - e.row - 1, e.col, e.direction));
-            } else {
+            } else if (e.type == EntityData.EntityType.GHOST) {
                 ghosts.add(new Ghost(context, numRows - e.row - 1, e.col, e.direction));
             }
         }
-        int[][] coll = flip(data.collectibles);
+        int[][] coll = Utils.flip(data.collectibles);
         for (int row = 0; row < coll.length; row++) {
             for (int col = 0; col < coll[0].length; col++) {
                 int id = coll[row][col];
                 EntityData.EntityType type;
                 if (id == 1) type = EntityData.EntityType.PELLET;
                 else if (id == 2) type = EntityData.EntityType.SUPER_PELLET;
-                else if (id == 3) type = EntityData.EntityType.DIAMOND;
                 else continue;
                 collectibles.add(new Collectible(context, type, row, col));
             }
@@ -128,14 +126,13 @@ public class TileMap {
                 ghosts.add(new Ghost(context, numRows - e.row - 1, e.col, e.direction));
             }
         }
-        int[][] coll = flip(data.collectibles);
+        int[][] coll = Utils.flip(data.collectibles);
         for (int row = 0; row < coll.length; row++) {
             for (int col = 0; col < coll[0].length; col++) {
                 int id = coll[row][col];
                 EntityData.EntityType type;
                 if (id == 1) type = EntityData.EntityType.PELLET;
                 else if (id == 2) type = EntityData.EntityType.SUPER_PELLET;
-                else if (id == 3) type = EntityData.EntityType.DIAMOND;
                 else continue;
                 collectibles.add(new Collectible(context, type, row, col));
             }
@@ -243,7 +240,6 @@ public class TileMap {
     }
 
     public void start() {
-        System.out.println("tilemap start()");
         if (!started) {
             started = true;
             setCursorTile(-1, -1);
@@ -348,16 +344,26 @@ public class TileMap {
                         checkComplete();
                     }
                 }
+                Ghost gc = null;
                 for (Ghost g : ghosts) {
                     g.finish();
                     g.moveDirection(getNextDirection(g));
                     g.setSad(player.isSuper());
                     if (player.row == g.row && player.col == g.col) {
-                        ghostCollide = g;
+                        gc = g;
+                    }
+                }
+                // hacky and too lazy to fix
+                if (gc != null) {
+                    if (player.isSuper()) {
+                        sortedEntities.remove(gc);
+                        ghosts.remove(gc);
+                        checkComplete();
+                    } else {
+                        player.setDead();
                     }
                 }
                 findGhostCollide();
-                doGhostCollide();
             } else {
                 for (Entity g : ghosts) {
                     if (started) g.move(percent);
@@ -391,25 +397,6 @@ public class TileMap {
         }
         for (Entity e : sortedEntities) e.render(sb);
         if (player.isDead()) player.render(sb);
-    }
-
-    private static TextureRegion[] flat(TextureRegion[][] tileset) {
-        TextureRegion[] ret = new TextureRegion[tileset.length * tileset[0].length];
-        int cols = tileset.length;
-        for (int row = 0; row < tileset.length; row++) {
-            for (int col = 0; col < tileset[0].length; col++) {
-                ret[row * cols + col] = tileset[row][col];
-            }
-        }
-        return ret;
-    }
-
-    private static int[][] flip(int[][] tiles) {
-        int[][] ret = new int[tiles.length][tiles[0].length];
-        for (int row = 0; row < tiles.length; row++) {
-            ret[tiles.length - row - 1] = tiles[row];
-        }
-        return ret;
     }
 
 }

@@ -12,6 +12,7 @@ import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
 import com.distraction.glj9.tile.LevelData;
 import com.distraction.glj9.tile.LevelTile;
+import com.distraction.glj9.tile.TileMapPreview;
 import com.distraction.glj9.utils.Background;
 
 public class LevelSelectScreen extends Screen {
@@ -30,6 +31,8 @@ public class LevelSelectScreen extends Screen {
     private int page;
     private final Button pageLeft;
     private final Button pageRight;
+
+    private final TileMapPreview preview;
 
     public LevelSelectScreen(Context context) {
         super(context);
@@ -57,7 +60,8 @@ public class LevelSelectScreen extends Screen {
                     level,
                     levelTileImage,
                     levelTileHighlightImage,
-                    this::onLevelSelected
+                    this::onLevelSelected,
+                    this::onLevelHover
                 );
                 levelTile.x = 12 + 18 * col;
                 levelTile.y = 59 - 18 * row;
@@ -82,6 +86,14 @@ public class LevelSelectScreen extends Screen {
         pageLeft.y = 9;
         pageRight.x = 50;
         pageRight.y = 9;
+
+        preview = new TileMapPreview(context);
+    }
+
+    private void onLevelHover(int level) {
+        if (level >= 0 && level <= maxLevels) {
+            preview.load(level);
+        }
     }
 
     private void onPageLeft() {
@@ -179,6 +191,8 @@ public class LevelSelectScreen extends Screen {
         }
         pageLeft.render(sb);
         pageRight.render(sb);
+
+        preview.render(sb);
 
         sb.setProjectionMatrix(uiCam.combined);
         sb.setColor(Color.WHITE);

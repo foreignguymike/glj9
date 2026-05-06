@@ -8,18 +8,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
+import com.distraction.glj9.utils.IntCallback;
 import com.distraction.glj9.utils.Utils;
 
 public class LevelTile extends Entity {
 
-    public interface LevelCallback {
-        void callback(int level);
-    }
-
     private final TextureRegion image;
     private final TextureRegion highlightImage;
     private final TextureRegion pellet;
-    private final LevelCallback callback;
+    private final IntCallback callback;
+    private final IntCallback hoverCallback;
 
     private int level;
     private boolean hovered;
@@ -29,11 +27,12 @@ public class LevelTile extends Entity {
 
     private boolean visible = true;
 
-    public LevelTile(Context context, int level, TextureRegion image, TextureRegion highlightImage, LevelCallback callback) {
+    public LevelTile(Context context, int level, TextureRegion image, TextureRegion highlightImage, IntCallback callback, IntCallback hoverCallback) {
         super(context);
         this.image = image;
         this.highlightImage = highlightImage;
         this.callback = callback;
+        this.hoverCallback = hoverCallback;
         w = image.getRegionWidth();
         h = image.getRegionHeight();
 
@@ -52,7 +51,11 @@ public class LevelTile extends Entity {
     }
 
     public void onMouseMoved(float mx, float my) {
+        boolean previous = hovered;
         hovered = contains(mx, my);
+        if (hovered != previous) {
+            hoverCallback.callback(hovered ? level : 0);
+        }
     }
 
     public void onMousePressed() {

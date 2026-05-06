@@ -6,9 +6,7 @@ public class EntityData {
         PLAYER,
         GHOST,
         PELLET,
-        SUPER_PELLET,
-        DIAMOND,
-        ARROW
+        SUPER_PELLET
     }
 
     public final EntityType type;

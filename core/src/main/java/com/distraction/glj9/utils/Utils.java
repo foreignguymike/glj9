@@ -33,4 +33,23 @@ public class Utils {
         return false;
     }
 
+    public static int[][] flip(int[][] tiles) {
+        int[][] ret = new int[tiles.length][tiles[0].length];
+        for (int row = 0; row < tiles.length; row++) {
+            ret[tiles.length - row - 1] = tiles[row];
+        }
+        return ret;
+    }
+
+    public static TextureRegion[] flat(TextureRegion[][] tileset) {
+        TextureRegion[] ret = new TextureRegion[tileset.length * tileset[0].length];
+        int cols = tileset.length;
+        for (int row = 0; row < tileset.length; row++) {
+            for (int col = 0; col < tileset[0].length; col++) {
+                ret[row * cols + col] = tileset[row][col];
+            }
+        }
+        return ret;
+    }
+
 }
