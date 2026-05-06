@@ -19,7 +19,6 @@ public class TileMapPreview {
 
     public static final int TILE_SIZE = 5;
 
-    private final Context context;
     private final TextureRegion[][] tilesets;
     private final TextureRegion pixel;
     private final BitmapFont font;
@@ -30,14 +29,11 @@ public class TileMapPreview {
     private int[][] objs;
     private int numRows;
     private int numCols;
-    private int w = 0;
-    private int h = 0;
     private int startx;
     private int starty;
     private int arrows;
 
     public TileMapPreview(Context context) {
-        this.context = context;
         tilesets = new TextureRegion[][]{
             Utils.flat(context.getImage("tilesetpreview").split(TILE_SIZE, TILE_SIZE)),
             Utils.flat(context.getImage("tileset2preview").split(TILE_SIZE, TILE_SIZE))
@@ -54,8 +50,8 @@ public class TileMapPreview {
         tiles = Utils.flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
-        w = numCols * TILE_SIZE;
-        h = numRows * TILE_SIZE;
+        int w = numCols * TILE_SIZE;
+        int h = numRows * TILE_SIZE;
         startx = 120 - w / 2;
         starty = 42 - h / 2;
         int[][] coll = Utils.flip(data.collectibles);

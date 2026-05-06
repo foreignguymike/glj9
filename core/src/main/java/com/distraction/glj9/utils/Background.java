@@ -1,6 +1,5 @@
 package com.distraction.glj9.utils;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Constants;
@@ -38,7 +37,6 @@ public class Background extends Entity {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setColor(Color.WHITE);
         for (int row = -2; row < numRows; row++) {
             for (int col = -2; col < numCols; col++) {
                 sb.draw(image, x + col * 2 * ox + ((row & 1) == 0 ? 0 : ox), y + row * oy);

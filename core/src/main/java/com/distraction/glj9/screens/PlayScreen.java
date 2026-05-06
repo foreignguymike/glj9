@@ -2,6 +2,7 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.distraction.glj9.Constants;
@@ -24,7 +25,6 @@ public class PlayScreen extends Screen {
 
     private boolean starting;
     private float startTime;
-    private float dist;
     private float startx, starty, endx, endy;
 
     private float minX, maxX, minY, maxY;
@@ -91,7 +91,7 @@ public class PlayScreen extends Screen {
         starty = cam.position.y;
         endx = MathUtils.clamp(tileMap.player.x + hud.getWidth() / 2f, minX, maxX);
         endy = MathUtils.clamp(tileMap.player.y, minY, maxY);
-        dist = Math.abs(startx - endx) + Math.abs(starty - endy);
+        float dist = Math.abs(startx - endx) + Math.abs(starty - endy);
 
         if (dist < 2) {
             tileMap.start();
@@ -193,6 +193,7 @@ public class PlayScreen extends Screen {
         sb.setProjectionMatrix(uiCam.combined);
         sb.setColor(Constants.LEVEL_BG);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+        sb.setColor(Color.WHITE);
         bg.render(sb);
 
         sb.setProjectionMatrix(cam.combined);

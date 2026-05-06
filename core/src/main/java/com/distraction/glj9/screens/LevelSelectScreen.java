@@ -24,10 +24,11 @@ public class LevelSelectScreen extends Screen {
 
     private final BitmapFont font;
     private final GlyphLayout titleText;
+    private final GlyphLayout difficultyText;
 
     private final LevelTile[][] levelTiles;
-    private int maxLevels = LevelData.levels.length;
-    private int maxPages = maxLevels / 12;
+    private final int maxLevels = LevelData.levels.length;
+    private final int maxPages = maxLevels / 12;
     private int page;
     private final Button pageLeft;
     private final Button pageRight;
@@ -45,10 +46,12 @@ public class LevelSelectScreen extends Screen {
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
 
+        this.page = context.page;
+
         font = context.getFont();
         titleText = new GlyphLayout(font, "Level Select", Constants.WHITE, 0, Align.center, false);
+        difficultyText = new GlyphLayout(font, getDifficulty(page), Constants.WHITE, 0, Align.center, false);
 
-        this.page = context.page;
         TextureRegion levelTileImage = context.getImage("leveltile");
         TextureRegion levelTileHighlightImage = context.getImage("leveltileh");
         levelTiles = new LevelTile[3][4];
@@ -82,12 +85,19 @@ public class LevelSelectScreen extends Screen {
             context.getImage("pagerightp"),
         };
         pageRight = new Button(context, right, this::onPageRight);
-        pageLeft.x = 30;
+        pageLeft.x = 13;
         pageLeft.y = 9;
-        pageRight.x = 50;
+        pageRight.x = 66;
         pageRight.y = 9;
 
         preview = new TileMapPreview(context);
+    }
+
+    private String getDifficulty(int page) {
+        if (page == 0) return "Easy";
+        else if (page == 1) return "Mid";
+        else if (page == 2) return "Tricky";
+        else return "Wild";
     }
 
     private void onLevelHover(int level) {
@@ -111,6 +121,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void reloadPage() {
+        difficultyText.setText(font, getDifficulty(page), Constants.WHITE, 0, Align.center, false);
         for (int row = 0; row < levelTiles.length; row++) {
             for (int col = 0; col < levelTiles[0].length; col++) {
                 LevelTile tile = levelTiles[row][col];
@@ -191,6 +202,7 @@ public class LevelSelectScreen extends Screen {
         }
         pageLeft.render(sb);
         pageRight.render(sb);
+        font.draw(sb, difficultyText, 40, 13);
 
         preview.render(sb);
 
