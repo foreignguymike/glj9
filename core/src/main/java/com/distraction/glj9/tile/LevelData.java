@@ -207,19 +207,17 @@ public class LevelData {
             4,
             new int[] {
                 9,48,48,6,
-                42,8,8,42,
-                42,42,42,42,
-                36,47,47,49
+                15,21,25,24,
+                45,46,18,41
             },
             new int[] {
                 1, 1, 1, 1,
                 1, 0, 0, 1,
-                1, 2, 1, 1,
-                1, 1, 1, 1,
+                2, 0, 1, 1
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 1, 1, Direction.DOWN),
-                new EntityData(EntityData.EntityType.GHOST, 1, 2, Direction.DOWN),
+                new EntityData(EntityData.EntityType.PLAYER, 1, 2, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 1, 1, Direction.DOWN),
             },
             1
         ),
