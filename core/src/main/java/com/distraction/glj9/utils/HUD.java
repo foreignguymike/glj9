@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
@@ -15,7 +16,15 @@ import com.distraction.glj9.tile.TileMap;
 
 public class HUD extends Entity {
 
+    private static final Interpolation TITLE_POS = new FlyByInterpolation();
+
+    // hack because font integer positions and stuff
+    private final TextureRegion levelText;
+    private final TextureRegion[] levelNumText;
+    private final int totalTextWidth;
+
     private final TextureRegion pixel;
+    private final TextureRegion levelTextBg;
     private final TileMap tileMap;
 
     private final Button nextLevelButton;
@@ -35,6 +44,9 @@ public class HUD extends Entity {
     private final BitmapFont font;
     public boolean startDown;
 
+    private float levelTextTime;
+    private float levelTextx;
+
     public HUD(
         Context context,
         TileMap tileMap,
@@ -51,10 +63,11 @@ public class HUD extends Entity {
 
         font = context.getFont();
 
-        arrowsTitleText = new GlyphLayout(font, "Arrows", Constants.WHITE, 1, Align.center, false);
-        arrowsText = new GlyphLayout(font, tileMap.getRemainingArrows() + "", Constants.PINK, 1, Align.center, false);
-        superTitleText = new GlyphLayout(font, "Super", Constants.WHITE, 1, Align.center, false);
-        superText = new GlyphLayout(font, "0", Constants.PINK, 1, Align.center, false);
+        levelTextBg = context.getImage("leveltextbg");
+        arrowsTitleText = new GlyphLayout(font, "Arrows", Constants.WHITE, 0, Align.center, false);
+        arrowsText = new GlyphLayout(font, tileMap.getRemainingArrows() + "", Constants.PINK, 0, Align.center, false);
+        superTitleText = new GlyphLayout(font, "Super", Constants.WHITE, 0, Align.center, false);
+        superText = new GlyphLayout(font, "0", Constants.PINK, 0, Align.center, false);
 
         TextureRegion[][] nextLevel = context.getImage("nextlevelbuttons").split(60, 10);
         nextLevelButton = new Button(
@@ -94,6 +107,16 @@ public class HUD extends Entity {
         startButton.y = 23;
         speedButton.x = Constants.WIDTH - 19;
         speedButton.y = 10;
+
+        levelText = context.getImage("leveltext");
+        TextureRegion[] numTexts = context.getImage("numtext").split(6, 7)[0];
+        String levelString = Integer.toString(tileMap.level);
+        levelNumText = new TextureRegion[levelString.length()];
+        for (int i = 0; i < levelString.length(); i++) {
+            char c = levelString.charAt(i);
+            levelNumText[i] = numTexts[c - '0'];
+        }
+        totalTextWidth = levelText.getRegionWidth() + 1 + 6 * levelNumText.length;
     }
 
     private void setSpeed() {
@@ -132,6 +155,9 @@ public class HUD extends Entity {
             this.superText.setText(font, this.superSteps + "", Constants.PINK, 0, Align.center, false);
         }
         startButton.pressed = tileMap.isStarted() || startDown;
+
+        levelTextTime += dt;
+        levelTextx = Constants.WIDTH * 0.5f * TITLE_POS.apply(levelTextTime - 0.4f);
     }
 
     @Override
@@ -152,6 +178,16 @@ public class HUD extends Entity {
         redoButton.render(sb);
         startButton.render(sb);
         speedButton.render(sb);
+
+        Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
+
+        sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
+        if (levelNumText.length > 1) {
+            sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
+            sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
+        } else {
+            sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+        }
     }
 
 }

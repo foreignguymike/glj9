@@ -499,6 +499,182 @@ public class LevelData {
             },
             3
         ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                45,11,33,33,12,
+                25,26,33,27,41,
+                22,33,33,23,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                1, 1, 0, 1, 1,
+                1, 0, 1, 0, 1,
+                1, 1, 1, 0, 1,
+                1, 0, 1, 0, 0,
+                1, 1, 1, 2, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.RIGHT)
+            },
+            3
+        ),
     };
 
 

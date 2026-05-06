@@ -52,8 +52,6 @@ public class LevelSelectScreen extends Screen {
         titleText = new GlyphLayout(font, "Level Select", Constants.WHITE, 0, Align.center, false);
         difficultyText = new GlyphLayout(font, getDifficulty(page), Constants.WHITE, 0, Align.center, false);
 
-        TextureRegion levelTileImage = context.getImage("leveltile");
-        TextureRegion levelTileHighlightImage = context.getImage("leveltileh");
         levelTiles = new LevelTile[3][4];
         for (int row = 0; row < levelTiles.length; row++) {
             for (int col = 0; col < levelTiles[0].length; col++) {
@@ -61,15 +59,12 @@ public class LevelSelectScreen extends Screen {
                 LevelTile levelTile = new LevelTile(
                     context,
                     level,
-                    levelTileImage,
-                    levelTileHighlightImage,
                     this::onLevelSelected,
                     this::onLevelHover
                 );
                 levelTile.x = 12 + 18 * col;
                 levelTile.y = 59 - 18 * row;
                 levelTiles[row][col] = levelTile;
-                levelTile.setVisibility(level <= maxLevels);
             }
         }
 
@@ -113,7 +108,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onPageRight() {
-        if (page + 1 >= maxPages) return;
+        if (page + 1 > maxPages) return;
         page++;
         context.page = page;
         reloadPage();
@@ -125,8 +120,7 @@ public class LevelSelectScreen extends Screen {
             for (int col = 0; col < levelTiles[0].length; col++) {
                 LevelTile tile = levelTiles[row][col];
                 int level = getLevelNumber(row, col, page);
-                tile.setLevel(level);
-                tile.setVisibility(level <= maxLevels);
+                tile.setLevel(level, (row + col) * 0.04f + 0.05f);
             }
         }
     }
@@ -173,6 +167,12 @@ public class LevelSelectScreen extends Screen {
         in.update(dt);
         out.update(dt);
         bg.update(dt);
+
+        for (int row = 0; row < levelTiles.length; row++) {
+            for (int col = 0; col < levelTiles[0].length; col++) {
+                levelTiles[row][col].update(dt);
+            }
+        }
     }
 
     @Override

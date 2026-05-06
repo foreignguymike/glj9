@@ -1,6 +1,8 @@
 package com.distraction.glj9;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,11 +28,18 @@ public class Context {
 
     public int page;
 
+    private BitmapFont font;
+    public OrthographicCamera textCam;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
         assets.load(FONT, BitmapFont.class);
         assets.finishLoading();
+
+        font = assets.get(FONT, BitmapFont.class);
+        textCam = new OrthographicCamera();
+        textCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
             t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -51,7 +60,7 @@ public class Context {
     }
 
     public BitmapFont getFont() {
-        return assets.get(FONT, BitmapFont.class);
+        return font;
     }
 
     public void dispose() {
