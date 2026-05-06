@@ -12,7 +12,7 @@ bounds:10,14,6,6
 bg3
 bounds:390,11,16,16
 cursor
-bounds:441,13,14,14
+bounds:443,13,14,14
 ghost
 bounds:826,110,64,16
 ghostsad
@@ -22,7 +22,7 @@ bounds:2,56,158,70
 levelselecttitlebg
 bounds:390,97,160,11
 leveltile
-bounds:408,11,15,16
+bounds:426,11,15,16
 leveltileh
 bounds:132,36,17,18
 nextlevelbuttons
@@ -44,7 +44,7 @@ bounds:2,14,6,6
 pixel
 bounds:552,107,1,1
 playerdead
-bounds:425,12,14,15
+bounds:408,11,16,16
 playerdown
 bounds:390,63,128,32
 playerleft

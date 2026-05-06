@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Constants {
 
-    public static final String TITLE = "TBD";
+    public static final String TITLE = "Poko Ghost Hunter";
 
     public static final int WIDTH = 160;
     public static final int HEIGHT = 90;

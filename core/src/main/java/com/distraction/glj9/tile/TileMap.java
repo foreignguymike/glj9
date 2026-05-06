@@ -42,7 +42,8 @@ public class TileMap {
     private int numRows;
     private int numCols;
     public Player player;
-    private Ghost ghostCollide = null;
+    private List<Ghost> ghostCollides;
+    private List<Ghost> gc = new ArrayList<>();
     private List<Ghost> ghosts;
     private List<Entity> sortedEntities;
     private List<Entity> arrows;
@@ -57,6 +58,8 @@ public class TileMap {
 
     private int maxArrows;
     private int remainingArrows;
+
+    private boolean mustEliminateGhosts;
 
     private final Comparator<Entity> comp = (e1, e2) -> {
         int diff = (int) e2.y - (int) e1.y;
@@ -81,6 +84,7 @@ public class TileMap {
         tiles = Utils.flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
+        ghostCollides = new ArrayList<>();
         ghosts = new ArrayList<>();
         sortedEntities = new ArrayList<>();
         arrows = new ArrayList<>();
@@ -99,7 +103,10 @@ public class TileMap {
                 int id = coll[row][col];
                 EntityData.EntityType type;
                 if (id == 1) type = EntityData.EntityType.PELLET;
-                else if (id == 2) type = EntityData.EntityType.SUPER_PELLET;
+                else if (id == 2) {
+                    type = EntityData.EntityType.SUPER_PELLET;
+                    mustEliminateGhosts = true;
+                }
                 else continue;
                 collectibles.add(new Collectible(context, type, row, col));
             }
@@ -257,26 +264,29 @@ public class TileMap {
     private void findGhostCollide() {
         for (Ghost g : ghosts) {
             if (player.destrow == g.row && player.destcol == g.col && g.destrow == player.row && g.destcol == player.col) {
-                ghostCollide = g;
-                break;
+                System.out.println("ghost collide added");
+                ghostCollides.add(g);
             }
         }
     }
 
     private void doGhostCollide() {
-        if (ghostCollide == null) return;
+        if (ghostCollides.isEmpty()) return;
         if (player.isSuper()) {
-            sortedEntities.remove(ghostCollide);
-            ghosts.remove(ghostCollide);
+            for (Ghost g : ghostCollides) {
+                sortedEntities.remove(g);
+                ghosts.remove(g);
+            }
+            ghostCollides.clear();
             checkComplete();
         } else {
             player.setDead();
         }
-        ghostCollide = null;
+        ghostCollides = null;
     }
 
     private void checkComplete() {
-        if (collectibles.isEmpty() && ghosts.isEmpty()) {
+        if (collectibles.isEmpty() && (!mustEliminateGhosts || ghosts.isEmpty())) {
             context.completedLevels[level - 1] = true;
             player.setWin();
         }
@@ -323,7 +333,7 @@ public class TileMap {
             float beforePercent = stepTimer / stepDuration;
             stepTimer += dt;
             float percent = stepTimer / stepDuration;
-            if (ghostCollide != null && beforePercent < 0.5f && percent >= 0.5f) {
+            if (ghostCollides != null && beforePercent < 0.5f && percent >= 0.5f) {
                 doGhostCollide();
             }
             if (stepTimer > stepDuration) {
@@ -342,25 +352,27 @@ public class TileMap {
                         checkComplete();
                     }
                 }
-                Ghost gc = null;
                 for (Ghost g : ghosts) {
                     g.finish();
                     g.moveDirection(getNextDirection(g));
                     g.setSad(player.isSuper());
                     if (player.row == g.row && player.col == g.col) {
-                        gc = g;
+                        gc.add(g);
                     }
                 }
                 // hacky and too lazy to fix
-                if (gc != null) {
+                if (!gc.isEmpty()) {
                     if (player.isSuper()) {
-                        sortedEntities.remove(gc);
-                        ghosts.remove(gc);
+                        for (Ghost g : gc) {
+                            sortedEntities.remove(g);
+                            ghosts.remove(g);
+                        }
                         checkComplete();
                     } else {
                         player.setDead();
                     }
                 }
+                gc.clear();
                 findGhostCollide();
             } else {
                 for (Entity g : ghosts) {
