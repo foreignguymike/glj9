@@ -24,27 +24,6 @@ public class LevelData {
 
     public static final LevelData[] easy = new LevelData[] {
         new LevelData(
-            4,
-            new int[] {
-                25,4,4,21,
-                22,33,33,12,
-                22,33,33,12,
-                45,30,30,41
-            },
-            new int[] {
-                0, 0, 0, 0,
-                0, 0, 0, 0,
-                0, 0, 0, 0,
-                2, 0, 0, 0
-            },
-            new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 1, 0, Direction.DOWN),
-                new EntityData(EntityData.EntityType.GHOST, 0, 1, Direction.RIGHT),
-                new EntityData(EntityData.EntityType.GHOST, 1, 2, Direction.UP),
-            },
-            1
-        ),
-        new LevelData(
             5,
             new int[] {
                 25,4,4,4,21,
