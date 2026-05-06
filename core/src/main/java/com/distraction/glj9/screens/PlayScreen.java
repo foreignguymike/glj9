@@ -33,6 +33,7 @@ public class PlayScreen extends Screen {
 
     public PlayScreen(Context context, int level) {
         super(context);
+        context.page = (level - 1) / 12;
 
         tileMap = new TileMap(context, level);
 

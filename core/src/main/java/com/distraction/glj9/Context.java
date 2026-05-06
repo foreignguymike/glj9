@@ -37,7 +37,6 @@ public class Context {
         }
 
         sb = new SpriteBatch();
-//        sm = new ScreenManager(new com.distraction.glj9.screens.PlayScreen(this, 0));
         sm = new ScreenManager(new com.distraction.glj9.screens.LevelSelectScreen(this));
     }
 

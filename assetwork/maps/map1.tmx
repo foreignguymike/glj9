@@ -4,8 +4,8 @@
  <layer id="1" name="Tile Layer 1" width="4" height="4">
   <data encoding="csv">
 25,4,4,21,
-22,33,33,12,
-22,33,33,12,
+29,30,30,28,
+15,4,4,24,
 45,30,30,41
 </data>
  </layer>

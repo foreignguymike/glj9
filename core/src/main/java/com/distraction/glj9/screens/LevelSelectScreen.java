@@ -95,9 +95,8 @@ public class LevelSelectScreen extends Screen {
 
     private String getDifficulty(int page) {
         if (page == 0) return "Easy";
-        else if (page == 1) return "Mid";
-        else if (page == 2) return "Tricky";
-        else return "Wild";
+        else if (page == 1) return "Hard";
+        else return "Tricky";
     }
 
     private void onLevelHover(int level) {
@@ -114,7 +113,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onPageRight() {
-        if (page + 1 > maxPages) return;
+        if (page + 1 >= maxPages) return;
         page++;
         context.page = page;
         reloadPage();

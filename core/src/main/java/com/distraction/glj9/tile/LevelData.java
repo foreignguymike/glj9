@@ -126,10 +126,103 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.GHOST, 2, 0, Direction.DOWN),
             },
             1
-        )
-    };
-
-    public static final LevelData[] mid = new LevelData[] {
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                0,2,3,21,
+                0,1,22,12,
+                25,21,22,12,
+                45,46,18,41
+            },
+            new int[] {
+                0, 0, 0, 0,
+                0, 0, 1, 1,
+                0, 0, 1, 1,
+                0, 0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 2, 1, Direction.DOWN),
+            },
+            1
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                25,4,4,21,
+                29,30,30,28,
+                15,4,4,24,
+                45,30,30,41
+            },
+            new int[] {
+                0, 0, 2, 0,
+                1, 1, 1, 1,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 3, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 3, 0, Direction.UP),
+            },
+            1
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                25,21,0,0,0,
+                45,46,6,0,0,
+                0,0,36,3,21,
+                0,0,0,45,41
+            },
+            new int[] {
+                1, 1, 0, 0, 0,
+                1, 1, 0, 0, 0,
+                0, 0, 0, 1, 1,
+                0, 0, 0, 1, 1,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 1, 2, Direction.DOWN)
+            },
+            1
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                2,48,37,48,14,
+                0,0,42,0,0,
+                2,48,47,48,14
+            },
+            new int[] {
+                0, 0, 0, 0, 2,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 2, 4, Direction.LEFT)
+            },
+            1
+        ),
+        new LevelData(
+            4,
+            new int[] {
+                9,48,48,6,
+                42,8,8,42,
+                42,42,42,42,
+                36,47,47,49
+            },
+            new int[] {
+                1, 1, 1, 1,
+                1, 0, 0, 1,
+                1, 2, 1, 1,
+                1, 1, 1, 1,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 1, 1, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 1, 2, Direction.DOWN),
+            },
+            1
+        ),
         new LevelData(
             4,
             new int[] {
@@ -148,6 +241,84 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.PLAYER, 0, 1, Direction.DOWN)
             },
             1
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                2,37,48,37,14,
+                25,20,4,20,21,
+                45,30,30,30,41
+            },
+            new int[] {
+                0, 1, 1, 1, 0,
+                1, 1, 0, 1, 1,
+                1, 1, 2, 1, 1
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 1, 2, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 0, 2, Direction.DOWN)
+            },
+            1
+        ),
+    };
+
+    public static final LevelData[] hard = new LevelData[] {
+        new LevelData(
+            4,
+            new int[] {
+                25,4,4,21,
+                45,30,40,41,
+                0,0,44,0
+            },
+            new int[] {
+                0, 1, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0, Direction.RIGHT)
+            },
+            2
+        ),
+        new LevelData(
+            3,
+            new int[] {
+                25,21,0,
+                45,19,21,
+                0,45,41
+            },
+            new int[] {
+                0, 0, 0,
+                0, 0, 0,
+                0, 2, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.DOWN),
+            },
+            2
+        ),
+        new LevelData(
+            5,
+            new int[] {
+                2,6,0,9,14,
+                0,42,0,42,0,
+                0,13,48,35,0,
+                0,42,0,42,0,
+                0,36,48,49,0
+            },
+            new int[] {
+                0, 1, 0, 1, 0,
+                0, 1, 0, 1, 0,
+                0, 1, 2, 1, 0,
+                0, 1, 0, 1, 0,
+                0, 1, 1, 1, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 0, 4, Direction.DOWN)
+            },
+            2
         ),
         new LevelData(
             4,
@@ -333,10 +504,10 @@ public class LevelData {
 
     public static LevelData[] levels;
     static {
-        levels = new LevelData[easy.length + mid.length + tricky.length];
+        levels = new LevelData[easy.length + hard.length + tricky.length];
         int count = 0;
         for (LevelData levelData : easy) levels[count++] = levelData;
-        for (LevelData levelData : mid) levels[count++] = levelData;
+        for (LevelData levelData : hard) levels[count++] = levelData;
         for (LevelData levelData : tricky) levels[count++] = levelData;
     }
 

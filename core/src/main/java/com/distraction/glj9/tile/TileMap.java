@@ -264,7 +264,6 @@ public class TileMap {
     private void findGhostCollide() {
         for (Ghost g : ghosts) {
             if (player.destrow == g.row && player.destcol == g.col && g.destrow == player.row && g.destcol == player.col) {
-                System.out.println("ghost collide added");
                 ghostCollides.add(g);
             }
         }
@@ -277,12 +276,11 @@ public class TileMap {
                 sortedEntities.remove(g);
                 ghosts.remove(g);
             }
-            ghostCollides.clear();
             checkComplete();
         } else {
             player.setDead();
         }
-        ghostCollides = null;
+        ghostCollides.clear();
     }
 
     private void checkComplete() {

@@ -60,7 +60,7 @@ public class Constants {
     public static final Color LEVEL_BG = COLORS[21];
 
     public static final Color PREVIEW_PELLET = COLORS[8];
-    public static final Color PREVIEW_PLAYER = COLORS[33];
+    public static final Color PREVIEW_PLAYER = COLORS[18];
     public static final Color PREVIEW_GHOST = COLORS[3];
 
     public static final Color[] HUD_BORDER_COLORS = new Color[] {
