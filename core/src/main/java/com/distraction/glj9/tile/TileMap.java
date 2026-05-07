@@ -152,6 +152,7 @@ public class TileMap {
         sortedEntities.add(player);
         sortedEntities.addAll(ghosts);
         sortedEntities.sort(comp);
+        ghostCollides.clear();
     }
 
     public void setSpeed(int speed) {
