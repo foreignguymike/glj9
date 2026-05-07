@@ -88,7 +88,7 @@ public class LevelTile extends Entity {
             desty -= SPEED * dt;
             if (desty < targety) desty = targety;
         }
-        visible = nextLevel < MAX_LEVELS;
+        visible = nextLevel <= MAX_LEVELS;
     }
 
     @Override

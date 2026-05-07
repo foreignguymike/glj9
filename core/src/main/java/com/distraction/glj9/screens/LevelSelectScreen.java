@@ -30,7 +30,7 @@ public class LevelSelectScreen extends Screen {
 
     private final LevelTile[][] levelTiles;
     private final int maxLevels = LevelData.levels.length;
-    private final int maxPages = maxLevels / 12;
+    private final int maxPages = (maxLevels - 1) / 12;
     private int page;
     private final Button pageLeft;
     private final Button pageRight;
