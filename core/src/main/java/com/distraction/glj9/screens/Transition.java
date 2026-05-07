@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.distraction.glj9.Constants;
@@ -27,6 +28,7 @@ public class Transition {
     private final OrthographicCamera cam;
     private final Vector2 camStart;
     private final Vector2 camEnd;
+    private Interpolation panInterpolation = Interpolation.linear;
 
     private final TextureRegion pixel;
 
@@ -53,6 +55,10 @@ public class Transition {
         this.callback = callback;
 
         pixel = context.getPixel();
+    }
+
+    public void setPanInterpolation(Interpolation panInterpolation) {
+        this.panInterpolation = panInterpolation;
     }
 
     public void setCallback(SimpleCallback callback) {
@@ -83,8 +89,10 @@ public class Transition {
         if (done) return;
         time += dt;
         if (type == Type.PAN) {
-            cam.position.x = MathUtils.map(0, duration, camStart.x, camEnd.x, time);
-            cam.position.y = MathUtils.map(0, duration, camStart.y, camEnd.y, time);
+            cam.position.x = camStart.x + (camEnd.x - camStart.x) * panInterpolation.apply(time / duration);
+            cam.position.y = camStart.y + (camEnd.y - camStart.y) * panInterpolation.apply(time / duration);
+//            cam.position.x = MathUtils.map(0, duration, camStart.x, camEnd.x, time);
+//            cam.position.y = MathUtils.map(0, duration, camStart.y, camEnd.y, time);
             cam.update();
         }
         if (time > duration) {

@@ -26,19 +26,12 @@ public class TitleScreen extends Screen {
             new Button(context, context.getImage("settingsbuttons").split(16, 16)[0], this::onSettings),
             new Button(context, context.getImage("helpbuttons").split(16, 16)[0], this::onHelp),
         };
-        buttons[0].x = 110;
-        buttons[0].y = 35;
-        buttons[1].x = 130;
-        buttons[1].y = 25;
-        buttons[2].x = 150;
+        buttons[0].x = 105;
+        buttons[0].y = 25;
+        buttons[1].x = 125;
+        buttons[1].y = 20;
+        buttons[2].x = 145;
         buttons[2].y = 15;
-
-//        buttons[0].x = 105;
-//        buttons[0].y = 15;
-//        buttons[1].x = 125;
-//        buttons[1].y = 15;
-//        buttons[2].x = 145;
-//        buttons[2].y = 15;
 
         in = new Transition(context, Transition.Type.FLASH_IN, 1f, () -> ignoreInput = false);
         in.start();

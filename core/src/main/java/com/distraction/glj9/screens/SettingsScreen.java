@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
@@ -54,6 +55,7 @@ public class SettingsScreen extends Screen {
             0.3f,
             () -> ignoreInput = false
         );
+        in.setPanInterpolation(Interpolation.swingOut);
         in.start();
         out = new Transition(
             context,
@@ -64,6 +66,7 @@ public class SettingsScreen extends Screen {
             0.3f,
             () -> context.sm.pop()
         );
+        out.setPanInterpolation(Interpolation.swingIn);
 
         font = context.getFont();
         pixelPerfectText = new GlyphLayout(font, "Pixel", Constants.WHITE, 10, Align.left, false);
