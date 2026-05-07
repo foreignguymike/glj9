@@ -103,8 +103,8 @@ public class SettingsScreen extends Screen {
         time += dt;
         in.update(dt);
         out.update(dt);
-        if (in.started() || in.isFinished()) a += 2 * dt;
-        if (out.started() || out.isFinished()) a -= 2 * dt;
+        if (in.started() || in.isFinished()) a += 3 * dt;
+        if (out.started() || out.isFinished()) a -= 7 * dt;
         a = MathUtils.clamp(a, 0, 0.7f);
     }
 

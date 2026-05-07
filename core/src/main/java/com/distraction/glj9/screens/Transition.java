@@ -53,8 +53,6 @@ public class Transition {
         this.callback = callback;
 
         pixel = context.getPixel();
-
-        System.out.println("new transition created");
     }
 
     public void setCallback(SimpleCallback callback) {

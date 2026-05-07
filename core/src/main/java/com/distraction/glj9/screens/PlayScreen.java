@@ -17,7 +17,7 @@ public class PlayScreen extends Screen {
     private static final Interpolation CAM_START_INTERPOLATION = Interpolation.fastSlow;
 
     private static final float CAMERA_PAD = 4f;
-    private static final float CAMERA_SPEED = 60;
+    private static final float CAMERA_SPEED = 150;
 
     private final TileMap tileMap;
     private final Background bg;

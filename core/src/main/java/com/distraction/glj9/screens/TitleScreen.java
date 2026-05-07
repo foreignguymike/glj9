@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
 
 public class TitleScreen extends Screen {
 
+    private final TextureRegion pixel;
     private final TextureRegion bg;
 
     private final Button[] buttons;
@@ -16,6 +18,7 @@ public class TitleScreen extends Screen {
     public TitleScreen(Context context) {
         super(context);
 
+        pixel = context.getPixel();
         bg = context.getImage("titlescreen");
 
         buttons = new Button[] {
@@ -86,6 +89,8 @@ public class TitleScreen extends Screen {
     public void render() {
         sb.begin();
         sb.setProjectionMatrix(cam.combined);
+        sb.setColor(Constants.SKY);
+        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
         sb.setColor(Color.WHITE);
         sb.draw(bg, 0, 0);
         for (Button b : buttons) b.render(sb);
