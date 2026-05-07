@@ -71,7 +71,7 @@ public class SettingsScreen extends Screen {
 
         toggle = new Toggle(context, context.pixelPerfect);
         toggle.x = 100;
-        toggle.y = 60;
+        toggle.y = 62;
         backButton = new Button(context, context.getImage("backbuttons2").split(16, 16)[0], this::onBack);
         backButton.x = Constants.WIDTH / 2f;
         backButton.y = 24;
