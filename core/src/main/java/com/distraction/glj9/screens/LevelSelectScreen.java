@@ -23,6 +23,7 @@ public class LevelSelectScreen extends Screen {
     private final TextureRegion titleBg;
     private final TextureRegion border;
     private final Background bg;
+    private final Button backButton;
 
     private final BitmapFont font;
     private final GlyphLayout titleText;
@@ -41,7 +42,7 @@ public class LevelSelectScreen extends Screen {
         super(context);
         pixel = context.getPixel();
         titleBg = context.getImage("levelselecttitlebg");
-        border = context.getImage("levelselectborder");
+        border = context.getImage("uiborder");
         bg = new Background(context, context.getImage("bg2"), 2, 2, 16, 16);
 
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
@@ -88,6 +89,21 @@ public class LevelSelectScreen extends Screen {
         pageRight.y = 9;
 
         preview = new TileMapPreview(context);
+
+        backButton = new Button(context, context.getImage("backbuttons").split(10, 10)[0], this::onBack);
+        backButton.x = 8;
+        backButton.y = Constants.HEIGHT - 8;
+    }
+
+    private void onBack() {
+        ignoreInput = true;
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+            TitleScreen s = new TitleScreen(context);
+            s.in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> s.ignoreInput = false);
+            s.in.start();
+            context.sm.replace(s);
+        });
+        out.start();
     }
 
     private String getDifficulty(int page) {
@@ -152,6 +168,7 @@ public class LevelSelectScreen extends Screen {
         }
         pageLeft.onMouseMoved(m.x, m.y);
         pageRight.onMouseMoved(m.x, m.y);
+        backButton.onMouseMoved(m.x, m.y);
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             for (int row = 0; row < levelTiles.length; row++) {
@@ -159,6 +176,7 @@ public class LevelSelectScreen extends Screen {
                     levelTiles[row][col].onMousePressed();
                 }
             }
+            backButton.onMousePressed(true);
         }
         pageLeft.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
         pageRight.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
@@ -185,10 +203,13 @@ public class LevelSelectScreen extends Screen {
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
         bg.render(sb);
         sb.setColor(Constants.DIM_BG);
-        sb.draw(pixel, 3, 2, border.getRegionWidth() / 2f - 5, border.getRegionHeight() - 2);
-        sb.draw(pixel, Constants.WIDTH / 2f + 3, 2, border.getRegionWidth() / 2f - 5, border.getRegionHeight() - 2);
+        sb.draw(pixel, 3, 2, border.getRegionWidth() - 3, border.getRegionHeight() - 2);
+        sb.draw(pixel, Constants.WIDTH / 2f + 3, 2, border.getRegionWidth() - 3, border.getRegionHeight() - 2);
         sb.setColor(Color.WHITE);
         sb.draw(border, 1, 1);
+        sb.draw(border, Constants.WIDTH / 2f + 1, 1);
+        sb.setColor(Constants.DARK_RED);
+        sb.draw(pixel, Constants.WIDTH / 2f - 1, 4, 2, border.getRegionHeight() - 6);
 
         sb.setColor(Constants.LEVEL_SELECT_TOP);
         sb.draw(pixel, 0, Constants.HEIGHT - 9, Constants.WIDTH, 9);
@@ -206,6 +227,8 @@ public class LevelSelectScreen extends Screen {
         font.draw(sb, difficultyText, ox, 13);
 
         preview.render(sb);
+
+        backButton.render(sb);
 
         sb.setProjectionMatrix(uiCam.combined);
         sb.setColor(Color.WHITE);

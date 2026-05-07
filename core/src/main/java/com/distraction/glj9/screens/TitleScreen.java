@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
 
@@ -41,6 +40,13 @@ public class TitleScreen extends Screen {
         in = new Transition(context, Transition.Type.FLASH_IN, 1f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        ignoreInput = true;
+    }
+
+    @Override
+    public void resume() {
+        ignoreInput = false;
     }
 
     private void onPlay() {
@@ -51,10 +57,13 @@ public class TitleScreen extends Screen {
 
     private void onSettings() {
         ignoreInput = true;
+        SettingsScreen s = new SettingsScreen(context);
+        s.transparent = true;
+        context.sm.push(s);
     }
 
     private void onHelp() {
-        ignoreInput = true;
+
     }
 
     @Override
@@ -64,9 +73,7 @@ public class TitleScreen extends Screen {
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         cam.unproject(m);
         for (Button b : buttons) b.onMouseMoved(m.x, m.y);
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            for (Button b : buttons) b.onMousePressed(true);
-        }
+        for (Button b : buttons) b.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
     }
 
     @Override
