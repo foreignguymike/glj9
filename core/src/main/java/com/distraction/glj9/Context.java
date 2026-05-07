@@ -28,8 +28,7 @@ public class Context {
 
     public int page;
 
-    private BitmapFont font;
-    public OrthographicCamera textCam;
+    private final BitmapFont font;
 
     public Context() {
         assets = new AssetManager();
@@ -38,8 +37,6 @@ public class Context {
         assets.finishLoading();
 
         font = assets.get(FONT, BitmapFont.class);
-        textCam = new OrthographicCamera();
-        textCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
             t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

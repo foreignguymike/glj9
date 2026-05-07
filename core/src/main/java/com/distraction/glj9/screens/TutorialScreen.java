@@ -1,0 +1,113 @@
+package com.distraction.glj9.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.distraction.glj9.Constants;
+import com.distraction.glj9.Context;
+import com.distraction.glj9.tile.TileMap;
+import com.distraction.glj9.utils.Background;
+import com.distraction.glj9.utils.HUD;
+
+public class TutorialScreen extends Screen {
+
+    private final TileMap tileMap;
+    private final Background bg;
+    private final HUD hud;
+
+    public TutorialScreen(Context context, int level) {
+        super(context);
+
+        tileMap = new TileMap(context, level);
+
+        bg = new Background(context, context.getImage("bg3"), 5, -5, 24, 24);
+        hud = new HUD(
+            context,
+            tileMap,
+            tileMap::start,
+            this::onBack,
+            this::redo,
+            this::onNext
+        );
+
+        cam.position.x = (Constants.WIDTH - hud.getWidth()) / 2f;
+        cam.position.y = tileMap.getHeight() / 2f;
+        cam.update();
+
+        in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
+        in.start();
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+    }
+
+    private void redo() {
+        tileMap.redo();
+    }
+
+    private void onNext() {
+        ignoreInput = true;
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+            context.sm.replace(new PlayScreen(context, tileMap.level + 1));
+        });
+        out.start();
+    }
+
+    private void onBack() {
+        ignoreInput = true;
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+            context.sm.replace(new LevelSelectScreen(context));
+        });
+        out.start();
+    }
+
+    @Override
+    public void input() {
+        if (ignoreInput) return;
+
+        m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        cam.unproject(m);
+        tileMap.onMouseMove(m.x, m.y);
+
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) tileMap.place();
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) tileMap.remove();
+
+        uim.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        uiCam.unproject(uim);
+        hud.onMouseMove(uim.x, uim.y);
+        hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && tileMap.player.isWin()) onNext();
+    }
+
+    @Override
+    public void update(float dt) {
+        in.update(dt);
+        out.update(dt);
+
+        tileMap.update(dt);
+        bg.update(dt);
+        hud.update(dt);
+        hud.startDown = tileMap.isStarted();
+    }
+
+    @Override
+    public void render() {
+        sb.begin();
+
+        sb.setProjectionMatrix(uiCam.combined);
+        sb.setColor(Constants.LEVEL_BG);
+        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+        sb.setColor(Color.WHITE);
+        bg.render(sb);
+
+        sb.setProjectionMatrix(cam.combined);
+        tileMap.render(sb);
+
+        sb.setProjectionMatrix(uiCam.combined);
+        hud.render(sb);
+        in.render(sb);
+        out.render(sb);
+
+        sb.end();
+    }
+
+}

@@ -31,12 +31,6 @@ public class Main extends ApplicationAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        context.textCam.setToOrtho(false, width, height);
-    }
-
-    @Override
     public void render() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) context.pixelPerfect = !context.pixelPerfect;
 
