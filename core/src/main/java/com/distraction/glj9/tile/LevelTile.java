@@ -63,7 +63,7 @@ public class LevelTile extends Entity {
         boolean previous = hovered;
         hovered = contains(mx, my);
         if (hovered != previous) {
-            hoverCallback.callback(hovered ? level : 0);
+            hoverCallback.callback(hovered ? nextLevel : 0);
         }
     }
 

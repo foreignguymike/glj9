@@ -17,6 +17,8 @@ import com.distraction.glj9.utils.Background;
 
 public class LevelSelectScreen extends Screen {
 
+    private static final int ox = 40;
+
     private final TextureRegion pixel;
     private final TextureRegion titleBg;
     private final TextureRegion border;
@@ -62,7 +64,7 @@ public class LevelSelectScreen extends Screen {
                     this::onLevelSelected,
                     this::onLevelHover
                 );
-                levelTile.x = 12 + 18 * col;
+                levelTile.x = ox - 27 + 18 * col;
                 levelTile.y = 59 - 18 * row;
                 levelTiles[row][col] = levelTile;
             }
@@ -80,9 +82,9 @@ public class LevelSelectScreen extends Screen {
             context.getImage("pagerightp"),
         };
         pageRight = new Button(context, right, this::onPageRight);
-        pageLeft.x = 13;
+        pageLeft.x = ox - 27;
         pageLeft.y = 9;
-        pageRight.x = 66;
+        pageRight.x = ox + 26;
         pageRight.y = 9;
 
         preview = new TileMapPreview(context);
@@ -201,7 +203,7 @@ public class LevelSelectScreen extends Screen {
         }
         pageLeft.render(sb);
         pageRight.render(sb);
-        font.draw(sb, difficultyText, 40, 13);
+        font.draw(sb, difficultyText, ox, 13);
 
         preview.render(sb);
 

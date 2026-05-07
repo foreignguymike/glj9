@@ -12,6 +12,8 @@ import com.distraction.glj9.utils.Utils;
 
 public class TileMapPreview {
 
+    private static final int ox = 120;
+
     private static final int PELLET = 1;
     private static final int SUPER_PELLET = 2;
     private static final int PLAYER = 3;
@@ -52,7 +54,7 @@ public class TileMapPreview {
         numCols = tiles[0].length;
         int w = numCols * TILE_SIZE;
         int h = numRows * TILE_SIZE;
-        startx = 120 - w / 2;
+        startx = ox - w / 2;
         starty = 42 - h / 2;
         int[][] coll = Utils.flip(data.collectibles);
         objs = new int[numRows][numCols];
@@ -98,7 +100,7 @@ public class TileMapPreview {
                 }
             }
         }
-        font.draw(sb, arrowsText, 120, 14);
+        font.draw(sb, arrowsText, ox, 14);
     }
 
 }
