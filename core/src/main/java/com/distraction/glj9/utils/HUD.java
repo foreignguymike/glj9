@@ -11,12 +11,14 @@ import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
 import com.distraction.glj9.tile.Entity;
+import com.distraction.glj9.tile.LevelData;
 import com.distraction.glj9.tile.SpeedButton;
 import com.distraction.glj9.tile.TileMap;
 
 public class HUD extends Entity {
 
     private static final Interpolation TITLE_POS = new FlyByInterpolation();
+    private static final Interpolation NEXT_POS = Interpolation.swingOut;
 
     // hack because font integer positions and stuff
     private final TextureRegion levelText;
@@ -47,6 +49,8 @@ public class HUD extends Entity {
     private float levelTextTime;
     private float levelTextx;
 
+    private float nextTime;
+
     public HUD(
         Context context,
         TileMap tileMap,
@@ -69,7 +73,7 @@ public class HUD extends Entity {
         superTitleText = new GlyphLayout(font, "Super", Constants.WHITE, 0, Align.center, false);
         superText = new GlyphLayout(font, "0", Constants.PINK, 0, Align.center, false);
 
-        TextureRegion[][] nextLevel = context.getImage("nextlevelbuttons").split(60, 10);
+        TextureRegion[][] nextLevel = context.getImage("nextlevelbuttons").split(64, 12);
         nextLevelButton = new Button(
             context,
             new TextureRegion[]{nextLevel[0][0], nextLevel[1][0], nextLevel[2][0]},
@@ -83,7 +87,10 @@ public class HUD extends Entity {
         redoButton = new Button(
             context,
             context.getImage("redobuttons").split(10, 10)[0],
-            onRedo
+            () -> {
+                nextTime = 0;
+                onRedo.callback();
+            }
         );
         startButton = new Button(
             context,
@@ -125,7 +132,7 @@ public class HUD extends Entity {
     }
 
     private boolean nextLevelVisible() {
-        return tileMap.player.isWin();
+        return tileMap.player.isWin() && tileMap.level < LevelData.levels.length;
     }
 
     public void onMouseMove(float mx, float my) {
@@ -157,11 +164,25 @@ public class HUD extends Entity {
         startButton.pressed = tileMap.isStarted() || startDown;
 
         levelTextTime += dt;
-        levelTextx = Constants.WIDTH * 0.5f * TITLE_POS.apply(levelTextTime - 0.4f);
+        levelTextx = (Constants.WIDTH - w) * 0.5f * TITLE_POS.apply(levelTextTime - 0.4f);
+
+        if (nextLevelVisible()) {
+            nextTime += dt;
+            if (nextTime > 0.5f) nextTime = 0.5f;
+            nextLevelButton.y = -10 + 20 * NEXT_POS.apply(nextTime * 2);
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
+        sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
+        if (levelNumText.length > 1) {
+            sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
+            sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
+        } else {
+            sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+        }
         sb.setColor(Constants.DIM_BG);
         sb.draw(pixel, Constants.WIDTH - w, 0, w, Constants.HEIGHT);
         for (int i = 0; i < Constants.HUD_BORDER_COLORS.length; i++) {
@@ -178,16 +199,6 @@ public class HUD extends Entity {
         redoButton.render(sb);
         startButton.render(sb);
         speedButton.render(sb);
-
-        Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
-
-        sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
-        if (levelNumText.length > 1) {
-            sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
-            sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
-        } else {
-            sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
-        }
     }
 
 }

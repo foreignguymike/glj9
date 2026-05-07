@@ -21,6 +21,7 @@ public class PlayScreen extends Screen {
 
     private final TileMap tileMap;
     private final Background bg;
+    private final Color bgColor;
     private final HUD hud;
 
     private boolean starting;
@@ -37,7 +38,11 @@ public class PlayScreen extends Screen {
 
         tileMap = new TileMap(context, level);
 
-        bg = new Background(context, context.getImage("bg3"), 5, -5, 24, 24);
+        String s = level <= 12 ? "bg3" : level <= 24 ? "bg4" : "bg5";
+        float dx = level <= 24 ? 5 : -5;
+        float dy = level <= 12 ? -5 : 5;
+        bg = new Background(context, context.getImage(s), dx, dy, 24, 24);
+        bgColor = level <= 12 ? Constants.LEVEL_BG : level <= 24 ? Constants.LEVEL_BG_2 : Constants.LEVEL_BG_3;
         hud = new HUD(
             context,
             tileMap,
@@ -190,7 +195,7 @@ public class PlayScreen extends Screen {
         sb.begin();
 
         sb.setProjectionMatrix(uiCam.combined);
-        sb.setColor(Constants.LEVEL_BG);
+        sb.setColor(bgColor);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
         sb.setColor(Color.WHITE);
         bg.render(sb);

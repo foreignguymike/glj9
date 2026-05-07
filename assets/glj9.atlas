@@ -2,7 +2,7 @@ glj9.png
 size:1024,128
 repeat:none
 arrows
-bounds:900,113,48,13
+bounds:904,113,48,13
 backbuttons
 bounds:198,2,30,10
 bg1
@@ -11,10 +11,14 @@ bg2
 bounds:10,14,6,6
 bg3
 bounds:390,11,16,16
+bg4
+bounds:986,113,13,13
+bg5
+bounds:954,110,14,16
 cursor
-bounds:950,112,14,14
+bounds:970,112,14,14
 ghost
-bounds:826,94,64,16
+bounds:830,94,64,16
 ghostsad
 bounds:552,110,128,16
 levelselectborder
@@ -24,7 +28,7 @@ bounds:390,97,160,11
 leveltext
 bounds:262,3,30,9
 leveltextbg
-bounds:826,112,72,14
+bounds:830,112,72,14
 leveltile
 bounds:426,11,15,16
 leveltileh
@@ -32,7 +36,7 @@ bounds:132,36,17,18
 leveltilet
 bounds:443,11,15,16
 nextlevelbuttons
-bounds:764,96,60,30
+bounds:764,90,64,36
 numtext
 bounds:552,101,60,7
 pageleft
@@ -50,7 +54,7 @@ bounds:336,2,8,10
 pellet
 bounds:2,14,6,6
 pixel
-bounds:614,107,1,1
+bounds:830,91,1,1
 playerdead
 bounds:408,11,16,16
 playerdown
@@ -68,7 +72,7 @@ bounds:230,2,30,10
 speedbuttons
 bounds:2,2,96,10
 speedcaret
-bounds:892,103,5,7
+bounds:614,101,5,7
 startbuttons
 bounds:100,2,96,10
 superpellet

@@ -573,7 +573,7 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.PLAYER, 0, 3),
                 new EntityData(EntityData.EntityType.GHOST, 3, 3, Direction.UP)
             },
-            3
+            1
         ),
         new LevelData(
             4,
@@ -594,7 +594,7 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.GHOST, 2, 1, Direction.DOWN),
                 new EntityData(EntityData.EntityType.GHOST, 3, 1, Direction.DOWN),
             },
-            3
+            1
         ),
         new LevelData(
             4,

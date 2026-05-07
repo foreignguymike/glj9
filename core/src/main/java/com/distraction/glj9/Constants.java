@@ -58,6 +58,8 @@ public class Constants {
     public static final Color LEVEL_SELECT_TOP = COLORS[3];
     public static final Color DIM_BG = Color.valueOf("00000080");
     public static final Color LEVEL_BG = COLORS[21];
+    public static final Color LEVEL_BG_2 = COLORS[30];
+    public static final Color LEVEL_BG_3 = COLORS[1];
 
     public static final Color PREVIEW_PELLET = COLORS[8];
     public static final Color PREVIEW_PLAYER = COLORS[18];
