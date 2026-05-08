@@ -199,7 +199,7 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "If Poko gets stuck, press the reset button to restart.",
+                    "If Poko gets stuck, press the reset button.",
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
