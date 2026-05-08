@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 public class TileMap {
 
@@ -80,7 +81,11 @@ public class TileMap {
     }
 
     private void loadLevel(int level) {
-        data = LevelData.levels[level - 1];
+        if (level < 0) {
+            data = LevelData.tutorials[level * -1 - 1];
+        } else {
+            data = LevelData.levels[level - 1];
+        }
         tiles = Utils.flip(data.tiles);
         numRows = tiles.length;
         numCols = tiles[0].length;
@@ -218,6 +223,16 @@ public class TileMap {
         return null;
     }
 
+    // for tutorial only
+    public void rotatePlayer() {
+        if (started) return;
+        if (cursorRow == -1 || cursorCol == -1) return;
+        if (player.row == cursorRow && player.col == cursorCol) {
+            player.rotate();
+        }
+        return;
+    }
+
     public void place() {
         if (started) return;
         if (cursorRow == -1 || cursorCol == -1) return;
@@ -286,7 +301,7 @@ public class TileMap {
 
     private void checkComplete() {
         if (collectibles.isEmpty() && (!mustEliminateGhosts || ghosts.isEmpty())) {
-            context.completedLevels[level - 1] = true;
+            if (level > 0) context.completedLevels[level - 1] = true;
             player.setWin();
         }
     }

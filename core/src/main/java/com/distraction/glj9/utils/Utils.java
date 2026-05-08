@@ -33,6 +33,32 @@ public class Utils {
         return false;
     }
 
+    public static void drawCenteredRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+
+        sb.draw(
+            image,
+            x - w / 2, y - h / 2,
+            w / 2, h / 2,
+            w, h,
+            1, 1,
+            deg
+        );
+    }
+
+    public static void drawCenteredRotated(SpriteBatch sb, TextureRegion image, float x, float y, float w, float h, float deg) {
+        sb.draw(
+            image,
+            x - w / 2, y - h / 2,
+            w / 2, h / 2,
+            w, h,
+            1, 1,
+            deg
+        );
+    }
+
+
     public static int[][] flip(int[][] tiles) {
         int[][] ret = new int[tiles.length][tiles[0].length];
         for (int row = 0; row < tiles.length; row++) {

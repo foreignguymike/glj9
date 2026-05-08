@@ -21,7 +21,6 @@ public class LevelData {
         this.numArrows = numArrows;
     }
 
-
     public static final LevelData[] easy = new LevelData[] {
         new LevelData(
             5,
@@ -81,27 +80,19 @@ public class LevelData {
             1
         ),
         new LevelData(
-            3,
+            7,
             new int[] {
-                25,4,21,
-                22,33,12,
-                22,33,12,
-                22,33,12,
-                22,33,12,
-                22,33,12,
-                45,30,41
+                25,4,4,4,4,4,21,
+                22,33,33,33,33,33,12,
+                45,30,30,30,30,30,41
             },
             new int[] {
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 0, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1
+                1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 0, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 3, 1)
+                new EntityData(EntityData.EntityType.PLAYER, 1, 3)
             },
             1
         ),
@@ -745,7 +736,6 @@ public class LevelData {
         )
     };
 
-
     public static LevelData[] levels;
     static {
         levels = new LevelData[easy.length + hard.length + tricky.length];
@@ -754,5 +744,29 @@ public class LevelData {
         for (LevelData levelData : hard) levels[count++] = levelData;
         for (LevelData levelData : tricky) levels[count++] = levelData;
     }
+
+    public static LevelData[] tutorials = new LevelData[] {
+        new LevelData(
+            5,
+            new int[] {
+                25,4,4,4,21,
+                22,33,33,33,12,
+                22,33,33,33,12,
+                22,33,33,33,12,
+                45,30,30,30,41
+            },
+            new int[] {
+                0, 0, 1, 0, 0,
+                0, 0, 0, 1, 0,
+                1, 0, 0, 1, 1,
+                0, 0, 0, 0, 0,
+                0, 0, 1, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 2, 2)
+            },
+            1
+        ),
+    };
 
 }

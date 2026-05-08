@@ -19,7 +19,7 @@ public abstract class Entity {
     protected float destx;
     protected float desty;
     protected int w, h;
-    protected Direction direction;
+    public Direction direction;
 
     protected boolean started = false;
 

@@ -54,6 +54,12 @@ public class Constants {
         Color.valueOf("29694e") // 35
     };
 
+    public static final Color WHITE = COLORS[7];
+    public static final Color PINK = COLORS[26];
+    public static final Color DARK_RED = COLORS[14];
+    public static final Color SKY = COLORS[31];
+    public static final Color TRANSPARENT = new Color(1, 1, 1, 0.5f);
+
     public static final Color LEVEL_SELECT_BG = COLORS[6];
     public static final Color LEVEL_SELECT_TOP = COLORS[3];
     public static final Color DIM_BG = Color.valueOf("00000080");
@@ -62,6 +68,8 @@ public class Constants {
     public static final Color LEVEL_BG_3 = COLORS[1];
 
     public static final Color SETTINGS_BG = COLORS[20];
+    public static final Color DIALOG_TEXT = COLORS[7];
+    public static final Color DIALOG_BG = COLORS[14];
 
     public static final Color PREVIEW_PELLET = COLORS[8];
     public static final Color PREVIEW_PLAYER = COLORS[18];
@@ -70,10 +78,4 @@ public class Constants {
     public static final Color[] HUD_BORDER_COLORS = new Color[] {
         COLORS[19], COLORS[18], COLORS[11]
     };
-
-    public static final Color WHITE = COLORS[7];
-    public static final Color PINK = COLORS[26];
-    public static final Color DARK_RED = COLORS[14];
-    public static final Color SKY = COLORS[31];
-    public static final Color TRANSPARENT = new Color(1, 1, 1, 0.5f);
 }

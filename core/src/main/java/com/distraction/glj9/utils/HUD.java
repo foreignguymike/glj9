@@ -51,6 +51,10 @@ public class HUD extends Entity {
 
     private float nextTime;
 
+    public boolean startEnabled = true;
+    public boolean speedEnabled = true;
+    public boolean redoEnabled = true;
+
     public HUD(
         Context context,
         TileMap tileMap,
@@ -121,6 +125,7 @@ public class HUD extends Entity {
         levelNumText = new TextureRegion[levelString.length()];
         for (int i = 0; i < levelString.length(); i++) {
             char c = levelString.charAt(i);
+            if (c == '-') continue;
             levelNumText[i] = numTexts[c - '0'];
         }
         totalTextWidth = levelText.getRegionWidth() + 1 + 6 * levelNumText.length;
@@ -138,17 +143,17 @@ public class HUD extends Entity {
     public void onMouseMove(float mx, float my) {
         if (nextLevelVisible()) nextLevelButton.onMouseMoved(mx, my);
         backButton.onMouseMoved(mx, my);
-        redoButton.onMouseMoved(mx, my);
-        startButton.onMouseMoved(mx, my);
-        speedButton.onMouseMoved(mx, my);
+        if (redoEnabled) redoButton.onMouseMoved(mx, my);
+        if (startEnabled) startButton.onMouseMoved(mx, my);
+        if (speedEnabled) speedButton.onMouseMoved(mx, my);
     }
 
     public void onMousePressed(boolean pressed) {
         if (nextLevelVisible()) nextLevelButton.onMousePressed(pressed);
         backButton.onMousePressed(pressed);
-        redoButton.onMousePressed(pressed);
-        startButton.onMousePressed(pressed);
-        speedButton.onMousePressed(pressed);
+        if (redoEnabled) redoButton.onMousePressed(pressed);
+        if (startEnabled) startButton.onMousePressed(pressed);
+        if (speedEnabled) speedButton.onMousePressed(pressed);
     }
 
     @Override
@@ -163,8 +168,10 @@ public class HUD extends Entity {
         }
         startButton.pressed = tileMap.isStarted() || startDown;
 
-        levelTextTime += dt;
-        levelTextx = (Constants.WIDTH - w) * 0.5f * TITLE_POS.apply(levelTextTime - 0.4f);
+        if (tileMap.level > 0) {
+            levelTextTime += dt;
+            levelTextx = (Constants.WIDTH - w) * 0.5f * TITLE_POS.apply(levelTextTime - 0.4f);
+        }
 
         if (nextLevelVisible()) {
             nextTime += dt;
@@ -175,13 +182,15 @@ public class HUD extends Entity {
 
     @Override
     public void render(SpriteBatch sb) {
-        Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
-        sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
-        if (levelNumText.length > 1) {
-            sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
-            sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
-        } else {
-            sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+        if (tileMap.level > 0) {
+            Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
+            sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
+            if (levelNumText.length > 1) {
+                sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
+                sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
+            } else {
+                sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+            }
         }
         sb.setColor(Constants.DIM_BG);
         sb.draw(pixel, Constants.WIDTH - w, 0, w, Constants.HEIGHT);

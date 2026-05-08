@@ -59,7 +59,9 @@ public class TitleScreen extends Screen {
     }
 
     private void onHelp() {
-
+        ignoreInput = true;
+        out.setCallback(() -> context.sm.replace(new TutorialScreen1(context)));
+        out.start();
     }
 
     @Override

@@ -104,6 +104,7 @@ public class SettingsScreen extends Screen {
     @Override
     public void update(float dt) {
         time += dt;
+        if (time > MathUtils.PI2) time -= MathUtils.PI2;
         in.update(dt);
         out.update(dt);
         if (in.started() || in.isFinished()) a += 3 * dt;

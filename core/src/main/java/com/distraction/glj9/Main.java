@@ -2,6 +2,7 @@ package com.distraction.glj9;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -31,6 +32,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) context.pixelPerfect = !context.pixelPerfect;
         context.sm.input();
         context.sm.update(Gdx.graphics.getDeltaTime());
 

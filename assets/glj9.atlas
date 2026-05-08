@@ -4,7 +4,7 @@ repeat:none
 arrows
 bounds:474,30,48,13
 backbuttons
-bounds:328,2,30,10
+bounds:360,2,30,10
 backbuttons2
 bounds:474,45,48,16
 bg1
@@ -19,6 +19,10 @@ bg5
 bounds:896,54,14,16
 cursor
 bounds:522,63,14,14
+dialogcorner
+bounds:912,55,3,3
+dialogside
+bounds:461,24,1,3
 ghost
 bounds:846,72,64,16
 ghostsad
@@ -72,7 +76,7 @@ bounds:2,2,128,32
 playerwin
 bounds:392,110,160,16
 redobuttons
-bounds:360,2,30,10
+bounds:328,2,30,10
 settingsbuttons
 bounds:442,2,48,16
 speedbuttons
