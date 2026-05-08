@@ -83,7 +83,7 @@ public class TutorialScreen1 extends Screen {
     private void onNext() {
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
-            context.sm.replace(new PlayScreen(context, tileMap.level + 1));
+            context.sm.replace(new TutorialScreen2(context));
         });
         out.start();
     }
@@ -134,8 +134,6 @@ public class TutorialScreen1 extends Screen {
             stage = WAITING_FOR_RESET_DIALOG;
             time = 0;
         }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && tileMap.player.isWin()) onNext();
     }
 
     @Override
@@ -157,7 +155,7 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "How to play",
-                    "The goal is to help Poko collect all the pellets",
+                    "The goal is to help Poko eat all the pellets",
                     "and eliminate any ghosts if possible.",
                     "Press start!"
                 },
@@ -201,7 +199,7 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "If you get stuck, press the reset button to restart.",
+                    "If Poko gets stuck, press the reset button to restart.",
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,

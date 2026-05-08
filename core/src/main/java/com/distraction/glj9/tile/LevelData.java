@@ -767,6 +767,41 @@ public class LevelData {
             },
             1
         ),
+        new LevelData(
+            4,
+            new int[] {
+                2,48,48,6,
+                8,0,0,42,
+                13,48,3,24,
+                44,0,45,41
+            },
+            new int[] {
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                1, 0, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0)
+            },
+            1
+        ),
+        new LevelData(
+            7,
+            new int[] {
+                2,48,37,48,37,48,14,
+                0,0,36,48,49,0,0
+            },
+            new int[] {
+                0, 0, 0, 0, 0, 0, 0,
+                0, 0, 1, 2, 1, 0, 0
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 0, 0),
+                new EntityData(EntityData.EntityType.GHOST, 0, 6),
+            },
+            1
+        ),
     };
 
 }

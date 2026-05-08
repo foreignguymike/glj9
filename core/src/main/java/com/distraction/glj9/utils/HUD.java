@@ -137,7 +137,10 @@ public class HUD extends Entity {
     }
 
     private boolean nextLevelVisible() {
-        return tileMap.player.isWin() && tileMap.level < LevelData.levels.length;
+        if (!tileMap.player.isWin()) return false;
+        if (tileMap.level > 0 && tileMap.level < LevelData.levels.length) return true;
+        if (tileMap.level < 0 && tileMap.level * -1 < LevelData.tutorials.length) return true;
+        return false;
     }
 
     public void onMouseMove(float mx, float my) {
