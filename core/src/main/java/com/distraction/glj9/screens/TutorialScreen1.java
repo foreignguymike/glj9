@@ -241,7 +241,7 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "You can also place arrows on any tile if available.",
+                    "You can also place arrows on any tile.",
                     "Poko will always try to follow the arrows.",
                     "Click on a placed arrow to rotate it,",
                     "and right click the arrow to remove it.",
