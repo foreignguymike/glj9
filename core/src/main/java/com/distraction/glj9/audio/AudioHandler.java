@@ -65,8 +65,8 @@ public class AudioHandler {
 
     public List<Music> getCurrentlyPlaying() {
         List<Music> list = new ArrayList<>();
-        for (Map.Entry<String, Music> e : music.entrySet()) {
-            Music m = e.getValue();
+        for (Map.Entry<String, MusicConfig> e : playing.entrySet()) {
+            Music m = e.getValue().getMusic();
             if (m.isPlaying()) list.add(m);
         }
         return list;
