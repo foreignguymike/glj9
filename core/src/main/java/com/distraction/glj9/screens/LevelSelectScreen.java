@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
@@ -96,6 +97,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onBack() {
+        context.audio.playSound("back", 0.4f);
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
             TitleScreen s = new TitleScreen(context);
@@ -113,13 +115,15 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onLevelHover(int level) {
-        if (level >= 0 && level <= maxLevels) {
+        if (level >= 1 && level <= maxLevels) {
+            context.audio.playSound("pop", 0.2f, MathUtils.random(0.5f, 0.6f));
             preview.load(level);
         }
     }
 
     private void onPageLeft() {
         if (page - 1 < 0) return;
+        context.audio.playSound("select3", 0.2f);
         page--;
         context.page = page;
         reloadPage();
@@ -127,6 +131,7 @@ public class LevelSelectScreen extends Screen {
 
     private void onPageRight() {
         if (page + 1 > maxPages) return;
+        context.audio.playSound("select3", 0.2f);
         page++;
         context.page = page;
         reloadPage();
@@ -144,6 +149,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onLevelSelected(int level) {
+        context.audio.playSound("select2", 0.4f);
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
             context.sm.replace(new PlayScreen(context, level));

@@ -59,12 +59,14 @@ public class TitleScreen extends Screen {
     }
 
     private void onPlay() {
+        context.audio.playSound("select", 0.4f);
         ignoreInput = true;
         out.setCallback(() -> context.sm.replace(new LevelSelectScreen(context)));
         out.start();
     }
 
     private void onSettings() {
+        context.audio.playSound("select2", 0.2f);
         ignoreInput = true;
         SettingsScreen s = new SettingsScreen(context);
         s.transparent = true;
@@ -72,6 +74,7 @@ public class TitleScreen extends Screen {
     }
 
     private void onHelp() {
+        context.audio.playSound("select", 0.4f);
         ignoreInput = true;
         out.setCallback(() -> context.sm.replace(new TutorialScreen1(context)));
         out.start();

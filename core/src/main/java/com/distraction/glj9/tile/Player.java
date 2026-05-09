@@ -119,6 +119,7 @@ public class Player extends Entity {
     }
 
     public void setDead() {
+        if (!isDead) context.audio.playSound("dead");
         isDead = true;
         deadTimer = 0;
         deady = y;
@@ -129,6 +130,7 @@ public class Player extends Entity {
     }
 
     public void setWin() {
+        if (!win) context.audio.playSound("cheer", 0.3f);
         win = true;
         currentInterval = WIN_INTERVAL;
         animation.set(winSprites, currentInterval[speed - 1]);

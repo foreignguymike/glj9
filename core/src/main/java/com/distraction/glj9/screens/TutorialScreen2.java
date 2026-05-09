@@ -118,8 +118,7 @@ public class TutorialScreen2 extends Screen {
                 context,
                 new String[]{
                     "If [POKO]Poko[] runs into a wall...",
-                    "he will try to turn right first.",
-                    "If he can't, then he will try to turn left.",
+                    "he will try to turn right first, then left.",
                     "Otherwise he will turn around."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,

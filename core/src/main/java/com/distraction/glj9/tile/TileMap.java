@@ -3,6 +3,7 @@ package com.distraction.glj9.tile;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.utils.Utils;
 
@@ -228,6 +229,7 @@ public class TileMap {
         if (started) return;
         if (cursorRow == -1 || cursorCol == -1) return;
         if (player.row == cursorRow && player.col == cursorCol) {
+            context.audio.playSound("pop", 0.8f, MathUtils.random(0.8f, 1.2f));
             player.rotate();
         }
         return;
@@ -238,15 +240,18 @@ public class TileMap {
         if (cursorRow == -1 || cursorCol == -1) return;
         if (player.row == cursorRow && player.col == cursorCol) {
             player.rotate();
+            context.audio.playSound("pop", 0.8f, MathUtils.random(0.8f, 1.2f));
             return;
         }
         Entity existingArrow = getExistingArrow();
         if (existingArrow == null) {
             if (remainingArrows > 0) {
+                context.audio.playSound("pop", 0.8f, MathUtils.random(0.8f, 1.2f));
                 remainingArrows--;
                 arrows.add(new Arrow(context, cursorRow, cursorCol, Direction.RIGHT));
             }
         } else {
+            context.audio.playSound("pop", 0.8f, MathUtils.random(0.8f, 1.2f));
             existingArrow.rotate();
         }
     }
@@ -291,6 +296,7 @@ public class TileMap {
             for (Ghost g : ghostCollides) {
                 sortedEntities.remove(g);
                 ghosts.remove(g);
+                context.audio.playSound("killghost");
             }
             checkComplete();
         } else {
@@ -359,7 +365,10 @@ public class TileMap {
                     Collectible c = collectibles.get(i);
                     if (player.row == c.row && player.col == c.col) {
                         if (c.type == EntityData.EntityType.SUPER_PELLET) {
+                            context.audio.playSound("power", 0.5f);
                             player.setSuper();
+                        } else {
+                            context.audio.playSound("dialog", 0.2f, 4f);
                         }
                         collectibles.remove(i);
                         i--;
@@ -380,6 +389,7 @@ public class TileMap {
                         for (Ghost g : gc) {
                             sortedEntities.remove(g);
                             ghosts.remove(g);
+                            context.audio.playSound("killghost");
                         }
                         checkComplete();
                     } else {

@@ -81,17 +81,24 @@ public class HUD extends Entity {
         nextLevelButton = new Button(
             context,
             new TextureRegion[]{nextLevel[0][0], nextLevel[1][0], nextLevel[2][0]},
-            onNext
+            () -> {
+                context.audio.playSound("select", 0.4f);
+                onNext.callback();
+            }
         );
         backButton = new Button(
             context,
             context.getImage("backbuttons").split(10, 10)[0],
-            onBack
+            () -> {
+                context.audio.playSound("back", 0.4f);
+                onBack.callback();
+            }
         );
         redoButton = new Button(
             context,
             context.getImage("redobuttons").split(10, 10)[0],
             () -> {
+                context.audio.playSound("reset", 0.6f);
                 nextTime = 0;
                 onRedo.callback();
             }
@@ -99,17 +106,23 @@ public class HUD extends Entity {
         startButton = new Button(
             context,
             context.getImage("startbuttons").split(32, 10)[0],
-            onStart
+            () -> {
+                context.audio.playSound("activate", 0.5f);
+                onStart.callback();
+            }
         );
         speedButton = new SpeedButton(
             context,
             context.getImage("speedbuttons").split(32, 10)[0],
             context.speed,
-            this::setSpeed
+            () -> {
+                context.audio.playSound("speed");
+                setSpeed();
+            }
         );
 
         nextLevelButton.x = (Constants.WIDTH - w) / 2f;
-        nextLevelButton.y = 8;
+        nextLevelButton.y = -8;
         backButton.x = Constants.WIDTH - 27;
         backButton.y = Constants.HEIGHT - 10;
         redoButton.x = Constants.WIDTH - 10;

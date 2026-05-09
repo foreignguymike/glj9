@@ -81,6 +81,7 @@ public class SettingsScreen extends Screen {
     }
 
     private void onBack() {
+        context.audio.playSound("back", 0.4f);
         ignoreInput = true;
         out.start();
     }
@@ -95,6 +96,7 @@ public class SettingsScreen extends Screen {
         backButton.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (toggle.contains(m.x, m.y)) {
+                context.audio.playSound("switch", 0.3f);
                 toggle.toggle();
                 context.pixelPerfect = toggle.on;
             }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
@@ -101,10 +102,6 @@ public class Dialog extends Entity {
     }
 
     private void typeNextChar() {
-//        text += texts[textIndex].charAt(charIndex);
-//        updateText();
-//        charIndex++;
-
         String full = texts[textIndex];
         if (charIndex >= full.length()) return;
         char c = full.charAt(charIndex);
@@ -141,7 +138,7 @@ public class Dialog extends Entity {
                 blipTime -= dt;
                 if (blipTime < 0) {
                     blipTime = BLIP_TIME;
-//                    context.audio.playSound("dialog", 0.25f, MathUtils.random(0.92f, 1.08f));
+                    context.audio.playSound("dialog", 0.1f, MathUtils.random(2.5f, 2.7f));
                 }
             }
         } else if (textIndex == texts.length) {

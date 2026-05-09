@@ -20,11 +20,22 @@ public class AudioHandler {
         music = new HashMap<>();
         addMusic("poko", "music/poko.ogg");
         sounds = new HashMap<>();
-//        addSound("collect", "sfx/collect.wav");
-//        addSound("dialog", "sfx/dialog.wav");
-//        addSound("enter", "sfx/enter.ogg");
-//        addSound("pop", "sfx/pop.wav");
-//        addSound("toggle", "sfx/toggle.wav");
+        addSound("activate", "sfx/activate.wav");
+        addSound("back", "sfx/back.wav");
+        addSound("select", "sfx/select.wav");
+        addSound("select2", "sfx/selectshort2.wav");
+        addSound("select3", "sfx/selectshort.wav");
+        addSound("button", "sfx/button.wav");
+        addSound("speed", "sfx/speed.wav");
+        addSound("dialog", "sfx/dialog.wav");
+        addSound("pop", "sfx/pop.wav");
+
+        addSound("reset", "sfx/kenney/back_003.ogg");
+        addSound("switch", "sfx/kenney/switch_001.ogg");
+        addSound("killghost", "sfx/kenney/minimize_008.ogg");
+        addSound("dead", "sfx/kenney/error_006.ogg");
+        addSound("power", "sfx/kenney/confirmation_004.ogg");
+        addSound("cheer", "sfx/DennisH18/crowd-cheering.wav");
 
         playing = new HashMap<>();
     }
