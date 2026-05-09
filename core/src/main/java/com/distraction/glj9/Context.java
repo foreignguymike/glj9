@@ -19,6 +19,10 @@ public class Context {
     private static final String PREFS = "pokopuzzle";
     private static final String KEY_COMPLETED = "completed";
 
+    private static final long SECRET = 0x5A17BEEFL;
+    private static final int LEVEL_BITS = LevelData.levels.length;
+    private static final long LEVEL_MASK = (1L << LEVEL_BITS) - 1L;
+
     public final AssetManager assets;
     public final AudioHandler audio;
 
@@ -80,16 +84,38 @@ public class Context {
 
     public void setComplete(int index) {
         completed[index] = true;
+        save();
+    }
+
+    private int checksum(long saved) {
+        long x = saved ^ SECRET;
+        x ^= (x >>> 17);
+        x *= 0xed5ad4bbL;
+        x ^= (x >>> 11);
+        x *= 0xac4c1b51L;
+        x ^= (x >>> 15);
+        return (int)(x & 0x0FFFFFFF);
+    }
+
+    private void save() {
         long saved = 0L;
         for (int i = 0; i < completed.length; i++) {
             if (completed[i]) saved |= (1L << i);
         }
-        prefs.putLong(KEY_COMPLETED, saved);
+        int check = checksum(saved);
+        long packed = saved | ((long)check << LEVEL_BITS);
+        prefs.putLong(KEY_COMPLETED, packed);
         prefs.flush();
     }
 
     private void load() {
-        long saved = prefs.getLong(KEY_COMPLETED);
+        long packed = prefs.getLong(KEY_COMPLETED, 0L);
+        long saved = packed & LEVEL_MASK;
+        int storedCheck = (int)(packed >>> LEVEL_BITS);
+        if (storedCheck != checksum(saved)) {
+            saved = 0L;
+            save();
+        }
         for (int i = 0; i < completed.length; i++) {
             completed[i] = (saved & (1L << i)) != 0;
         }

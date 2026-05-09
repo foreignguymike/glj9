@@ -60,10 +60,10 @@ public class Dialog extends Entity {
         ninePatch.fillColor = Constants.DIALOG_BG;
     }
 
-    public void next() {
-        if (lock && textIndex == texts.length - 1) return;
-        if (textIndex == texts.length) return;
-        if (!isCurrentTextDone()) return;
+    public boolean next() {
+        if (lock && textIndex == texts.length - 1) return false;
+        if (textIndex == texts.length) return false;
+        if (!isCurrentTextDone()) return false;
 
         textIndex++;
         if (textIndex < texts.length) {
@@ -72,6 +72,7 @@ public class Dialog extends Entity {
             blipTime = 0;
             charIndex = 0;
         }
+        return true;
     }
 
     private boolean isCurrentTextDone() {
@@ -80,10 +81,8 @@ public class Dialog extends Entity {
         return true;
     }
 
-    public boolean isTextDone() {
-        int lastTextIndex = texts.length - 1;
-        int lastCharIndex = texts[lastTextIndex].length() - 1;
-        return textIndex == lastTextIndex && charIndex == lastCharIndex + 1;
+    public int getTextIndex() {
+        return textIndex;
     }
 
     public boolean isDone() {

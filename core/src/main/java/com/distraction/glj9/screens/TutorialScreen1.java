@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Direction;
+import com.distraction.glj9.tile.Pointer;
 import com.distraction.glj9.tile.TileMap;
 import com.distraction.glj9.utils.Background;
 import com.distraction.glj9.utils.HUD;
@@ -31,11 +32,13 @@ public class TutorialScreen1 extends Screen {
     private final Background bg;
     private final HUD hud;
 
+    private final Pointer pointer;
+
     private float time;
 
     private Dialog dialog;
 
-    private int stage = IN;
+    private int stage = AFTER_RESET;
 
     public TutorialScreen1(Context context) {
         super(context);
@@ -61,6 +64,8 @@ public class TutorialScreen1 extends Screen {
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
 
+        pointer = new Pointer(context);
+
         context.audio.playMusic("poko", 0.5f, true);
     }
 
@@ -68,6 +73,7 @@ public class TutorialScreen1 extends Screen {
         if (stage == FIRST_PLAY) {
             time = 0;
             tileMap.start();
+            pointer.hide();
         } else if (stage == BEATING) {
             tileMap.start();
         }
@@ -78,6 +84,7 @@ public class TutorialScreen1 extends Screen {
             stage = AFTER_RESET;
             time = 0;
             tileMap.redo();
+            pointer.hide();
         } else if (stage == BEATING) {
             tileMap.redo();
         }
@@ -104,7 +111,14 @@ public class TutorialScreen1 extends Screen {
         if (ignoreInput) return;
         if (dialog != null) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                dialog.next();
+                boolean next = dialog.next();
+                if (stage == INTRO_DIALOG && next) {
+                    if (dialog.getTextIndex() == 3) {
+                        pointer.show(Constants.WIDTH - 40, Constants.HEIGHT - 9);
+                    } else if (dialog.getTextIndex() == 4) {
+                        pointer.show(Constants.WIDTH - 42, 24);
+                    }
+                }
             }
             return;
         }
@@ -120,6 +134,7 @@ public class TutorialScreen1 extends Screen {
             if (tileMap.player.direction == Direction.DOWN && previousDirection != Direction.DOWN) {
                 stage = AFTER_ROTATING;
                 time = 0;
+                pointer.hide();
             }
         }
 
@@ -134,6 +149,7 @@ public class TutorialScreen1 extends Screen {
         int prevSpeed = context.speed;
         hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
         if (stage == SPEED_TIME && prevSpeed != 1 && context.speed == 1) {
+            pointer.hide();
             stage = WAITING_FOR_RESET_DIALOG;
             time = 0;
         }
@@ -192,6 +208,7 @@ public class TutorialScreen1 extends Screen {
                 50
             );
             dialog.next();
+            pointer.show(Constants.WIDTH - 42, 11);
         }
         if (stage == SPEED_DIALOG && dialog.isDone()) {
             dialog = null;
@@ -211,6 +228,7 @@ public class TutorialScreen1 extends Screen {
                 50
             );
             dialog.next();
+            pointer.show(Constants.WIDTH - 23, Constants.HEIGHT - 9);
         }
         if (stage == RESET_DIALOG && dialog.isDone()) {
             dialog = null;
@@ -222,8 +240,7 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "You can change your starting direction",
-                    "by rotating [POKO]Poko[].",
+                    "You can change [POKO]Poko's[] starting direction.",
                     "Click on [POKO]Poko[] to turn him all the way around."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
@@ -239,6 +256,7 @@ public class TutorialScreen1 extends Screen {
         if (stage == ROTATING_DIALOG && dialog.isDone()) {
             stage = ROTATING;
             dialog = null;
+            pointer.show(45, Constants.HEIGHT / 2f + 2);
         }
         if (stage == AFTER_ROTATING && time > 1) {
             stage = ARROW_DIALOG;
@@ -267,6 +285,7 @@ public class TutorialScreen1 extends Screen {
         }
 
         if (dialog != null) dialog.update(dt);
+        pointer.update(dt);
     }
 
     @Override
@@ -285,6 +304,7 @@ public class TutorialScreen1 extends Screen {
         sb.setProjectionMatrix(uiCam.combined);
         hud.render(sb);
         if (dialog != null) dialog.render(sb);
+        pointer.render(sb);
         in.render(sb);
         out.render(sb);
 
