@@ -2,11 +2,16 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.Button;
+import com.distraction.glj9.utils.MusicFader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TitleScreen extends Screen {
 
@@ -14,6 +19,8 @@ public class TitleScreen extends Screen {
     private final TextureRegion bg;
 
     private final Button[] buttons;
+
+    private final List<MusicFader> musicFaders;
 
     public TitleScreen(Context context) {
         super(context);
@@ -38,6 +45,12 @@ public class TitleScreen extends Screen {
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
 
         ignoreInput = true;
+
+        musicFaders = new ArrayList<>();
+        List<Music> currentlyPlaying = context.audio.getCurrentlyPlaying();
+        for (Music m : currentlyPlaying) {
+            musicFaders.add(new MusicFader(m, 0.5f));
+        }
     }
 
     @Override
@@ -78,6 +91,7 @@ public class TitleScreen extends Screen {
     public void update(float dt) {
         in.update(dt);
         out.update(dt);
+        for (MusicFader m : musicFaders) m.update(dt);
     }
 
     @Override

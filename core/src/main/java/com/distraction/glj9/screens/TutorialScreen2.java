@@ -71,7 +71,7 @@ public class TutorialScreen2 extends Screen {
 
     private void onBack() {
         ignoreInput = true;
-        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
+        out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f, () -> {
             context.sm.replace(new TitleScreen(context));
         });
         out.start();

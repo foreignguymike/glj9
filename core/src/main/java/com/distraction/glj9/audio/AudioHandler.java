@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AudioHandler {
@@ -59,6 +61,15 @@ public class AudioHandler {
         if (playing.containsKey(key)) {
             playing.get(key).stop();
         }
+    }
+
+    public List<Music> getCurrentlyPlaying() {
+        List<Music> list = new ArrayList<>();
+        for (Map.Entry<String, Music> e : music.entrySet()) {
+            Music m = e.getValue();
+            if (m.isPlaying()) list.add(m);
+        }
+        return list;
     }
 
     public void playSound(String key) {
