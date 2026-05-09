@@ -1,0 +1,94 @@
+package com.distraction.glj9.audio;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class AudioHandler {
+
+    private final Map<String, Music> music;
+    private final Map<String, Sound> sounds;
+
+    private final Map<String, MusicConfig> playing;
+
+    public AudioHandler() {
+        music = new HashMap<>();
+        addMusic("poko", "music/poko.ogg");
+        sounds = new HashMap<>();
+//        addSound("collect", "sfx/collect.wav");
+//        addSound("dialog", "sfx/dialog.wav");
+//        addSound("enter", "sfx/enter.ogg");
+//        addSound("pop", "sfx/pop.wav");
+//        addSound("toggle", "sfx/toggle.wav");
+
+        playing = new HashMap<>();
+    }
+
+    private void addMusic(String key, String fileName) {
+        music.put(key, Gdx.audio.newMusic(Gdx.files.internal(fileName)));
+    }
+
+    private void addSound(String key, String fileName) {
+        sounds.put(key, Gdx.audio.newSound(Gdx.files.internal(fileName)));
+    }
+
+    public void playMusic(String key, float volume, boolean looping) {
+        Music newMusic = music.get(key);
+        if (newMusic == null) {
+            throw new IllegalArgumentException("Unknown music: " + key);
+        }
+        if (playing.containsKey(key)) {
+            playing.get(key).play();
+        } else {
+            MusicConfig musicConfig = new MusicConfig(music.get(key), volume, looping);
+            musicConfig.play();
+            playing.put(key, musicConfig);
+        }
+    }
+
+    public void stopMusic() {
+        for (Map.Entry<String, MusicConfig> entry : playing.entrySet()) {
+            entry.getValue().stop();
+        }
+    }
+
+    public void stopMusic(String key) {
+        if (playing.containsKey(key)) {
+            playing.get(key).stop();
+        }
+    }
+
+    public void playSound(String key) {
+        playSound(key, 1, false, 1f);
+    }
+
+    public void playSound(String key, float volume) {
+        playSound(key, volume, false, 1f);
+    }
+
+    public void playSound(String key, float volume, float pitch) {
+        playSound(key, volume, false, pitch);
+    }
+
+    public void playSoundCut(String key, float volume) {
+        playSound(key, volume, true, 1f);
+    }
+
+    public void playSound(String key, float volume, boolean cut, float pitch) {
+        for (Map.Entry<String, Sound> entry : sounds.entrySet()) {
+            if (entry.getKey().equals(key)) {
+                if (cut) entry.getValue().stop();
+                entry.getValue().play(volume, pitch, 0f);
+            }
+        }
+    }
+
+    public void dispose() {
+        for (Music m : music.values()) m.dispose();
+        for (Sound s : sounds.values()) s.dispose();
+    }
+
+}

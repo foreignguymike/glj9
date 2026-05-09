@@ -1,13 +1,12 @@
 package com.distraction.glj9;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.glj9.audio.AudioHandler;
 import com.distraction.glj9.screens.ScreenManager;
 import com.distraction.glj9.tile.LevelData;
 
@@ -16,7 +15,8 @@ public class Context {
     private static final String ATLAS = "glj9.atlas";
     private static final String FONT = "fonts/m5x7_16.fnt";
 
-    public AssetManager assets;
+    public final AssetManager assets;
+    public final AudioHandler audio;
 
     public ScreenManager sm;
     public SpriteBatch sb;
@@ -42,6 +42,8 @@ public class Context {
             t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
 
+        audio = new AudioHandler();
+
         sb = new SpriteBatch();
 //        sm = new ScreenManager(new com.distraction.glj9.screens.LevelSelectScreen(this));
         sm = new ScreenManager(new com.distraction.glj9.screens.TitleScreen(this));
@@ -63,6 +65,8 @@ public class Context {
 
     public void dispose() {
         sb.dispose();
+        audio.dispose();
+        assets.dispose();
     }
 
 }
