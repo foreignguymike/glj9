@@ -1,5 +1,7 @@
 package com.distraction.glj9;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +16,8 @@ public class Context {
 
     private static final String ATLAS = "glj9.atlas";
     private static final String FONT = "fonts/m5x7_16.fnt";
+    private static final String PREFS = "pokopuzzle";
+    private static final String KEY_COMPLETED = "completed";
 
     public final AssetManager assets;
     public final AudioHandler audio;
@@ -24,11 +28,13 @@ public class Context {
     public boolean pixelPerfect = false;
 
     public int speed = 1;
-    public final boolean[] completedLevels = new boolean[LevelData.levels.length];
+    private final boolean[] completed = new boolean[LevelData.levels.length];
 
     public int page;
 
     private final BitmapFont font;
+
+    private final Preferences prefs;
 
     public Context() {
         assets = new AssetManager();
@@ -41,6 +47,9 @@ public class Context {
         for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
             t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
+
+        prefs = Gdx.app.getPreferences(PREFS);
+        load();
 
         audio = new AudioHandler();
 
@@ -61,6 +70,27 @@ public class Context {
 
     public BitmapFont getFont() {
         return font;
+    }
+
+    public boolean isComplete(int index) {
+        return completed[index];
+    }
+
+    public void setComplete(int index) {
+        completed[index] = true;
+        long saved = 0L;
+        for (int i = 0; i < completed.length; i++) {
+            if (completed[i]) saved |= (1L << i);
+        }
+        prefs.putLong(KEY_COMPLETED, saved);
+        prefs.flush();
+    }
+
+    private void load() {
+        long saved = prefs.getLong(KEY_COMPLETED);
+        for (int i = 0; i < completed.length; i++) {
+            completed[i] = (saved & (1L << i)) != 0;
+        }
     }
 
     public void dispose() {

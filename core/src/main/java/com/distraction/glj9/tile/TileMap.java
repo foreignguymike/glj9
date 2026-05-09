@@ -301,7 +301,7 @@ public class TileMap {
 
     private void checkComplete() {
         if (collectibles.isEmpty() && (!mustEliminateGhosts || ghosts.isEmpty())) {
-            if (level > 0) context.completedLevels[level - 1] = true;
+            if (level > 0) context.setComplete(level - 1);
             player.setWin();
         }
     }

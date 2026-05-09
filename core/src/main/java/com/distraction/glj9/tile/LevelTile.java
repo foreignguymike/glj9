@@ -99,7 +99,7 @@ public class LevelTile extends Entity {
         else if (desty != 0) Utils.drawCentered(sb, transitionImage, x + 0.5f, y + desty);
         else Utils.drawCentered(sb, image, x + 0.5f, y + desty);
         font.draw(sb, text, x, y + 4 + desty);
-        if (level - 1 >= 0 && level - 1 < MAX_LEVELS && context.completedLevels[level - 1]) {
+        if (level - 1 >= 0 && level - 1 < MAX_LEVELS && context.isComplete(level - 1)) {
             Utils.drawCentered(sb, pellet, x + 7, y - 7 + desty);
         }
     }

@@ -21,8 +21,10 @@ public class TileMapPreview {
 
     public static final int TILE_SIZE = 5;
 
+    private final Context context;
     private final TextureRegion[][] tilesets;
     private final TextureRegion pixel;
+    private final TextureRegion pellet;
     private final BitmapFont font;
     private final GlyphLayout arrowsText;
 
@@ -36,11 +38,13 @@ public class TileMapPreview {
     private int arrows;
 
     public TileMapPreview(Context context) {
+        this.context = context;
         tilesets = new TextureRegion[][]{
             Utils.flat(context.getImage("tilesetpreview").split(TILE_SIZE, TILE_SIZE)),
             Utils.flat(context.getImage("tileset2preview").split(TILE_SIZE, TILE_SIZE))
         };
         pixel = context.getPixel();
+        pellet = context.getImage("pellet");
         font = context.getFont();
         arrowsText = new GlyphLayout(font, "Arrows: 0", Constants.WHITE, 0, Align.center, false);
     }
@@ -100,6 +104,7 @@ public class TileMapPreview {
                 }
             }
         }
+        if (context.isComplete(level - 1)) sb.draw(pellet, ox - 34, 7);
         font.draw(sb, arrowsText, ox, 14);
     }
 

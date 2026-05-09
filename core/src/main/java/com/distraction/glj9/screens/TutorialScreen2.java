@@ -44,6 +44,7 @@ public class TutorialScreen2 extends Screen {
         cam.position.y = tileMap.getHeight() / 2f;
         cam.update();
 
+        ignoreInput = true;
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);

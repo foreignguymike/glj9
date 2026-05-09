@@ -55,6 +55,7 @@ public class PlayScreen extends Screen {
         // max grid size for locked cam is 5x7
         lockCamera = tileMap.getWidth() < Constants.WIDTH - hud.getWidth() && tileMap.getHeight() < Constants.HEIGHT;
 
+        ignoreInput = true;
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
