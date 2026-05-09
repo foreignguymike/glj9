@@ -100,6 +100,28 @@ public class Dialog extends Entity {
         );
     }
 
+    private void typeNextChar() {
+//        text += texts[textIndex].charAt(charIndex);
+//        updateText();
+//        charIndex++;
+
+        String full = texts[textIndex];
+        if (charIndex >= full.length()) return;
+        char c = full.charAt(charIndex);
+        if (c == '[') {
+            int end = full.indexOf(']', charIndex);
+            if (end != -1) {
+                text += full.substring(charIndex, end + 1);
+                charIndex = end + 1;
+                typeNextChar();
+                return;
+            }
+        }
+        text += c;
+        charIndex++;
+        updateText();
+    }
+
     @Override
     public void update(float dt) {
         if (textIndex >= 0 && textIndex < texts.length) {
@@ -111,9 +133,7 @@ public class Dialog extends Entity {
             } else if (time > 0) {
                 time -= dt;
                 if (time <= 0) {
-                    text += texts[textIndex].charAt(charIndex);
-                    updateText();
-                    charIndex++;
+                    typeNextChar();
                     if (charIndex < texts[textIndex].length()) {
                         time = CHAR_TIME;
                     }

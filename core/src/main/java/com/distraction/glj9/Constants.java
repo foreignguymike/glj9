@@ -76,6 +76,11 @@ public class Constants {
     public static final Color PREVIEW_PLAYER = COLORS[18];
     public static final Color PREVIEW_GHOST = COLORS[3];
 
+    public static final Color GREEN_TEXT_COLOR = COLORS[33];
+    public static final Color POKO_TEXT_COLOR = COLORS[18];
+    public static final Color PELLET_TEXT_COLOR = COLORS[8];
+    public static final Color GHOST_TEXT_COLOR = COLORS[4];
+
     public static final Color[] HUD_BORDER_COLORS = new Color[] {
         COLORS[19], COLORS[18], COLORS[11]
     };

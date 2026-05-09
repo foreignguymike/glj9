@@ -43,6 +43,7 @@ public class Context {
         assets.finishLoading();
 
         font = assets.get(FONT, BitmapFont.class);
+        font.getData().markupEnabled = true;
 
         for (Texture t : assets.get(ATLAS, TextureAtlas.class).getTextures()) {
             t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

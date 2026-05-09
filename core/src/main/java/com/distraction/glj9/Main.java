@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +22,11 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+        Colors.put("GREEN", Constants.GREEN_TEXT_COLOR);
+        Colors.put("POKO", Constants.POKO_TEXT_COLOR);
+        Colors.put("PELLET", Constants.PELLET_TEXT_COLOR);
+        Colors.put("GHOST", Constants.GHOST_TEXT_COLOR);
+
         context = new Context();
 
         fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.WIDTH, Constants.HEIGHT, false);

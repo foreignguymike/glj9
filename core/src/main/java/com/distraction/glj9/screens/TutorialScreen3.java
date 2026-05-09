@@ -48,6 +48,8 @@ public class TutorialScreen3 extends Screen {
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        context.audio.playMusic("poko", 0.5f, true);
     }
 
     private void onStart() {
@@ -115,12 +117,12 @@ public class TutorialScreen3 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "Be careful of ghosts!",
-                    "Running into a ghost will hurt Poko :(",
-                    "But Poko can eat a SUPER pellet to be invincible!",
-                    "Run into ghosts while SUPER to eliminate them.",
+                    "Be careful of [GHOST]Ghosts[]!",
+                    "Running into a [GHOST]Ghost[] will hurt [POKO]Poko[] :(",
+                    "But [POKO]Poko[] can eat a [PELLET]SUPER pellet[] to be invincible!",
+                    "Run into [GHOST]Ghosts[] while [PELLET]SUPER[] to eliminate them.",
                     "But be careful!",
-                    "Poko can only be SUPER for a short time."
+                    "[POKO]Poko[] can only be [PELLET]SUPER[] for a short time."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,

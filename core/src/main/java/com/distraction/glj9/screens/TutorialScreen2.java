@@ -48,6 +48,8 @@ public class TutorialScreen2 extends Screen {
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        context.audio.playMusic("poko", 0.5f, true);
     }
 
     private void onStart() {
@@ -115,10 +117,10 @@ public class TutorialScreen2 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "If Poko runs into a wall...",
-                    "he will try to turn right if he can,",
-                    "then try to turn left if he can,",
-                    "otherwise he will turn around."
+                    "If [POKO]Poko[] runs into a wall...",
+                    "he will try to turn right first.",
+                    "If he can't, then he will try to turn left.",
+                    "Otherwise he will turn around."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,

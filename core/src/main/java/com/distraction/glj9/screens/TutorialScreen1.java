@@ -60,6 +60,8 @@ public class TutorialScreen1 extends Screen {
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        context.audio.playMusic("poko", 0.5f, true);
     }
 
     private void onStart() {
@@ -156,10 +158,10 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "How to play",
-                    "The goal is to help Poko eat all the pellets",
-                    "and eliminate any ghosts if possible.",
+                    "The goal is to help [POKO]Poko[] eat all the [PELLET]pellets",
+                    "and eliminate any [GHOST]Ghosts[] if possible.",
                     "Press the back button to leave any time.",
-                    "Press start to begin!"
+                    "Press [GREEN]Start[] to begin!"
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -221,8 +223,8 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "You can change your starting direction",
-                    "by rotating Poko.",
-                    "Click on Poko to turn him all the way around."
+                    "by rotating [POKO]Poko[].",
+                    "Click on [POKO]Poko[] to turn him all the way around."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -244,7 +246,7 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "You can also place arrows on any tile.",
-                    "Poko will always try to follow the arrows.",
+                    "[POKO]Poko[] will always try to follow the arrows.",
                     "Click on a placed arrow to rotate it,",
                     "and right click the arrow to remove it.",
                     "Try to beat this level!"
