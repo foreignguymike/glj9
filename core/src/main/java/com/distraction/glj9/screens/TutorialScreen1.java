@@ -38,7 +38,7 @@ public class TutorialScreen1 extends Screen {
 
     private Dialog dialog;
 
-    private int stage = AFTER_RESET;
+    private int stage = IN;
 
     public TutorialScreen1(Context context) {
         super(context);
