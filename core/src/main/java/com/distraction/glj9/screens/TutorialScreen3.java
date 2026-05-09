@@ -30,7 +30,7 @@ public class TutorialScreen3 extends Screen {
 
         tileMap = new TileMap(context, -3);
 
-        bg = new Background(context, context.getImage("bg3"), 5, -5, 24, 24);
+        bg = new Background(context, context.getImage("bgt"), 5, -5, 24, 24);
         hud = new HUD(
             context,
             tileMap,
@@ -142,7 +142,7 @@ public class TutorialScreen3 extends Screen {
         sb.begin();
 
         sb.setProjectionMatrix(uiCam.combined);
-        sb.setColor(Constants.LEVEL_BG);
+        sb.setColor(Constants.TUTORIAL_BG);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
         sb.setColor(Color.WHITE);
         bg.render(sb);

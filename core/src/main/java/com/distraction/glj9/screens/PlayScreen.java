@@ -80,6 +80,8 @@ public class PlayScreen extends Screen {
         }
 
         setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
+
+        context.au
     }
 
     private void setCameraPosition(float x, float y) {
