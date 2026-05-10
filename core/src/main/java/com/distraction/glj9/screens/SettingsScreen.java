@@ -96,7 +96,7 @@ public class SettingsScreen extends Screen {
         backButton.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (toggle.contains(m.x, m.y)) {
-                context.audio.playSound("switch", 0.3f);
+                context.audio.playSound("switch", 0.2f);
                 toggle.toggle();
                 context.pixelPerfect = toggle.on;
             }

@@ -119,7 +119,7 @@ public class Player extends Entity {
     }
 
     public void setDead() {
-        if (!isDead) context.audio.playSound("dead");
+        if (!isDead) context.audio.playSound("dead", 0.6f);
         isDead = true;
         deadTimer = 0;
         deady = y;
