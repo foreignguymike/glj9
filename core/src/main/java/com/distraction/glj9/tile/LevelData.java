@@ -749,40 +749,19 @@ public class LevelData {
         new LevelData(
             5,
             new int[] {
-                25,4,4,4,21,
-                22,33,33,33,12,
-                22,33,33,33,12,
-                22,33,33,33,12,
-                45,30,30,30,41
+                9,48,6,0,0,
+                42,0,42,0,8,
+                36,48,47,3,24,
+                0,0,0,45,41
             },
             new int[] {
-                0, 0, 1, 0, 0,
-                0, 0, 0, 1, 0,
-                1, 0, 0, 1, 1,
+                1, 1, 1, 0, 0,
+                1, 0, 0, 0, 1,
+                1, 1, 1, 0, 0,
                 0, 0, 0, 0, 0,
-                0, 0, 1, 0, 0
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 2, 2)
-            },
-            1
-        ),
-        new LevelData(
-            4,
-            new int[] {
-                25,21,0,8,
-                29,46,48,35,
-                42,0,0,44,
-                36,48,48,14
-            },
-            new int[] {
-                1, 1, 0, 1,
-                1, 1, 0, 0,
-                0, 0, 0, 0,
-                0, 0, 0, 0
-            },
-            new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 3, 3)
+                new EntityData(EntityData.EntityType.PLAYER, 1, 2)
             },
             1
         ),

@@ -40,7 +40,7 @@ public class TutorialScreen2 extends Screen {
             this::onNext
         );
 
-        cam.position.x = (Constants.WIDTH - hud.getWidth()) / 2f;
+        cam.position.x = (tileMap.getWidth() + hud.getWidth()) / 2f;
         cam.position.y = tileMap.getHeight() / 2f;
         cam.update();
 
@@ -48,8 +48,6 @@ public class TutorialScreen2 extends Screen {
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
-
-        context.audio.playMusic("poko", 0.5f, true);
     }
 
     private void onStart() {
@@ -64,14 +62,14 @@ public class TutorialScreen2 extends Screen {
     private void onNext() {
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
-            context.sm.replace(new TutorialScreen3(context));
+            context.sm.replace(new TutorialScreen2(context));
         });
         out.start();
     }
 
     private void onBack() {
         ignoreInput = true;
-        out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f, () -> {
+        out = new Transition(context, Transition.Type.FLASH_OUT, 1f, () -> {
             context.sm.replace(new TitleScreen(context));
         });
         out.start();
@@ -117,9 +115,12 @@ public class TutorialScreen2 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "If [POKO]Poko[] runs into a wall...",
-                    "he will try to turn right first, then left.",
-                    "Otherwise he will turn around."
+                    "Be careful of [GHOST]Ghosts[]!",
+                    "Running into a [GHOST]Ghost[] will hurt [POKO]Poko[] :(",
+                    "But [POKO]Poko[] can eat a [PELLET]SUPER pellet[] to be invincible!",
+                    "Run into [GHOST]Ghosts[] while [PELLET]SUPER[] to eliminate them.",
+                    "But be careful!",
+                    "[POKO]Poko[] can only be [PELLET]SUPER[] for a short time."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,

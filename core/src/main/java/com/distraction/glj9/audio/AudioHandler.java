@@ -18,7 +18,8 @@ public class AudioHandler {
 
     public AudioHandler() {
         music = new HashMap<>();
-        addMusic("poko", "music/poko.ogg");
+        addMusic("easy", "music/easy.ogg");
+
         sounds = new HashMap<>();
         addSound("activate", "sfx/activate.wav");
         addSound("back", "sfx/back.wav");

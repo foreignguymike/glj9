@@ -66,7 +66,7 @@ public class TutorialScreen1 extends Screen {
 
         pointer = new Pointer(context);
 
-        context.audio.playMusic("poko", 0.5f, true);
+        context.audio.playMusic("easy", 0.5f, true);
     }
 
     private void onStart() {
@@ -117,6 +117,10 @@ public class TutorialScreen1 extends Screen {
                         pointer.show(Constants.WIDTH - 40, Constants.HEIGHT - 9);
                     } else if (dialog.getTextIndex() == 4) {
                         pointer.show(Constants.WIDTH - 42, 24);
+                    }
+                } else if (stage == RESET_DIALOG && next) {
+                    if (dialog.getTextIndex() == 3) {
+                        pointer.show(Constants.WIDTH - 23, Constants.HEIGHT - 9);
                     }
                 }
             }
@@ -177,7 +181,7 @@ public class TutorialScreen1 extends Screen {
                     "The goal is to help [POKO]Poko[] eat all the [PELLET]pellets",
                     "and eliminate any [GHOST]Ghosts[] if possible.",
                     "Press the back button to leave any time.",
-                    "Press [GREEN]Start[] to begin!"
+                    "Press [GREEN]Start[] to move [POKO]Poko!"
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -193,7 +197,7 @@ public class TutorialScreen1 extends Screen {
             hud.speedEnabled = false;
             time = 0f;
         }
-        if (stage == FIRST_PLAY && tileMap.isStarted() && time > 5) {
+        if (stage == FIRST_PLAY && tileMap.isStarted() && time > 3) {
             stage = SPEED_DIALOG;
             dialog = new Dialog(
                 context,
@@ -220,7 +224,10 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "If Poko gets stuck, press the reset button.",
+                    "[POKO]Poko[] always moves forward until he hits a wall.",
+                    "[POKO]Poko[] will try to turn right first, then left.",
+                    "Otherwise [POKO]Poko[] will turn around.",
+                    "If [POKO]Poko[] gets stuck, press the restart button.",
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -228,7 +235,6 @@ public class TutorialScreen1 extends Screen {
                 50
             );
             dialog.next();
-            pointer.show(Constants.WIDTH - 23, Constants.HEIGHT - 9);
         }
         if (stage == RESET_DIALOG && dialog.isDone()) {
             dialog = null;
@@ -241,7 +247,7 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "You can change [POKO]Poko's[] starting direction.",
-                    "Click on [POKO]Poko[] to turn him all the way around."
+                    "Click on [POKO]Poko[] for a full spin."
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -256,7 +262,7 @@ public class TutorialScreen1 extends Screen {
         if (stage == ROTATING_DIALOG && dialog.isDone()) {
             stage = ROTATING;
             dialog = null;
-            pointer.show(45, Constants.HEIGHT / 2f + 2);
+            pointer.show(45, Constants.HEIGHT / 2f + 10);
         }
         if (stage == AFTER_ROTATING && time > 1) {
             stage = ARROW_DIALOG;
@@ -264,7 +270,7 @@ public class TutorialScreen1 extends Screen {
                 context,
                 new String[]{
                     "You can also place arrows on any tile.",
-                    "[POKO]Poko[] will always try to follow the arrows.",
+                    "[POKO]Poko[] will always go the way arrows point.",
                     "Click on a placed arrow to rotate it,",
                     "and right click the arrow to remove it.",
                     "Try to beat this level!"

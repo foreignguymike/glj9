@@ -82,7 +82,7 @@ public class PlayScreen extends Screen {
 
         setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
 
-        context.audio.playMusic("poko", 0.5f, true);
+        context.audio.playMusic("easy", 0.5f, true);
     }
 
     private void setCameraPosition(float x, float y) {
