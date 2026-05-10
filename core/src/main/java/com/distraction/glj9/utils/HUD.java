@@ -33,7 +33,7 @@ public class HUD extends Entity {
     private final Button backButton;
     private final Button redoButton;
     private final Button startButton;
-    private final SpeedButton speedButton;
+    public final SpeedButton speedButton;
 
     private int superSteps;
     private int arrows;
@@ -170,6 +170,15 @@ public class HUD extends Entity {
         if (redoEnabled) redoButton.onMousePressed(pressed);
         if (startEnabled) startButton.onMousePressed(pressed);
         if (speedEnabled) speedButton.onMousePressed(pressed);
+    }
+
+    public void enable() {
+        redoEnabled = startEnabled = speedEnabled = true;
+    }
+
+    public void disable() {
+        redoEnabled = startEnabled = speedEnabled = false;
+        redoButton.hovered = speedButton.hovered = false;
     }
 
     @Override

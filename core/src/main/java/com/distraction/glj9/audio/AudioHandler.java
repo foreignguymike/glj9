@@ -18,6 +18,7 @@ public class AudioHandler {
 
     public AudioHandler() {
         music = new HashMap<>();
+        addMusic("levelselect", "music/levelselect.ogg");
         addMusic("easy", "music/easy.ogg");
         addMusic("tricky", "music/tricky.ogg");
 
@@ -56,6 +57,7 @@ public class AudioHandler {
             throw new IllegalArgumentException("Unknown music: " + key);
         }
         if (playing.containsKey(key)) {
+            playing.get(key).setVolume(volume);
             playing.get(key).play();
         } else {
             MusicConfig musicConfig = new MusicConfig(music.get(key), volume, looping);

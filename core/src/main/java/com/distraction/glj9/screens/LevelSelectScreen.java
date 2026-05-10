@@ -2,6 +2,7 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,6 +16,9 @@ import com.distraction.glj9.tile.LevelData;
 import com.distraction.glj9.tile.LevelTile;
 import com.distraction.glj9.tile.TileMapPreview;
 import com.distraction.glj9.utils.Background;
+import com.distraction.glj9.utils.MusicFader;
+
+import java.util.List;
 
 public class LevelSelectScreen extends Screen {
 
@@ -38,6 +42,8 @@ public class LevelSelectScreen extends Screen {
     private final Button pageRight;
 
     private final TileMapPreview preview;
+
+    private final MusicFader musicFader;
 
     public LevelSelectScreen(Context context) {
         super(context);
@@ -94,6 +100,21 @@ public class LevelSelectScreen extends Screen {
         backButton = new Button(context, context.getImage("backbuttons").split(10, 10)[0], this::onBack);
         backButton.x = 8;
         backButton.y = Constants.HEIGHT - 8;
+
+        if (!context.audio.isPlaying("levelselect")) {
+            List<Music> playing = context.audio.getCurrentlyPlayingList();
+            if (!playing.isEmpty()) {
+                musicFader = new MusicFader(playing, 1f, () -> {
+                    context.audio.playMusic("levelselect", 0.5f, true);
+                });
+            } else {
+                musicFader = null;
+                context.audio.playMusic("levelselect", 0.5f, true);
+            }
+        } else {
+            musicFader = null;
+            context.audio.playMusic("levelselect", 0.5f, true);
+        }
     }
 
     private void onBack() {
@@ -149,6 +170,7 @@ public class LevelSelectScreen extends Screen {
     }
 
     private void onLevelSelected(int level) {
+        if (musicFader != null) musicFader.setActive(false);
         context.audio.playSound("select2", 0.4f);
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
@@ -192,6 +214,7 @@ public class LevelSelectScreen extends Screen {
     public void update(float dt) {
         in.update(dt);
         out.update(dt);
+        if (musicFader != null) musicFader.update(dt);
         bg.update(dt);
 
         for (int row = 0; row < levelTiles.length; row++) {

@@ -12,7 +12,7 @@ public class Button extends Entity {
     private final TextureRegion[] images;
     protected final SimpleCallback callback;
 
-    protected boolean hovered;
+    public boolean hovered;
     public boolean pressed;
 
     public Button(Context context, TextureRegion[] images, SimpleCallback callback) {

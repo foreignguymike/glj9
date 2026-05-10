@@ -9,8 +9,8 @@ public class Constants {
     public static final int WIDTH = 160;
     public static final int HEIGHT = 90;
 
-    public static final int DWIDTH = 960;
-    public static final int DHEIGHT = 540;
+    public static final int DWIDTH = 1280;
+    public static final int DHEIGHT = 720;
 
     public static final boolean FULLSCREEN = false;
 
@@ -70,7 +70,8 @@ public class Constants {
 
     public static final Color SETTINGS_BG = COLORS[20];
     public static final Color DIALOG_TEXT = COLORS[7];
-    public static final Color DIALOG_BG = COLORS[14];
+//    public static final Color DIALOG_BG = COLORS[14];
+    public static final Color DIALOG_BG = Color.valueOf("4b0c30f0");
 
     public static final Color PREVIEW_PELLET = COLORS[8];
     public static final Color PREVIEW_PLAYER = COLORS[18];

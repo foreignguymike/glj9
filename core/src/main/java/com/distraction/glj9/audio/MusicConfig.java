@@ -5,8 +5,8 @@ import com.badlogic.gdx.audio.Music;
 public class MusicConfig {
 
     private final Music music;
-    private final float volume;
-    private final boolean looping;
+    private float volume;
+    private boolean looping;
 
     public MusicConfig(Music music, float volume, boolean looping) {
         this.music = music;
@@ -20,6 +20,10 @@ public class MusicConfig {
 
     public void mute() {
         music.setVolume(0f);
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
     }
 
     public void play() {

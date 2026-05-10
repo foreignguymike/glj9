@@ -59,9 +59,7 @@ public class Context {
         audio = new AudioHandler();
 
         sb = new SpriteBatch();
-//        sm = new ScreenManager(new com.distraction.glj9.screens.LevelSelectScreen(this));
         sm = new ScreenManager(new com.distraction.glj9.screens.TitleScreen(this));
-//        sm = new ScreenManager(new com.distraction.glj9.screens.TutorialScreen2(this));
     }
 
     public TextureRegion getImage(String key) {

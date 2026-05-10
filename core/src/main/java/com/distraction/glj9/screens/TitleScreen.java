@@ -88,7 +88,7 @@ public class TitleScreen extends Screen {
 
     @Override
     public void input() {
-        if (ignoreInput) return;
+        if (ignoreInput || time < DURATION) return;
 
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         cam.unproject(m);

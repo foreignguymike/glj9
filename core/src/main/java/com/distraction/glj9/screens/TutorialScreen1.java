@@ -67,6 +67,8 @@ public class TutorialScreen1 extends Screen {
         pointer = new Pointer(context);
 
         context.audio.playMusic("easy", 0.5f, true);
+
+        hud.disable();
     }
 
     private void onStart() {
@@ -74,6 +76,7 @@ public class TutorialScreen1 extends Screen {
             time = 0;
             tileMap.start();
             pointer.hide();
+            hud.startEnabled = true;
         } else if (stage == BEATING) {
             tileMap.start();
         }
@@ -109,23 +112,6 @@ public class TutorialScreen1 extends Screen {
     @Override
     public void input() {
         if (ignoreInput) return;
-        if (dialog != null) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                boolean next = dialog.next();
-                if (stage == INTRO_DIALOG && next) {
-                    if (dialog.getTextIndex() == 3) {
-                        pointer.show(Constants.WIDTH - 40, Constants.HEIGHT - 9);
-                    } else if (dialog.getTextIndex() == 4) {
-                        pointer.show(Constants.WIDTH - 42, 24);
-                    }
-                } else if (stage == RESET_DIALOG && next) {
-                    if (dialog.getTextIndex() == 3) {
-                        pointer.show(Constants.WIDTH - 23, Constants.HEIGHT - 9);
-                    }
-                }
-            }
-            return;
-        }
         if (stage == IN) return;
 
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -156,6 +142,24 @@ public class TutorialScreen1 extends Screen {
             pointer.hide();
             stage = WAITING_FOR_RESET_DIALOG;
             time = 0;
+            hud.speedEnabled = false;
+            hud.speedButton.pressed = false;
+        }
+        if (dialog != null && !ignoreInput) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                boolean next = dialog.next();
+                if (stage == INTRO_DIALOG && next) {
+                    if (dialog.getTextIndex() == 3) {
+                        pointer.show(Constants.WIDTH - 40, Constants.HEIGHT - 9);
+                    } else if (dialog.getTextIndex() == 4) {
+                        pointer.show(Constants.WIDTH - 42, 24);
+                    }
+                } else if (stage == RESET_DIALOG && next) {
+                    if (dialog.getTextIndex() == 3) {
+                        pointer.show(Constants.WIDTH - 23, Constants.HEIGHT - 9);
+                    }
+                }
+            }
         }
     }
 
@@ -166,10 +170,7 @@ public class TutorialScreen1 extends Screen {
 
         bg.update(dt);
         hud.update(dt);
-
-        if (stage != SPEED_DIALOG) {
-            tileMap.update(dt);
-        }
+        tileMap.update(dt);
 
         time += dt;
         if (time > 1 && stage == IN) {
@@ -193,8 +194,8 @@ public class TutorialScreen1 extends Screen {
         if (stage == INTRO_DIALOG && dialog.isDone()) {
             dialog = null;
             stage = FIRST_PLAY;
-            hud.redoEnabled = false;
-            hud.speedEnabled = false;
+            hud.disable();
+            hud.startEnabled = true;
             time = 0f;
         }
         if (stage == FIRST_PLAY && tileMap.isStarted() && time > 3) {
@@ -213,6 +214,7 @@ public class TutorialScreen1 extends Screen {
             );
             dialog.next();
             pointer.show(Constants.WIDTH - 42, 11);
+            hud.disable();
         }
         if (stage == SPEED_DIALOG && dialog.isDone()) {
             dialog = null;
@@ -235,6 +237,7 @@ public class TutorialScreen1 extends Screen {
                 50
             );
             dialog.next();
+            hud.disable();
         }
         if (stage == RESET_DIALOG && dialog.isDone()) {
             dialog = null;

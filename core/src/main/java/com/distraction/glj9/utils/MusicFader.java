@@ -13,6 +13,7 @@ public class MusicFader {
     private final float endVolume;
     private final SimpleCallback callback;
 
+    private boolean active = true;
     private float timer;
 
     public MusicFader(List<Music> music, float duration) {
@@ -28,8 +29,12 @@ public class MusicFader {
         this.callback = callback;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void update(float dt) {
-        if (timer > duration) return;
+        if (!active) return;
 
         timer += dt;
         float progress = Math.min(timer / duration, 1);
@@ -38,10 +43,13 @@ public class MusicFader {
             float startVolume = startVolumes.get(i);
             float volume = Math.max(startVolume + (endVolume - startVolume) * progress, 0);
             m.setVolume(volume);
-            if (volume <= 0) m.stop();
+            if (volume <= 0) {
+                m.stop();
+            }
         }
 
         if (timer > duration) {
+            active = false;
             if (callback != null) callback.callback();
         }
     }

@@ -14,6 +14,8 @@ public class TutorialScreen2 extends Screen {
     private static final int IN = 0;
     private static final int INTRO_DIALOG = 1;
     private static final int FIRST_PLAY = 2;
+    private static final int WIN = 3;
+    private static final int BACK = 4;
 
     private final TileMap tileMap;
     private final Background bg;
@@ -48,6 +50,8 @@ public class TutorialScreen2 extends Screen {
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        hud.disable();
     }
 
     private void onStart() {
@@ -78,25 +82,27 @@ public class TutorialScreen2 extends Screen {
     @Override
     public void input() {
         if (ignoreInput) return;
-        if (dialog != null) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                dialog.next();
-            }
-            return;
-        }
         if (stage == IN) return;
 
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         cam.unproject(m);
         tileMap.onMouseMove(m.x, m.y);
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) tileMap.place();
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) tileMap.remove();
+        if (stage == FIRST_PLAY) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) tileMap.place();
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) tileMap.remove();
+        }
 
         uim.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         uiCam.unproject(uim);
         hud.onMouseMove(uim.x, uim.y);
         hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+
+        if (dialog != null && !ignoreInput) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                dialog.next();
+            }
+        }
     }
 
     @Override
@@ -133,6 +139,16 @@ public class TutorialScreen2 extends Screen {
             dialog = null;
             stage = FIRST_PLAY;
             time = 0f;
+            hud.enable();
+        }
+        if (stage == FIRST_PLAY && tileMap.player.isWin()) {
+            stage = WIN;
+            time = 0;
+            hud.disable();
+        }
+        if (stage == WIN && time > 2 && !ignoreInput) {
+            stage = BACK;
+            onBack();
         }
 
         if (dialog != null) dialog.update(dt);

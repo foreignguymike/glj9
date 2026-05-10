@@ -101,6 +101,7 @@ public class PlayScreen extends Screen {
             }
         } else {
             musicFader = null;
+            context.audio.playMusic(key, 0.5f, true);
         }
     }
 
@@ -136,6 +137,7 @@ public class PlayScreen extends Screen {
     }
 
     private void onNext() {
+        if (musicFader != null) musicFader.setActive(false);
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
             context.sm.replace(new PlayScreen(context, tileMap.level + 1));
@@ -144,6 +146,7 @@ public class PlayScreen extends Screen {
     }
 
     private void onBack() {
+        if (musicFader != null) musicFader.setActive(false);
         ignoreInput = true;
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> {
             context.sm.replace(new LevelSelectScreen(context));
