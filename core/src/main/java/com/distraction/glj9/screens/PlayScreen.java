@@ -2,6 +2,7 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,7 +11,10 @@ import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.TileMap;
 import com.distraction.glj9.utils.Background;
 import com.distraction.glj9.utils.HUD;
+import com.distraction.glj9.utils.MusicFader;
 import com.distraction.glj9.utils.Utils;
+
+import java.util.List;
 
 public class PlayScreen extends Screen {
 
@@ -31,6 +35,8 @@ public class PlayScreen extends Screen {
     private float minX, maxX, minY, maxY;
     private final boolean lockCamera;
     private boolean up, left, down, right;
+
+    private final MusicFader musicFader;
 
     public PlayScreen(Context context, int level) {
         super(context);
@@ -82,7 +88,20 @@ public class PlayScreen extends Screen {
 
         setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
 
-        context.audio.playMusic("easy", 0.5f, true);
+        String key = level <= 24 ? "easy" : "tricky";
+        if (!context.audio.isPlaying(key)) {
+            List<Music> playing = context.audio.getCurrentlyPlayingList();
+            if (!playing.isEmpty()) {
+                musicFader = new MusicFader(playing, 1f, () -> {
+                    context.audio.playMusic(key, 0.5f, true);
+                });
+            } else {
+                musicFader = null;
+                context.audio.playMusic(key, 0.5f, true);
+            }
+        } else {
+            musicFader = null;
+        }
     }
 
     private void setCameraPosition(float x, float y) {
@@ -158,6 +177,7 @@ public class PlayScreen extends Screen {
     public void update(float dt) {
         in.update(dt);
         out.update(dt);
+        if (musicFader != null) musicFader.update(dt);
 
         tileMap.update(dt);
         bg.update(dt);

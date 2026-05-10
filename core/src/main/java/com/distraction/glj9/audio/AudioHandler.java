@@ -19,6 +19,7 @@ public class AudioHandler {
     public AudioHandler() {
         music = new HashMap<>();
         addMusic("easy", "music/easy.ogg");
+        addMusic("tricky", "music/tricky.ogg");
 
         sounds = new HashMap<>();
         addSound("activate", "sfx/activate.wav");
@@ -75,7 +76,15 @@ public class AudioHandler {
         }
     }
 
-    public List<Music> getCurrentlyPlaying() {
+    public boolean isPlaying(String key) {
+        MusicConfig c = playing.get(key);
+        if (c != null) {
+            return c.getMusic().isPlaying();
+        }
+        return false;
+    }
+
+    public List<Music> getCurrentlyPlayingList() {
         List<Music> list = new ArrayList<>();
         for (Map.Entry<String, MusicConfig> e : playing.entrySet()) {
             Music m = e.getValue().getMusic();
