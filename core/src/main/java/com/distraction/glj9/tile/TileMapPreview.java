@@ -26,6 +26,7 @@ public class TileMapPreview {
     private final TextureRegion pixel;
     private final TextureRegion pellet;
     private final BitmapFont font;
+    private final GlyphLayout levelText;
     private final GlyphLayout arrowsText;
 
     private int level;
@@ -46,10 +47,12 @@ public class TileMapPreview {
         pixel = context.getPixel();
         pellet = context.getImage("pellet");
         font = context.getFont();
+        levelText = new GlyphLayout(font, "Level 1", Constants.WHITE, 0, Align.center, false);
         arrowsText = new GlyphLayout(font, "Arrows: 0", Constants.WHITE, 0, Align.center, false);
     }
 
     public void load(int level) {
+        if (this.level == level) return;
         this.level = level;
         if (level <= 0) return;
         LevelData data = LevelData.levels[level - 1];
@@ -74,6 +77,7 @@ public class TileMapPreview {
                 objs[numRows - e.row - 1][e.col] = GHOST;
             }
         }
+        levelText.setText(font, "Level " + level, Constants.WHITE, 0, Align.center, false);
         if (data.numArrows != this.arrows) {
             arrowsText.setText(font, "Arrows: " + data.numArrows, Constants.WHITE, 0, Align.center, false);
         }
@@ -104,6 +108,7 @@ public class TileMapPreview {
                 }
             }
         }
+        font.draw(sb, levelText, ox, 67);
         sb.setColor(Color.WHITE);
         if (context.isComplete(level - 1)) sb.draw(pellet, ox - 34, 7);
         font.draw(sb, arrowsText, ox, 14);
