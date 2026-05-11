@@ -20,6 +20,7 @@ public class AudioHandler {
         music = new HashMap<>();
         addMusic("levelselect", "music/levelselect.ogg");
         addMusic("easy", "music/easy.ogg");
+        addMusic("hard", "music/hard.ogg");
         addMusic("tricky", "music/tricky.ogg");
 
         sounds = new HashMap<>();

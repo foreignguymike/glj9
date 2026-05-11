@@ -88,7 +88,7 @@ public class PlayScreen extends Screen {
 
         setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
 
-        String key = level <= 24 ? "easy" : "tricky";
+        String key = level <= 12 ? "easy" : level <= 24 ? "hard" : "tricky";
         if (!context.audio.isPlaying(key)) {
             List<Music> playing = context.audio.getCurrentlyPlayingList();
             if (!playing.isEmpty()) {
