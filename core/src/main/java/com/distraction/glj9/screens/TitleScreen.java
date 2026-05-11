@@ -56,7 +56,8 @@ public class TitleScreen extends Screen {
 
         ignoreInput = true;
 
-        musicFader = new MusicFader(context.audio.getCurrentlyPlayingList(), 0.5f);
+        musicFader = new MusicFader(context.audio.getCurrentlyPlayingList(), 1f);
+        context.page = 0;
     }
 
     @Override

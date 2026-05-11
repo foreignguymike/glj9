@@ -104,6 +104,7 @@ public class TileMapPreview {
                 }
             }
         }
+        sb.setColor(Color.WHITE);
         if (context.isComplete(level - 1)) sb.draw(pellet, ox - 34, 7);
         font.draw(sb, arrowsText, ox, 14);
     }

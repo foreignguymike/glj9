@@ -182,7 +182,7 @@ public class TutorialScreen1 extends Screen {
                     "The goal is to help [POKO]Poko[] eat all the [PELLET]pellets",
                     "and eliminate any [GHOST]Ghosts[] if possible.",
                     "Press the back button to leave any time.",
-                    "Press [GREEN]Start[] to move [POKO]Poko!"
+                    "Press [GREEN]Start[] to move [POKO]Poko[]!"
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,
                 Constants.HEIGHT / 2f,
@@ -272,10 +272,10 @@ public class TutorialScreen1 extends Screen {
             dialog = new Dialog(
                 context,
                 new String[]{
-                    "You can also place arrows on any tile.",
-                    "[POKO]Poko[] will always go the way arrows point.",
-                    "Click on a placed arrow to rotate it,",
-                    "and right click the arrow to remove it.",
+                    "You can click on a tile to place an arrow on it.",
+                    "Click on the arrow again to rotate it.",
+                    "Right click to remove it.",
+                    "[POKO]Poko[] will follow the arrow.",
                     "Try to beat this level!"
                 },
                 Constants.WIDTH / 2f - hud.getWidth() / 2f,

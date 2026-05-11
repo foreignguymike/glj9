@@ -248,7 +248,10 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.PLAYER, 0, 1)
             },
             1
-        ),
+        )
+    };
+
+    public static final LevelData[] hard = new LevelData[] {
         new LevelData(
             5,
             new int[] {
@@ -288,9 +291,6 @@ public class LevelData {
             },
             2
         ),
-    };
-
-    public static final LevelData[] hard = new LevelData[] {
         new LevelData(
             4,
             new int[] {
