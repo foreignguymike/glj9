@@ -57,7 +57,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 1, 4),
-                new EntityData(EntityData.EntityType.GHOST, 3, 0, Direction.RIGHT)
+                new EntityData(EntityData.EntityType.GHOST, 3, 0, Direction.DOWN)
             },
             1
         ),
@@ -114,7 +114,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 0, 0),
-                new EntityData(EntityData.EntityType.GHOST, 2, 0, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 2, 0, Direction.RIGHT),
             },
             1
         ),
@@ -171,7 +171,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 2, 0),
-                new EntityData(EntityData.EntityType.GHOST, 2, 3, Direction.RIGHT)
+                new EntityData(EntityData.EntityType.GHOST, 2, 3, Direction.LEFT)
             },
             1
         ),
@@ -266,7 +266,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 1, 2),
-                new EntityData(EntityData.EntityType.GHOST, 0, 2, Direction.DOWN)
+                new EntityData(EntityData.EntityType.GHOST, 0, 2, Direction.LEFT)
             },
             1
         ),
@@ -342,7 +342,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 0, 0),
-                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 2, 2, Direction.LEFT),
             },
             2
         ),
@@ -384,7 +384,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 0, 0),
-                new EntityData(EntityData.EntityType.GHOST, 0, 4, Direction.DOWN)
+                new EntityData(EntityData.EntityType.GHOST, 0, 4, Direction.LEFT)
             },
             2
         ),
@@ -501,7 +501,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 3, 2),
-                new EntityData(EntityData.EntityType.GHOST, 1, 0, Direction.LEFT)
+                new EntityData(EntityData.EntityType.GHOST, 1, 0, Direction.UP)
             },
             1
         ),
@@ -521,7 +521,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 0, 0),
-                new EntityData(EntityData.EntityType.GHOST, 3, 1, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 3, 1, Direction.LEFT),
             },
             1
         ),
@@ -777,7 +777,7 @@ public class LevelData {
             },
             new EntityData[]{
                 new EntityData(EntityData.EntityType.PLAYER, 0, 0),
-                new EntityData(EntityData.EntityType.GHOST, 0, 6),
+                new EntityData(EntityData.EntityType.GHOST, 0, 6, Direction.LEFT),
             },
             1
         ),

@@ -67,7 +67,7 @@ public class Constants {
     public static final Color LEVEL_BG = COLORS[21];
     public static final Color LEVEL_BG_2 = COLORS[30];
     public static final Color LEVEL_BG_3 = COLORS[1];
-    public static final Color TUTORIAL_BG = COLORS[2];
+    public static final Color TUTORIAL_BG = COLORS[5];
 
     public static final Color SETTINGS_BG = COLORS[20];
     public static final Color DIALOG_TEXT = COLORS[7];

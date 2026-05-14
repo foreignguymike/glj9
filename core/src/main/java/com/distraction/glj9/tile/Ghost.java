@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.utils.Animation;
 import com.distraction.glj9.Context;
@@ -16,6 +17,7 @@ public class Ghost extends Entity {
     private final Animation<TextureRegion> animation;
     private final TextureRegion[] ghost;
     private final TextureRegion[] sadGhost;
+    private final TextureRegion arrow;
 
     private float time;
     private float bouncy;
@@ -32,6 +34,8 @@ public class Ghost extends Entity {
         sadGhost = context.getImage("ghostsad").split(w, h)[0];
         animation = new Animation<>(ghost, 0.1f);
         speed = context.speed;
+
+        arrow = context.getImage("ghostarrow");
     }
 
     public void setSpeed(int speed) {
@@ -60,5 +64,8 @@ public class Ghost extends Entity {
         if (transparent) sb.setColor(Constants.TRANSPARENT);
         else sb.setColor(Color.WHITE);
         Utils.drawCentered(sb, animation.get(), x, y + bouncy + 4);
+        if (!started) {
+            Utils.drawCenteredRotated(sb, arrow, x, y + bouncy + 10, direction.deg);
+        }
     }
 }
