@@ -42,6 +42,7 @@ public class TutorialScreen1 extends Screen {
 
     public TutorialScreen1(Context context) {
         super(context);
+        context.speed = 1;
 
         tileMap = new TileMap(context, -1);
 
