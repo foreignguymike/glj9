@@ -37,7 +37,7 @@ public class PlayScreen extends Screen {
     private final MusicFader musicFader;
 
     private Dialog dialog = null;
-    private float dialogTime = 2;
+    private float dialogTime = 0;
     private boolean dialogStarted = false;
 
     public PlayScreen(Context context, int level) {
@@ -60,6 +60,7 @@ public class PlayScreen extends Screen {
 
         if (level == 37 && !Constants.SECRET_DIALOG_SEEN) {
             Constants.SECRET_DIALOG_SEEN = true;
+            dialogTime = 2;
             dialog = new Dialog(
                 context,
                 new String[]{"Use the arrow keys to move the camera"},
