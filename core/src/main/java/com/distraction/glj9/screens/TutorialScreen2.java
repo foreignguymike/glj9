@@ -2,7 +2,6 @@ package com.distraction.glj9.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.tile.TileMap;
@@ -32,7 +31,7 @@ public class TutorialScreen2 extends Screen {
 
         tileMap = new TileMap(context, -2);
 
-        bg = new Background(context, context.getImage("bgt"), 5, -5, 24, 24);
+        bg = new Background(context, Constants.TUTORIAL_BG, Constants.TUTORIAL_BG_IMAGE, context.getImage("bgtutorial"), 5, -5, 24, 24);
         hud = new HUD(
             context,
             tileMap,
@@ -159,9 +158,6 @@ public class TutorialScreen2 extends Screen {
         sb.begin();
 
         sb.setProjectionMatrix(uiCam.combined);
-        sb.setColor(Constants.TUTORIAL_BG);
-        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
-        sb.setColor(Color.WHITE);
         bg.render(sb);
 
         sb.setProjectionMatrix(cam.combined);

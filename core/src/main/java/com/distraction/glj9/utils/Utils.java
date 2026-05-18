@@ -1,8 +1,10 @@
 package com.distraction.glj9.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.glj9.Constants;
 
 public class Utils {
 
@@ -76,6 +78,18 @@ public class Utils {
             }
         }
         return ret;
+    }
+
+    public static Color getBgColor(int level) {
+        return level <= 12 ? Constants.LEVEL_BG : level <= 24 ? Constants.LEVEL_BG_2 : Constants.LEVEL_BG_3;
+    }
+
+    public static Color getBgImageColor(int level) {
+        return level <= 12 ? Constants.LEVEL_BG_IMAGE : level <= 24 ? Constants.LEVEL_BG_IMAGE_2 : Constants.LEVEL_BG_IMAGE_3;
+    }
+
+    public static String getBgImage(int level) {
+        return level <= 12 ? "bgeasy" : level <= 24 ? "bghard" : "bgtricky";
     }
 
 }

@@ -3,7 +3,6 @@ package com.distraction.glj9.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.distraction.glj9.Constants;
@@ -25,7 +24,6 @@ public class PlayScreen extends Screen {
 
     private final TileMap tileMap;
     private final Background bg;
-    private final Color bgColor;
     private final HUD hud;
 
     private boolean starting;
@@ -44,11 +42,9 @@ public class PlayScreen extends Screen {
 
         tileMap = new TileMap(context, level);
 
-        String s = level <= 12 ? "bg3" : level <= 24 ? "bg4" : "bg5";
         float dx = level <= 24 ? 5 : -5;
         float dy = level <= 12 ? -5 : 5;
-        bg = new Background(context, context.getImage(s), dx, dy, 24, 24);
-        bgColor = level <= 12 ? Constants.LEVEL_BG : level <= 24 ? Constants.LEVEL_BG_2 : Constants.LEVEL_BG_3;
+        bg = new Background(context, Utils.getBgColor(level), Utils.getBgImageColor(level), context.getImage(Utils.getBgImage(level)), dx, dy, 24, 24);
         hud = new HUD(
             context,
             tileMap,
@@ -221,9 +217,6 @@ public class PlayScreen extends Screen {
         sb.begin();
 
         sb.setProjectionMatrix(uiCam.combined);
-        sb.setColor(bgColor);
-        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
-        sb.setColor(Color.WHITE);
         bg.render(sb);
 
         sb.setProjectionMatrix(cam.combined);

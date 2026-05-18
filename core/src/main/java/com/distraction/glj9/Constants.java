@@ -61,13 +61,19 @@ public class Constants {
     public static final Color SKY = COLORS[31];
     public static final Color TRANSPARENT = new Color(1, 1, 1, 0.5f);
 
-    public static final Color LEVEL_SELECT_BG = COLORS[6];
     public static final Color LEVEL_SELECT_TOP = COLORS[3];
     public static final Color DIM_BG = Color.valueOf("00000080");
+
+    public static final Color LEVEL_SELECT_BG = COLORS[6];
+    public static final Color LEVEL_SELECT_BG_IMAGE = COLORS[22];
     public static final Color LEVEL_BG = COLORS[21];
+    public static final Color LEVEL_BG_IMAGE = COLORS[20];
     public static final Color LEVEL_BG_2 = COLORS[30];
+    public static final Color LEVEL_BG_IMAGE_2 = COLORS[31];
     public static final Color LEVEL_BG_3 = COLORS[1];
-    public static final Color TUTORIAL_BG = COLORS[5];
+    public static final Color LEVEL_BG_IMAGE_3 = COLORS[28];
+    public static final Color TUTORIAL_BG = COLORS[2];
+    public static final Color TUTORIAL_BG_IMAGE = COLORS[3];
 
     public static final Color SETTINGS_BG = COLORS[20];
     public static final Color DIALOG_TEXT = COLORS[7];

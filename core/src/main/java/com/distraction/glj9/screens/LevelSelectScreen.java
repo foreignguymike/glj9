@@ -50,7 +50,7 @@ public class LevelSelectScreen extends Screen {
         pixel = context.getPixel();
         titleBg = context.getImage("levelselecttitlebg");
         border = context.getImage("uiborder");
-        bg = new Background(context, context.getImage("bg2"), 2, 2, 16, 16);
+        bg = new Background(context, Constants.LEVEL_SELECT_BG, Constants.LEVEL_SELECT_BG_IMAGE, context.getImage("bglevelselect"), 2, 2, 16, 16);
 
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
@@ -228,8 +228,6 @@ public class LevelSelectScreen extends Screen {
     public void render() {
         sb.begin();
         sb.setProjectionMatrix(cam.combined);
-        sb.setColor(Constants.LEVEL_SELECT_BG);
-        sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
         bg.render(sb);
         sb.setColor(Constants.DIM_BG);
         sb.draw(pixel, 3, 2, border.getRegionWidth() - 3, border.getRegionHeight() - 2);
@@ -251,8 +249,8 @@ public class LevelSelectScreen extends Screen {
                 levelTiles[row][col].render(sb);
             }
         }
-        pageLeft.render(sb);
-        pageRight.render(sb);
+        if (page > 0) pageLeft.render(sb);
+        if (page < maxPages) pageRight.render(sb);
         font.draw(sb, difficultyText, ox, 13);
 
         preview.render(sb);
