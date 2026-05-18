@@ -108,4 +108,11 @@ public class Utils {
         return -1;
     }
 
+    public static String getMusicKey(int level) {
+        if (level == 37) return "secret";
+        else if (level <= 12) return "easy";
+        else if (level <= 24) return "hard";
+        else return "tricky";
+    }
+
 }

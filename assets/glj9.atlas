@@ -20,7 +20,7 @@ bounds:1016,74,6,6
 bgright
 bounds:513,72,9,9
 bgsecret
-bounds:603,84,10,6
+bounds:336,37,10,6
 bgtricky
 bounds:915,54,14,16
 bgtutorial
@@ -117,3 +117,5 @@ toggle
 bounds:392,4,32,8
 uiborder
 bounds:785,55,78,71
+version
+bounds:603,84,12,6

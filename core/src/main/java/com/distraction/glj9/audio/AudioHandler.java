@@ -22,6 +22,7 @@ public class AudioHandler {
         addMusic("easy", "music/easy.ogg");
         addMusic("hard", "music/hard.ogg");
         addMusic("tricky", "music/tricky.ogg");
+        addMusic("secret", "music/secret.ogg");
 
         sounds = new HashMap<>();
         addSound("activate", "sfx/activate.wav");

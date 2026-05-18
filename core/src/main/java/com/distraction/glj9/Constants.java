@@ -110,4 +110,5 @@ public class Constants {
         4, 9, 14, 17, 30, 35
     };
     public static boolean SECRET_UNLOCKED = false;
+    public static boolean SECRET_DIALOG_SEEN = false;
 }

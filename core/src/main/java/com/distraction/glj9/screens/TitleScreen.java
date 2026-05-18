@@ -22,6 +22,7 @@ public class TitleScreen extends Screen {
     private final Vector2 bgp;
     private final TextureRegion title;
     private final Vector2 titlep;
+    private final TextureRegion version;
 
     private final Button[] buttons;
 
@@ -37,6 +38,7 @@ public class TitleScreen extends Screen {
         bgp = new Vector2(-200, -200);
         title = context.getImage("title");
         titlep = new Vector2(160, 90);
+        version = context.getImage("version");
 
         buttons = new Button[] {
             new Button(context, context.getImage("playbuttons").split(16, 16)[0], this::onPlay),
@@ -128,6 +130,9 @@ public class TitleScreen extends Screen {
         sb.draw(bg, bgp.x, bgp.y);
         sb.draw(title, titlep.x, titlep.y);
         for (Button b : buttons) b.render(sb);
+
+        sb.setColor(Color.WHITE);
+        sb.draw(version, 2, 2);
 
         in.render(sb);
         out.render(sb);

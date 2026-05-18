@@ -58,7 +58,8 @@ public class PlayScreen extends Screen {
             this::onNext
         );
 
-        if (level == 37) {
+        if (level == 37 && !Constants.SECRET_DIALOG_SEEN) {
+            Constants.SECRET_DIALOG_SEEN = true;
             dialog = new Dialog(
                 context,
                 new String[]{"Use the arrow keys to move the camera"},
@@ -99,7 +100,7 @@ public class PlayScreen extends Screen {
 
         setCameraPosition(tileMap.player.x + hud.getWidth() / 2f, tileMap.player.y);
 
-        String key = level <= 12 ? "easy" : level <= 24 ? "hard" : "tricky";
+        String key = Utils.getMusicKey(level);
         if (!context.audio.isPlaying(key)) {
             List<Music> playing = context.audio.getCurrentlyPlayingList();
             if (!playing.isEmpty()) {
@@ -168,6 +169,7 @@ public class PlayScreen extends Screen {
     @Override
     public void input() {
         if (ignoreInput) return;
+        if (dialogTime > 0) return;
 
         if (dialog != null && !dialog.isDone() && dialogTime < 0) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) dialog.next();
