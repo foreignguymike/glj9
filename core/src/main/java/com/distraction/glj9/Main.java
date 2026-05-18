@@ -2,6 +2,7 @@ package com.distraction.glj9;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.distraction.glj9.tile.Direction;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -18,6 +20,8 @@ public class Main extends ApplicationAdapter {
     private FrameBuffer fbo;
     private TextureRegion region;
     private OrthographicCamera cam;
+
+    private int count;
 
     @Override
     public void create() {
@@ -37,6 +41,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        checkSequence();
         context.sm.input();
         context.sm.update(Gdx.graphics.getDeltaTime());
 
@@ -58,5 +63,23 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         context.dispose();
         fbo.dispose();
+    }
+
+    private void checkSequence() {
+        if (Constants.SECRET_UNLOCKED) return;
+        if (!Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) return;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && Constants.SEQUENCE[count] == Direction.UP
+            || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && Constants.SEQUENCE[count] == Direction.LEFT
+            || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && Constants.SEQUENCE[count] == Direction.DOWN
+            || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && Constants.SEQUENCE[count] == Direction.RIGHT) {
+            count++;
+        } else {
+            if (count != 0) context.audio.playSound("back", 0.4f);
+            count = 0;
+        }
+        if (count == Constants.SEQUENCE.length) {
+            Constants.SECRET_UNLOCKED = true;
+            context.audio.playSound("select", 0.4f);
+        }
     }
 }

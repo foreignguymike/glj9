@@ -736,13 +736,40 @@ public class LevelData {
         )
     };
 
+    public static LevelData[] secret = new LevelData[] {
+        new LevelData(
+            5,
+            new int[] {
+                9,48,6,0,0,
+                42,0,42,0,8,
+                36,48,47,3,24,
+                0,0,0,45,41
+            },
+            new int[] {
+                1, 1, 1, 0, 0,
+                1, 0, 0, 0, 1,
+                1, 1, 1, 0, 0,
+                0, 0, 0, 0, 0,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 1, 2)
+            },
+            1
+        )
+    };
+
     public static LevelData[] levels;
     static {
-        levels = new LevelData[easy.length + hard.length + tricky.length];
+        reload();
+    }
+
+    public static void reload() {
+        levels = new LevelData[easy.length + hard.length + tricky.length + secret.length];
         int count = 0;
         for (LevelData levelData : easy) levels[count++] = levelData;
         for (LevelData levelData : hard) levels[count++] = levelData;
         for (LevelData levelData : tricky) levels[count++] = levelData;
+        for (LevelData levelData : secret) levels[count++] = levelData;
     }
 
     public static LevelData[] tutorials = new LevelData[] {

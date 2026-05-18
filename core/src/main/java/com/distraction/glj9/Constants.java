@@ -1,6 +1,7 @@
 package com.distraction.glj9;
 
 import com.badlogic.gdx.graphics.Color;
+import com.distraction.glj9.tile.Direction;
 
 public class Constants {
 
@@ -75,6 +76,12 @@ public class Constants {
     public static final Color TUTORIAL_BG = COLORS[2];
     public static final Color TUTORIAL_BG_IMAGE = COLORS[3];
 
+    public static final Color LEVEL_SELECT_LEVEL_TEXT_COLOR = WHITE;
+    public static final Color LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR = COLORS[6];
+
+    public static final Color SECRET_BG = COLORS[7];
+    public static final Color SECRET_BG_IMAGE = COLORS[1];
+
     public static final Color SETTINGS_BG = COLORS[20];
     public static final Color DIALOG_TEXT = COLORS[7];
 //    public static final Color DIALOG_BG = COLORS[14];
@@ -92,4 +99,15 @@ public class Constants {
     public static final Color[] HUD_BORDER_COLORS = new Color[] {
         COLORS[19], COLORS[18], COLORS[11]
     };
+
+    public static final String[] BG_SEQUENCE = new String[] {
+        "bgleft", "bgup", "bgleft", "bgright", "bgdown", "bgup"
+    };
+    public static final Direction[] SEQUENCE = new Direction[] {
+        Direction.LEFT, Direction.UP, Direction.LEFT, Direction.RIGHT, Direction.DOWN, Direction.UP
+    };
+    public static final int[] LEVEL_SEQUENCE = new int[] {
+        4, 9, 14, 17, 30, 35
+    };
+    public static boolean SECRET_UNLOCKED = false;
 }

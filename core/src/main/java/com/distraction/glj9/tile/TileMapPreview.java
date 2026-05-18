@@ -36,7 +36,6 @@ public class TileMapPreview {
     private int numCols;
     private int startx;
     private int starty;
-    private int arrows;
 
     public TileMapPreview(Context context) {
         this.context = context;
@@ -77,11 +76,9 @@ public class TileMapPreview {
                 objs[numRows - e.row - 1][e.col] = GHOST;
             }
         }
-        levelText.setText(font, "Level " + level, Constants.WHITE, 0, Align.center, false);
-        if (data.numArrows != this.arrows) {
-            arrowsText.setText(font, "Arrows: " + data.numArrows, Constants.WHITE, 0, Align.center, false);
-        }
-        this.arrows = data.numArrows;
+        Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
+        levelText.setText(font, "Level " + level, levelColor, 0, Align.center, false);
+        arrowsText.setText(font, "Arrows: " + data.numArrows, levelColor, 0, Align.center, false);
     }
 
     public void render(SpriteBatch sb) {

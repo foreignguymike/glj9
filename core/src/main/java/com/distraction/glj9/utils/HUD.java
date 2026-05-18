@@ -151,7 +151,7 @@ public class HUD extends Entity {
 
     private boolean nextLevelVisible() {
         if (!tileMap.player.isWin()) return false;
-        if (tileMap.level > 0 && tileMap.level < LevelData.levels.length) return true;
+        if (tileMap.level > 0 && tileMap.level < LevelData.levels.length + (Constants.SECRET_UNLOCKED ? 0 : -1)) return true;
         if (tileMap.level < 0 && tileMap.level * -1 < LevelData.tutorials.length) return true;
         return false;
     }

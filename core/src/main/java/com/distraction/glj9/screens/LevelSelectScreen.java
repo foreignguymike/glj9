@@ -35,8 +35,8 @@ public class LevelSelectScreen extends Screen {
     private final GlyphLayout difficultyText;
 
     private final LevelTile[][] levelTiles;
-    private final int maxLevels = LevelData.levels.length;
-    private final int maxPages = (maxLevels - 1) / 12;
+    private int maxLevels;
+    private int maxPages;
     private int page;
     private final Button pageLeft;
     private final Button pageRight;
@@ -47,6 +47,8 @@ public class LevelSelectScreen extends Screen {
 
     public LevelSelectScreen(Context context) {
         super(context);
+        maxLevels = LevelData.levels.length;
+        maxPages = (maxLevels - 1) / 12 + (Constants.SECRET_UNLOCKED ? 0 : -1);
         pixel = context.getPixel();
         titleBg = context.getImage("levelselecttitlebg");
         border = context.getImage("uiborder");
@@ -132,7 +134,8 @@ public class LevelSelectScreen extends Screen {
     private String getDifficulty(int page) {
         if (page == 0) return "Easy";
         else if (page == 1) return "Hard";
-        else return "Tricky";
+        else if (page == 2) return "Tricky";
+        else return "Secret";
     }
 
     private void onLevelHover(int level) {
@@ -158,7 +161,7 @@ public class LevelSelectScreen extends Screen {
         reloadPage();
     }
 
-    private void reloadPage() {
+    public void reloadPage() {
         difficultyText.setText(font, getDifficulty(page), Constants.WHITE, 0, Align.center, false);
         for (int row = 0; row < levelTiles.length; row++) {
             for (int col = 0; col < levelTiles[0].length; col++) {
@@ -222,6 +225,9 @@ public class LevelSelectScreen extends Screen {
                 levelTiles[row][col].update(dt);
             }
         }
+
+        maxLevels = LevelData.levels.length;
+        maxPages = (maxLevels - 1) / 12 + (Constants.SECRET_UNLOCKED ? 0 : -1);
     }
 
     @Override

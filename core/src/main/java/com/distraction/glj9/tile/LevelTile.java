@@ -15,7 +15,6 @@ public class LevelTile extends Entity {
 
     private static final float INTERVAL = 0.05f;
     private static final float SPEED = 20;
-    private static final int MAX_LEVELS = LevelData.levels.length;
 
     private final TextureRegion image;
     private final TextureRegion highlightImage;
@@ -51,7 +50,8 @@ public class LevelTile extends Entity {
         pellet = context.getImage("pellet");
 
         this.level = this.nextLevel = level;
-        text.setText(font, level + "", Constants.WHITE, 0, Align.center, false);
+        Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
+        text.setText(font, level + "", levelColor, 0, Align.center, false);
     }
 
     public void setLevel(int level, float time) {
@@ -72,12 +72,17 @@ public class LevelTile extends Entity {
         if (hovered) callback.callback(nextLevel);
     }
 
+    private int getMaxLevels() {
+        return LevelData.levels.length;
+    }
+
     @Override
     public void update(float dt) {
         time -= dt;
         if (time < INTERVAL && level != nextLevel) {
             level = nextLevel;
-            text.setText(font, level + "", Constants.WHITE, 0, Align.center, false);
+            Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
+            text.setText(font, level + "", levelColor, 0, Align.center, false);
         }
         float targety = time > 0 && time < INTERVAL ? -1 : 0;
         if (desty < targety) {
@@ -88,7 +93,7 @@ public class LevelTile extends Entity {
             desty -= SPEED * dt;
             if (desty < targety) desty = targety;
         }
-        visible = nextLevel <= MAX_LEVELS;
+        visible = nextLevel <= getMaxLevels();
     }
 
     @Override
@@ -99,7 +104,7 @@ public class LevelTile extends Entity {
         else if (desty != 0) Utils.drawCentered(sb, transitionImage, x + 0.5f, y + desty);
         else Utils.drawCentered(sb, image, x + 0.5f, y + desty);
         font.draw(sb, text, x, y + 4 + desty);
-        if (level - 1 >= 0 && level - 1 < MAX_LEVELS && context.isComplete(level - 1)) {
+        if (level - 1 >= 0 && level - 1 < getMaxLevels() && context.isComplete(level - 1)) {
             Utils.drawCentered(sb, pellet, x + 6, y - 6 + desty);
         }
     }

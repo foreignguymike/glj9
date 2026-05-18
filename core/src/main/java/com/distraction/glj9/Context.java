@@ -19,9 +19,10 @@ public class Context {
     private static final String PREFS = "pokopuzzle";
     private static final String KEY_COMPLETED = "completed";
 
+    private static final int MAX_LEVELS = LevelData.levels.length;
+
     private static final long SECRET = 0x5A17BEEFL;
-    private static final int LEVEL_BITS = LevelData.levels.length;
-    private static final long LEVEL_MASK = (1L << LEVEL_BITS) - 1L;
+    private static final long LEVEL_MASK = (1L << MAX_LEVELS) - 1L;
 
     public final AssetManager assets;
     public final AudioHandler audio;
@@ -32,7 +33,7 @@ public class Context {
     public boolean pixelPerfect = false;
 
     public int speed = 1;
-    private final boolean[] completed = new boolean[LevelData.levels.length];
+    private final boolean[] completed = new boolean[MAX_LEVELS];
 
     public int page;
 
@@ -101,7 +102,7 @@ public class Context {
             if (completed[i]) saved |= (1L << i);
         }
         int check = checksum(saved);
-        long packed = saved | ((long)check << LEVEL_BITS);
+        long packed = saved | ((long)check << MAX_LEVELS);
         prefs.putLong(KEY_COMPLETED, packed);
         prefs.flush();
     }
@@ -109,7 +110,7 @@ public class Context {
     private void load() {
         long packed = prefs.getLong(KEY_COMPLETED, 0L);
         long saved = packed & LEVEL_MASK;
-        int storedCheck = (int)(packed >>> LEVEL_BITS);
+        int storedCheck = (int)(packed >>> MAX_LEVELS);
         if (storedCheck != checksum(saved)) {
             saved = 0L;
             save();

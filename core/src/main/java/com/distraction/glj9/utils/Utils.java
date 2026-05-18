@@ -81,15 +81,40 @@ public class Utils {
     }
 
     public static Color getBgColor(int level) {
-        return level <= 12 ? Constants.LEVEL_BG : level <= 24 ? Constants.LEVEL_BG_2 : Constants.LEVEL_BG_3;
+        if (level == 37) return Constants.SECRET_BG;
+        else if (level <= 12) return Constants.LEVEL_BG;
+        else if (level <= 24) return Constants.LEVEL_BG_2;
+        else return Constants.LEVEL_BG_3;
     }
 
     public static Color getBgImageColor(int level) {
-        return level <= 12 ? Constants.LEVEL_BG_IMAGE : level <= 24 ? Constants.LEVEL_BG_IMAGE_2 : Constants.LEVEL_BG_IMAGE_3;
+        if (level == 37) return Constants.SECRET_BG_IMAGE;
+        else if (level <= 12) return Constants.LEVEL_BG_IMAGE;
+        else if (level <= 24) return Constants.LEVEL_BG_IMAGE_2;
+        else return Constants.LEVEL_BG_IMAGE_3;
     }
 
     public static String getBgImage(int level) {
-        return level <= 12 ? "bgeasy" : level <= 24 ? "bghard" : "bgtricky";
+        int hintIndex = getHintIndex(level);
+        if (hintIndex != -1) {
+            return Constants.BG_SEQUENCE[hintIndex];
+        } else {
+            if (level == 37) return "bgsecret";
+            else if (level <= 12) return "bgeasy";
+            else if (level <= 24) return "bghard";
+            else return "bgtricky";
+        }
+    }
+
+    public static boolean isHintLevel(int level) {
+        return getHintIndex(level) != -1;
+    }
+
+    private static int getHintIndex(int level) {
+        for (int i = 0; i < Constants.LEVEL_SEQUENCE.length; i++) {
+            if (level == Constants.LEVEL_SEQUENCE[i]) return i;
+        }
+        return -1;
     }
 
 }
