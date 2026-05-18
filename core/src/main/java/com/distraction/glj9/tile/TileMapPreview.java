@@ -61,7 +61,7 @@ public class TileMapPreview {
         int w = numCols * TILE_SIZE;
         int h = numRows * TILE_SIZE;
         startx = ox - w / 2;
-        starty = 42 - h / 2;
+        starty = 36 - h / 2;
         int[][] coll = Utils.flip(data.collectibles);
         objs = new int[numRows][numCols];
         for (int row = 0; row < objs.length; row++) {

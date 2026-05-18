@@ -26,15 +26,6 @@ public class Utils {
         sb.draw(image, nx, y - h / 2, nw, h);
     }
 
-    public static boolean anyKeyPressed(int... keys) {
-        for (int k : keys) {
-            if (Gdx.input.isKeyPressed(k)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static void drawCenteredRotated(SpriteBatch sb, TextureRegion image, float x, float y, float deg) {
         float w = image.getRegionWidth();
         float h = image.getRegionHeight();

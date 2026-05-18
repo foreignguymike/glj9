@@ -164,12 +164,14 @@ public class HUD extends Entity {
         if (speedEnabled) speedButton.onMouseMoved(mx, my);
     }
 
-    public void onMousePressed(boolean pressed) {
-        if (nextLevelVisible()) nextLevelButton.onMousePressed(pressed);
-        backButton.onMousePressed(pressed);
-        if (redoEnabled) redoButton.onMousePressed(pressed);
-        if (startEnabled) startButton.onMousePressed(pressed);
-        if (speedEnabled) speedButton.onMousePressed(pressed);
+    public boolean onMousePressed(boolean pressed) {
+        boolean isPressed = false;
+        if (nextLevelVisible()) isPressed |= nextLevelButton.onMousePressed(pressed);
+        isPressed |= backButton.onMousePressed(pressed);
+        if (redoEnabled) isPressed |= redoButton.onMousePressed(pressed);
+        if (startEnabled) isPressed |= startButton.onMousePressed(pressed);
+        if (speedEnabled) isPressed |= speedButton.onMousePressed(pressed);
+        return isPressed;
     }
 
     public void enable() {

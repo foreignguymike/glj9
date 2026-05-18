@@ -48,7 +48,7 @@ public class LevelSelectScreen extends Screen {
     public LevelSelectScreen(Context context) {
         super(context);
         maxLevels = LevelData.levels.length;
-        maxPages = (maxLevels - 1) / 12 + (Constants.SECRET_UNLOCKED ? 0 : -1);
+        maxPages = Constants.SECRET_UNLOCKED ? 4 : 3;
         pixel = context.getPixel();
         titleBg = context.getImage("levelselecttitlebg");
         border = context.getImage("uiborder");
@@ -227,7 +227,7 @@ public class LevelSelectScreen extends Screen {
         }
 
         maxLevels = LevelData.levels.length;
-        maxPages = (maxLevels - 1) / 12 + (Constants.SECRET_UNLOCKED ? 0 : -1);
+        maxPages = Constants.SECRET_UNLOCKED ? 3 : 2;
     }
 
     @Override

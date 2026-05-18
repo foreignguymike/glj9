@@ -23,19 +23,22 @@ public class SpeedButton extends Button {
     }
 
     @Override
-    public void onMousePressed(boolean pressed) {
+    public boolean onMousePressed(boolean pressed) {
+        boolean isPressed = false;
         if (pressed) {
             if (hovered) {
                 if (!this.pressed) {
                     speed++;
                     if (speed > 3) speed = 1;
                     callback.callback();
+                    isPressed = true;
                 }
                 this.pressed = true;
             }
         } else {
             this.pressed = false;
         }
+        return isPressed;
     }
 
     @Override

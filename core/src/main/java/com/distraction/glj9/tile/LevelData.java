@@ -738,32 +738,36 @@ public class LevelData {
 
     public static LevelData[] secret = new LevelData[] {
         new LevelData(
-            5,
+            11,
             new int[] {
-                9,48,6,0,0,
-                42,0,42,0,8,
-                36,48,47,3,24,
-                0,0,0,45,41
+                0,0,9,48,48,48,48,48,6,0,0,
+                0,0,13,48,48,48,48,48,35,0,0,
+                0,0,42,0,0,0,0,0,42,0,0,
+                9,48,17,48,48,37,48,48,17,48,6,
+                36,6,13,37,48,47,48,37,35,9,49,
+                9,47,49,36,6,0,9,49,36,47,6,
+                36,48,48,48,47,48,47,48,48,48,49
             },
             new int[] {
-                1, 1, 1, 0, 0,
-                1, 0, 0, 0, 1,
-                1, 1, 1, 0, 0,
-                0, 0, 0, 0, 0,
+                0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+                0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+                1, 1, 1, 2, 1, 0, 1, 2, 1, 1, 1,
+                1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1
             },
             new EntityData[]{
-                new EntityData(EntityData.EntityType.PLAYER, 1, 2)
+                new EntityData(EntityData.EntityType.PLAYER, 3, 5),
+                new EntityData(EntityData.EntityType.GHOST, 4, 4, Direction.LEFT),
+                new EntityData(EntityData.EntityType.GHOST, 4, 6, Direction.RIGHT),
             },
-            1
+            6
         )
     };
 
     public static LevelData[] levels;
     static {
-        reload();
-    }
-
-    public static void reload() {
         levels = new LevelData[easy.length + hard.length + tricky.length + secret.length];
         int count = 0;
         for (LevelData levelData : easy) levels[count++] = levelData;

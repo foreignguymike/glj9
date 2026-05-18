@@ -27,15 +27,20 @@ public class Button extends Entity {
         hovered = contains(mx, my);
     }
 
-    public void onMousePressed(boolean pressed) {
+    public boolean onMousePressed(boolean pressed) {
+        boolean isPressed = false;
         if (pressed) {
             if (hovered) {
-                if (!this.pressed) callback.callback();
+                if (!this.pressed) {
+                    isPressed = true;
+                    callback.callback();
+                }
                 this.pressed = true;
             }
         } else {
             this.pressed = false;
         }
+        return isPressed;
     }
 
     @Override

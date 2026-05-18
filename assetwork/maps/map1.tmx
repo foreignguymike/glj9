@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="5" height="4" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#3a3a3a" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="11" height="7" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#3a3a3a" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="tileset.tsx"/>
- <layer id="1" name="Tile Layer 1" width="5" height="4">
+ <layer id="1" name="Tile Layer 1" width="11" height="7">
   <data encoding="csv">
-9,48,6,0,0,
-42,0,42,0,8,
-36,48,47,3,24,
-0,0,0,45,41
+0,0,9,48,48,48,48,48,6,0,0,
+0,0,13,48,48,48,48,48,35,0,0,
+0,0,42,0,0,0,0,0,42,0,0,
+9,48,17,48,48,37,48,48,17,48,6,
+36,6,13,37,48,47,48,37,35,9,49,
+9,47,49,36,6,0,9,49,36,47,6,
+36,48,48,48,47,48,47,48,48,48,49
 </data>
  </layer>
 </map>

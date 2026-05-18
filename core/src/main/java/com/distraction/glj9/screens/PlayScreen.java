@@ -36,6 +36,10 @@ public class PlayScreen extends Screen {
 
     private final MusicFader musicFader;
 
+    private Dialog dialog = null;
+    private float dialogTime = 2;
+    private boolean dialogStarted = false;
+
     public PlayScreen(Context context, int level) {
         super(context);
         context.page = (level - 1) / 12;
@@ -53,6 +57,17 @@ public class PlayScreen extends Screen {
             this::redo,
             this::onNext
         );
+
+        if (level == 37) {
+            dialog = new Dialog(
+                context,
+                new String[]{"Use the arrow keys to move the camera"},
+                Constants.WIDTH / 2f - hud.getWidth() / 2f,
+                Constants.HEIGHT / 2f,
+                100,
+                50
+            );
+        }
 
         // max grid size for locked cam is 5x7
         lockCamera = tileMap.getWidth() < Constants.WIDTH - hud.getWidth() && tileMap.getHeight() < Constants.HEIGHT;
@@ -154,22 +169,29 @@ public class PlayScreen extends Screen {
     public void input() {
         if (ignoreInput) return;
 
+        if (dialog != null && !dialog.isDone() && dialogTime < 0) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) dialog.next();
+            return;
+        }
+
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         cam.unproject(m);
         tileMap.onMouseMove(m.x, m.y);
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) tileMap.place();
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) tileMap.remove();
-
         uim.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         uiCam.unproject(uim);
         hud.onMouseMove(uim.x, uim.y);
-        hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+        boolean hudPressed = hud.onMousePressed(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
 
-        up = Utils.anyKeyPressed(Input.Keys.W, Input.Keys.UP);
-        left = Utils.anyKeyPressed(Input.Keys.A, Input.Keys.LEFT);
-        down = Utils.anyKeyPressed(Input.Keys.S, Input.Keys.DOWN);
-        right = Utils.anyKeyPressed(Input.Keys.D, Input.Keys.RIGHT);
+        if (!hudPressed) {
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) tileMap.place();
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) tileMap.remove();
+        }
+
+        up = Gdx.input.isKeyPressed(Input.Keys.UP);
+        left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
     @Override
@@ -210,6 +232,15 @@ public class PlayScreen extends Screen {
                 }
             }
         }
+
+        dialogTime -= dt;
+        if (dialog != null) {
+            if (!dialogStarted && dialogTime < 0) {
+                dialogStarted = true;
+                dialog.next();
+            }
+            dialog.update(dt);
+        }
     }
 
     @Override
@@ -223,6 +254,7 @@ public class PlayScreen extends Screen {
         tileMap.render(sb);
 
         sb.setProjectionMatrix(uiCam.combined);
+        if (dialog != null) dialog.render(sb);
         hud.render(sb);
         in.render(sb);
         out.render(sb);
