@@ -77,7 +77,7 @@ public class Constants {
     public static final Color TUTORIAL_BG_IMAGE = COLORS[3];
 
     public static final Color LEVEL_SELECT_LEVEL_TEXT_COLOR = WHITE;
-    public static final Color LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR = COLORS[6];
+    public static Color LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR = COLORS[21];
 
     public static final Color SECRET_BG = COLORS[7];
     public static final Color SECRET_BG_IMAGE = COLORS[1];
