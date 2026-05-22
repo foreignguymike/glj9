@@ -57,6 +57,7 @@ public class Constants {
     };
 
     public static final Color WHITE = COLORS[7];
+    public static final Color BLACK = COLORS[0];
     public static final Color PINK = COLORS[26];
     public static final Color DARK_RED = COLORS[14];
     public static final Color SKY = COLORS[31];

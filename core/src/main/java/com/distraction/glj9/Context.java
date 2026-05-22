@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.audio.AudioHandler;
+import com.distraction.glj9.screens.Dialog;
 import com.distraction.glj9.screens.ScreenManager;
 import com.distraction.glj9.tile.LevelData;
 
@@ -41,6 +42,8 @@ public class Context {
 
     private final Preferences prefs;
 
+    public Dialog dialog;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
@@ -60,7 +63,8 @@ public class Context {
         audio = new AudioHandler();
 
         sb = new SpriteBatch();
-        sm = new ScreenManager(new com.distraction.glj9.screens.TitleScreen(this));
+//        sm = new ScreenManager(new com.distraction.glj9.screens.TitleScreen(this));
+        sm = new ScreenManager(new com.distraction.glj9.screens.StartScreen(this));
     }
 
     public TextureRegion getImage(String key) {

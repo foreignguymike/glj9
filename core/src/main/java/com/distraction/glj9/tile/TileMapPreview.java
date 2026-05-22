@@ -76,9 +76,9 @@ public class TileMapPreview {
                 objs[numRows - e.row - 1][e.col] = GHOST;
             }
         }
-        Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
-        levelText.setText(font, "Level " + level, levelColor, 0, Align.center, false);
-        arrowsText.setText(font, "Arrows: " + data.numArrows, levelColor, 0, Align.center, false);
+        String text = level == 37 ? "Secret" : "Level " + level;
+        levelText.setText(font, text, Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR, 0, Align.center, false);
+        arrowsText.setText(font, "Arrows: " + data.numArrows, Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR, 0, Align.center, false);
     }
 
     public void render(SpriteBatch sb) {

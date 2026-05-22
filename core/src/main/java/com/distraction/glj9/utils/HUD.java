@@ -22,6 +22,7 @@ public class HUD extends Entity {
 
     // hack because font integer positions and stuff
     private final TextureRegion levelText;
+    private final TextureRegion secretText;
     private final TextureRegion[] levelNumText;
     private final int totalTextWidth;
 
@@ -132,6 +133,7 @@ public class HUD extends Entity {
         speedButton.x = Constants.WIDTH - 19;
         speedButton.y = 10;
 
+        secretText = context.getImage("secret");
         levelText = context.getImage("leveltext");
         TextureRegion[] numTexts = context.getImage("numtext").split(6, 7)[0];
         String levelString = Integer.toString(tileMap.level);
@@ -211,12 +213,16 @@ public class HUD extends Entity {
     public void render(SpriteBatch sb) {
         if (tileMap.level > 0) {
             Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
-            sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
-            if (levelNumText.length > 1) {
-                sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
-                sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
+            if (tileMap.level == 37) {
+                sb.draw(secretText, levelTextx - totalTextWidth / 2f + 4, Constants.HEIGHT / 2f - 6);
             } else {
-                sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+                sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
+                if (levelNumText.length > 1) {
+                    sb.draw(levelNumText[0], levelTextx + 11 + 0.5f, Constants.HEIGHT / 2f - 6);
+                    sb.draw(levelNumText[1], levelTextx + 17 + 0.5f, Constants.HEIGHT / 2f - 6);
+                } else {
+                    sb.draw(levelNumText[0], levelTextx + 15 + 0.5f, Constants.HEIGHT / 2f - 6);
+                }
             }
         }
         sb.setColor(Constants.DIM_BG);

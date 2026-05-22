@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.distraction.glj9.screens.Dialog;
 import com.distraction.glj9.tile.Direction;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -22,6 +23,7 @@ public class Main extends ApplicationAdapter {
     private OrthographicCamera cam;
 
     private int count;
+    private float dialogTime;
 
     @Override
     public void create() {
@@ -35,8 +37,9 @@ public class Main extends ApplicationAdapter {
         fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.WIDTH, Constants.HEIGHT, false);
         fbo.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         region = new TextureRegion(fbo.getColorBufferTexture());
+        region.flip(false, true);
         cam = new OrthographicCamera();
-        cam.setToOrtho(true, Constants.WIDTH, Constants.HEIGHT);
+        cam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
     }
 
     @Override
@@ -49,6 +52,7 @@ public class Main extends ApplicationAdapter {
             fbo.begin();
         }
         context.sm.render();
+        renderDialog();
         if (context.pixelPerfect) {
             fbo.end();
             context.sb.begin();
@@ -57,6 +61,25 @@ public class Main extends ApplicationAdapter {
             context.sb.draw(region, 0, 0);
             context.sb.end();
         }
+    }
+
+    private void renderDialog() {
+        if (context.dialog == null) return;
+        if (!context.dialog.isStarted()) {
+            dialogTime = 1.5f;
+            context.dialog.next();
+        }
+        dialogTime -= Gdx.graphics.getDeltaTime();
+        if (dialogTime < 0) {
+            context.dialog.next();
+        }
+        context.dialog.update(Gdx.graphics.getDeltaTime());
+        context.sb.begin();
+        context.sb.setColor(Color.WHITE);
+        context.sb.setProjectionMatrix(cam.combined);
+        context.dialog.render(context.sb);
+        context.sb.end();
+        if (context.dialog.isDone()) context.dialog = null;
     }
 
     @Override
@@ -80,6 +103,7 @@ public class Main extends ApplicationAdapter {
         if (count == Constants.SEQUENCE.length) {
             Constants.SECRET_UNLOCKED = true;
             context.audio.playSound("select", 0.4f);
+            context.dialog = new Dialog(context, new String[] { "Secret Unlocked!"}, Constants.WIDTH / 2f, 10f, Constants.WIDTH * 2, 10);
         }
     }
 }

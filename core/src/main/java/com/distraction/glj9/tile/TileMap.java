@@ -74,7 +74,8 @@ public class TileMap {
         this.level = level;
         tilesets = new TextureRegion[][] {
             Utils.flat(context.getImage("tileset").split(TILE_SIZE, TILE_SIZE)),
-            Utils.flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE))
+            Utils.flat(context.getImage("tileset2").split(TILE_SIZE, TILE_SIZE)),
+            Utils.flat(context.getImage("tilesetsecret").split(TILE_SIZE, TILE_SIZE))
         };
         cursor = context.getImage("cursor");
         loadLevel(level);
@@ -421,7 +422,8 @@ public class TileMap {
             for (int col = 0; col < numCols; col++) {
                 int type = tiles[row][col] - 1;
                 if (type < 0) continue;
-                sb.draw(tilesets[(row + col) & 1][type], col * TILE_SIZE, row * TILE_SIZE);
+                int tilesetType = level == 37 ? 2 : (row + col) & 1;
+                sb.draw(tilesets[tilesetType][type], col * TILE_SIZE, row * TILE_SIZE);
             }
         }
         for (Entity a : arrows) a.render(sb);

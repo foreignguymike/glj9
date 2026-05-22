@@ -60,6 +60,10 @@ public class Dialog extends Entity {
         ninePatch.fillColor = Constants.DIALOG_BG;
     }
 
+    public boolean isStarted() {
+        return textIndex >= 0;
+    }
+
     public boolean next() {
         if (lock && textIndex == texts.length - 1) return false;
         if (textIndex == texts.length) return false;

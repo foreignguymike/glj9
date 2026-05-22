@@ -82,7 +82,8 @@ public class LevelTile extends Entity {
         if (time < INTERVAL && level != nextLevel) {
             level = nextLevel;
             Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
-            text.setText(font, level + "", levelColor, 0, Align.center, false);
+            String levelText = level == 37 ? "??" : level + "";
+            text.setText(font, levelText, levelColor, 0, Align.center, false);
         }
         float targety = time > 0 && time < INTERVAL ? -1 : 0;
         if (desty < targety) {
