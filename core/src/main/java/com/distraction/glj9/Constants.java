@@ -5,8 +5,8 @@ import com.distraction.glj9.tile.Direction;
 
 public class Constants {
 
-    public static final String TITLE = "Poko Puzzle";
-    public static final String VERSION = "1.3";
+    public static final String VERSION = "1.4";
+    public static final String TITLE = "Poko Puzzle" + " " + VERSION;
 
     public static final int WIDTH = 160;
     public static final int HEIGHT = 90;
