@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.audio.AudioHandler;
 import com.distraction.glj9.screens.Dialog;
 import com.distraction.glj9.screens.ScreenManager;
+import com.distraction.glj9.screens.SplashScreen;
 import com.distraction.glj9.tile.LevelData;
 
 public class Context {
@@ -63,8 +64,7 @@ public class Context {
         audio = new AudioHandler();
 
         sb = new SpriteBatch();
-//        sm = new ScreenManager(new com.distraction.glj9.screens.TitleScreen(this));
-        sm = new ScreenManager(new com.distraction.glj9.screens.StartScreen(this));
+        sm = new ScreenManager(new SplashScreen(this));
     }
 
     public TextureRegion getImage(String key) {
