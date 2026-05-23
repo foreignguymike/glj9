@@ -27,6 +27,11 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+        Gdx.input.setCatchKey(Input.Keys.UP, true);
+        Gdx.input.setCatchKey(Input.Keys.LEFT, true);
+        Gdx.input.setCatchKey(Input.Keys.DOWN, true);
+        Gdx.input.setCatchKey(Input.Keys.RIGHT, true);
+
         Colors.put("GREEN", Constants.GREEN_TEXT_COLOR);
         Colors.put("POKO", Constants.POKO_TEXT_COLOR);
         Colors.put("PELLET", Constants.PELLET_TEXT_COLOR);
