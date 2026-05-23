@@ -39,8 +39,8 @@ public class SplashScreen extends Screen {
         ignoreInput = false;
         out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f, () -> context.sm.replace(new TitleScreen(context)));
 
-        player = new Animation<>(context.getImage("playerleft").split(16, 16)[1], 0.05f);
-        ghost = new Animation<>(context.getImage("ghost").split(16, 16)[0], 0.1f);
+        player = new Animation<>(context.getImage("playerright").split(16, 16)[1], 0.05f);
+        ghost = new Animation<>(context.getImage("ghostright").split(16, 16)[0], 0.1f);
         pellet = context.getImage("pellet");
         tile1 = context.getImage("tileset").split(TileMap.TILE_SIZE, TileMap.TILE_SIZE)[6][5];
         tile2 = context.getImage("tileset2").split(TileMap.TILE_SIZE, TileMap.TILE_SIZE)[6][5];
@@ -63,10 +63,10 @@ public class SplashScreen extends Screen {
 
         ghosty += dt;
         if (ghosty > MathUtils.PI2) ghosty -= MathUtils.PI2;
-        pelletx += 30 * dt;
-        if (pelletx > 0) pelletx -= 16;
-        tilex += 30 * dt;
-        if (tilex > 0) tilex -= 32;
+        pelletx -= 30 * dt;
+        if (pelletx < -16) pelletx += 16;
+        tilex -= 30 * dt;
+        if (tilex < -32) tilex += 32;
     }
 
     @Override
@@ -80,9 +80,9 @@ public class SplashScreen extends Screen {
             Utils.drawCentered(sb, tile1, tilex + i * 32, 13);
             Utils.drawCentered(sb, tile2, tilex + i * 32 + 16, 13);
         }
-        for (int i = 0; i < 6; i++) Utils.drawCentered(sb, pellet, pelletx + i * 16, 13);
+        for (int i = 0; i < 6; i++) Utils.drawCentered(sb, pellet, pelletx + i * 16 + Constants.WIDTH / 2f + 16, 13);
         Utils.drawCentered(sb, player.get(), Constants.WIDTH / 2f, 17);
-        Utils.drawCentered(sb, ghost.get(), Constants.WIDTH / 2f + 40, 18 + MathUtils.sin(ghosty * 2) * 2);
+        Utils.drawCentered(sb, ghost.get(), Constants.WIDTH / 2f - 40, 18 + MathUtils.sin(ghosty * 2) * 2);
 
         out.render(sb);
         sb.end();
