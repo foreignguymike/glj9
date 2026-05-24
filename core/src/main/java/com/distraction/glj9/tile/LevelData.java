@@ -762,7 +762,42 @@ public class LevelData {
                 new EntityData(EntityData.EntityType.GHOST, 4, 4, Direction.LEFT),
                 new EntityData(EntityData.EntityType.GHOST, 4, 6, Direction.RIGHT),
             },
-            6
+            99
+        ),
+        new LevelData(
+            13,
+            new int[] {
+                9,48,6,0,8,0,0,0,8,0,8,0,8,
+                42,0,13,48,17,48,48,48,17,48,17,48,35,
+                36,37,49,0,44,0,0,0,44,0,36,37,49,
+                0,42,0,0,0,0,0,0,0,0,0,42,0,
+                2,17,14,0,0,0,0,0,0,0,2,17,14,
+                0,42,0,0,0,0,0,0,0,0,0,42,0,
+                25,16,6,0,8,0,0,0,8,0,0,15,21,
+                29,41,13,48,17,48,48,48,17,48,6,22,12,
+                36,48,49,0,44,0,0,0,44,0,36,18,41
+            },
+            new int[] {
+                1,1,1,0,0,0,0,0,0,0,1,0,1,
+                1,0,1,1,1,1,1,1,1,1,1,1,1,
+                1,1,1,0,0,0,0,0,0,0,1,1,1,
+                0,1,0,0,0,0,0,0,0,0,0,1,0,
+                0,1,0,0,0,0,0,0,0,0,0,1,0,
+                0,1,0,0,0,0,0,0,0,0,0,1,0,
+                1,1,1,0,0,0,0,0,0,0,0,1,1,
+                1,1,1,1,1,1,0,1,1,1,1,1,1,
+                1,1,1,0,0,0,0,0,0,0,1,1,1,
+            },
+            new EntityData[]{
+                new EntityData(EntityData.EntityType.PLAYER, 7, 6),
+                new EntityData(EntityData.EntityType.GHOST, 2, 4, Direction.UP),
+                new EntityData(EntityData.EntityType.GHOST, 0, 8, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 6, 4, Direction.DOWN),
+                new EntityData(EntityData.EntityType.GHOST, 8, 8, Direction.UP),
+                new EntityData(EntityData.EntityType.GHOST, 4, 0, Direction.RIGHT),
+                new EntityData(EntityData.EntityType.GHOST, 4, 12, Direction.LEFT),
+            },
+            99
         )
     };
 

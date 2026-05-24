@@ -422,7 +422,7 @@ public class TileMap {
             for (int col = 0; col < numCols; col++) {
                 int type = tiles[row][col] - 1;
                 if (type < 0) continue;
-                int tilesetType = level == 37 ? 2 : (row + col) & 1;
+                int tilesetType = Utils.isSecretLevel(level) ? 2 : (row + col) & 1;
                 sb.draw(tilesets[tilesetType][type], col * TILE_SIZE, row * TILE_SIZE);
             }
         }

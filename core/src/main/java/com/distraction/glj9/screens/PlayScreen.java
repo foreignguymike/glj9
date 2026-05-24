@@ -58,7 +58,7 @@ public class PlayScreen extends Screen {
             this::onNext
         );
 
-        if (level == 37 && !Constants.SECRET_DIALOG_SEEN) {
+        if (Utils.isSecretLevel(level) && !Constants.SECRET_DIALOG_SEEN) {
             Constants.SECRET_DIALOG_SEEN = true;
             dialogTime = 2;
             dialog = new Dialog(

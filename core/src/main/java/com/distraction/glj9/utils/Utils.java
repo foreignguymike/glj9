@@ -72,14 +72,14 @@ public class Utils {
     }
 
     public static Color getBgColor(int level) {
-        if (level == 37) return Constants.SECRET_BG;
+        if (Utils.isSecretLevel(level)) return Constants.SECRET_BG;
         else if (level <= 12) return Constants.LEVEL_BG;
         else if (level <= 24) return Constants.LEVEL_BG_2;
         else return Constants.LEVEL_BG_3;
     }
 
     public static Color getBgImageColor(int level) {
-        if (level == 37) return Constants.SECRET_BG_IMAGE;
+        if (Utils.isSecretLevel(level)) return Constants.SECRET_BG_IMAGE;
         else if (level <= 12) return Constants.LEVEL_BG_IMAGE;
         else if (level <= 24) return Constants.LEVEL_BG_IMAGE_2;
         else return Constants.LEVEL_BG_IMAGE_3;
@@ -90,7 +90,7 @@ public class Utils {
         if (hintIndex != -1) {
             return Constants.BG_SEQUENCE[hintIndex];
         } else {
-            if (level == 37) return "bgsecret";
+            if (Utils.isSecretLevel(level)) return "bgsecret";
             else if (level <= 12) return "bgeasy";
             else if (level <= 24) return "bghard";
             else return "bgtricky";
@@ -109,10 +109,14 @@ public class Utils {
     }
 
     public static String getMusicKey(int level) {
-        if (level == 37) return "secret";
+        if (Utils.isSecretLevel(level)) return "secret";
         else if (level <= 12) return "easy";
         else if (level <= 24) return "hard";
         else return "tricky";
+    }
+
+    public static boolean isSecretLevel(int level) {
+        return level > 36;
     }
 
 }

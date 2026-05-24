@@ -50,8 +50,9 @@ public class LevelTile extends Entity {
         pellet = context.getImage("pellet");
 
         this.level = this.nextLevel = level;
+        String levelText = Utils.isSecretLevel(level) ? "??" : level + "";
         Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
-        text.setText(font, level + "", levelColor, 0, Align.center, false);
+        text.setText(font, levelText, levelColor, 0, Align.center, false);
     }
 
     public void setLevel(int level, float time) {
@@ -82,7 +83,7 @@ public class LevelTile extends Entity {
         if (time < INTERVAL && level != nextLevel) {
             level = nextLevel;
             Color levelColor = Utils.isHintLevel(level) ? Constants.LEVEL_SELECT_HIGHLIGHT_TEXT_COLOR : Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR;
-            String levelText = level == 37 ? "??" : level + "";
+            String levelText = Utils.isSecretLevel(level) ? "??" : level + "";
             text.setText(font, levelText, levelColor, 0, Align.center, false);
         }
         float targety = time > 0 && time < INTERVAL ? -1 : 0;

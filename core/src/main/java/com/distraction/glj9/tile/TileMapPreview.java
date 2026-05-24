@@ -76,7 +76,7 @@ public class TileMapPreview {
                 objs[numRows - e.row - 1][e.col] = GHOST;
             }
         }
-        String text = level == 37 ? "Secret" : "Level " + level;
+        String text = Utils.isSecretLevel(level) ? "Secret" : "Level " + level;
         levelText.setText(font, text, Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR, 0, Align.center, false);
         arrowsText.setText(font, "Arrows: " + data.numArrows, Constants.LEVEL_SELECT_LEVEL_TEXT_COLOR, 0, Align.center, false);
     }
@@ -105,10 +105,10 @@ public class TileMapPreview {
                 }
             }
         }
-        font.draw(sb, levelText, ox, 67);
+        font.draw(sb, levelText, ox, 68);
         sb.setColor(Color.WHITE);
         if (context.isComplete(level - 1)) sb.draw(pellet, ox - 34, 7);
-        font.draw(sb, arrowsText, ox, 14);
+        font.draw(sb, arrowsText, ox, 13);
     }
 
 }

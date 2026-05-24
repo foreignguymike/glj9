@@ -213,7 +213,7 @@ public class HUD extends Entity {
     public void render(SpriteBatch sb) {
         if (tileMap.level > 0) {
             Utils.drawCentered(sb, levelTextBg, levelTextx, Constants.HEIGHT / 2f - 3);
-            if (tileMap.level == 37) {
+            if (Utils.isSecretLevel(tileMap.level)) {
                 sb.draw(secretText, levelTextx - totalTextWidth / 2f + 4, Constants.HEIGHT / 2f - 6);
             } else {
                 sb.draw(levelText, levelTextx - totalTextWidth / 2f, Constants.HEIGHT / 2f - 7);
