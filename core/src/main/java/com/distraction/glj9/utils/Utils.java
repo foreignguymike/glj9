@@ -1,16 +1,29 @@
 package com.distraction.glj9.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.glj9.Constants;
+import com.distraction.glj9.Context;
 
 public class Utils {
 
     public static void drawCentered(SpriteBatch sb, TextureRegion image, float x, float y) {
         float w = image.getRegionWidth();
         float h = image.getRegionHeight();
+        sb.draw(image, x - w / 2, y - h / 2, w, h);
+    }
+
+    public static void drawCenteredOutline(Context context, SpriteBatch sb, TextureRegion image, Color c, float x, float y) {
+        float w = image.getRegionWidth();
+        float h = image.getRegionHeight();
+        context.useFillShader(sb, c);
+        sb.draw(image, x - w / 2 - 1, y - h / 2, w, h);
+        sb.draw(image, x - w / 2 + 1, y - h / 2, w, h);
+        sb.draw(image, x - w / 2, y - h / 2 - 1, w, h);
+        sb.draw(image, x - w / 2, y - h / 2 + 1, w, h);
+        sb.setShader(null);
+        sb.setColor(Color.WHITE);
         sb.draw(image, x - w / 2, y - h / 2, w, h);
     }
 

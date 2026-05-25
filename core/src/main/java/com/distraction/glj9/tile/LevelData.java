@@ -1,5 +1,7 @@
 package com.distraction.glj9.tile;
 
+import com.distraction.glj9.Constants;
+
 public class LevelData {
 
     public int[][] tiles;
@@ -801,6 +803,9 @@ public class LevelData {
         )
     };
 
+    public static int getLevelCount() {
+        return easy.length + hard.length + tricky.length + (Constants.SECRET_UNLOCKED ? secret.length : 0);
+    }
     public static LevelData[] levels;
     static {
         levels = new LevelData[easy.length + hard.length + tricky.length + secret.length];

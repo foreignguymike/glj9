@@ -4,13 +4,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.distraction.glj9.Constants;
 import com.distraction.glj9.utils.Animation;
 import com.distraction.glj9.Context;
 import com.distraction.glj9.utils.LauchInterpolation;
 import com.distraction.glj9.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Player extends Entity {
 
@@ -20,13 +24,17 @@ public class Player extends Entity {
     private static final float[] WALK_INTERVAL = new float[] { 1f/20f, 1f/40f, 1f/60f };
     private static final float[] WIN_INTERVAL = new float[] { 1f/10f, 1f/20f, 1f/30f };
     private static final int TOTAL_SUPER_STEPS = 10;
+    private static final float PARTICLE_INTERVAL = 1/20f;
+    private static final float PARTICLE_SPEED = 64;
 
     private final Animation<TextureRegion> animation;
-    private final TextureRegion[][][] sheets;
     private final TextureRegion[][] idleSprites;
     private final TextureRegion[][] walkSprites;
     private final TextureRegion[] winSprites;
     private final TextureRegion deadImage;
+    private final TextureRegion pixel;
+    private final Color outline;
+    private final List<Vector3> particles;
 
     private Direction lastStartedDirection;
 
@@ -35,6 +43,7 @@ public class Player extends Entity {
 
     private boolean isSuper;
     private int superSteps;
+    private float particleTime;
 
     private boolean isDead;
     private float deady;
@@ -48,7 +57,7 @@ public class Player extends Entity {
 
         w = 16;
         h = 16;
-        sheets = new TextureRegion[][][] {
+        TextureRegion[][][] sheets = new TextureRegion[][][]{
             context.getImage("playerup").split(w, h),
             context.getImage("playerleft").split(w, h),
             context.getImage("playerdown").split(w, h),
@@ -69,6 +78,10 @@ public class Player extends Entity {
         animation = new Animation<>(idleSprites[direction.ordinal()], currentInterval[speed - 1]);
 
         deadImage = context.getImage("playerdead");
+        outline = Constants.WHITE;
+
+        pixel = context.getPixel();
+        particles = new ArrayList<>();
     }
 
     public void redo() {
@@ -168,6 +181,20 @@ public class Player extends Entity {
             deadTimer += dt;
             if (deadTimer >= 1) y = deady + launchInterpolation.apply(deadTimer - 1) * 20;
         }
+        for (int i = 0; i < particles.size(); i++) {
+            Vector3 v = particles.get(i);
+            v.y += PARTICLE_SPEED * speed * dt;
+            if (v.y - v.z > 30) particles.remove(i--);
+        }
+        if (isSuper) {
+            particleTime -= dt;
+            if (particleTime < 0) {
+                particleTime += PARTICLE_INTERVAL / speed;
+                float randx = MathUtils.random(x - 8, x + 8);
+                float randy = MathUtils.random(y - 4, y + 4);
+                particles.add(new Vector3(randx, randy, randy));
+            }
+        }
     }
 
     @Override
@@ -177,7 +204,10 @@ public class Player extends Entity {
         if (isDead) {
             Utils.drawCentered(sb, deadImage, x, y + 4);
         } else {
-            Utils.drawCentered(sb, animation.get(), x, y + 4);
+            for (Vector3 v : particles) sb.draw(pixel, v.x, v.y);
+            if (isSuper) Utils.drawCenteredOutline(context, sb, animation.get(), Constants.WHITE, x, y + 4);
+            else Utils.drawCentered(sb, animation.get(), x, y + 4);
+            sb.setColor(outline);
         }
     }
 }

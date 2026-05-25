@@ -3,11 +3,13 @@ package com.distraction.glj9;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.distraction.glj9.audio.AudioHandler;
 import com.distraction.glj9.screens.Dialog;
 import com.distraction.glj9.screens.ScreenManager;
@@ -45,11 +47,45 @@ public class Context {
 
     public Dialog dialog;
 
+    private static final String vert =
+        "attribute vec4 a_position;\n" +
+        "attribute vec4 a_color;\n" +
+        "attribute vec2 a_texCoord0;\n" +
+        "uniform mat4 u_projTrans;\n" +
+        "varying vec4 v_color;\n" +
+        "varying vec2 v_texCoords;\n" +
+        "\n" +
+        "void main() {\n" +
+        "    v_color = a_color;\n" +
+        "    v_texCoords = a_texCoord0;\n" +
+        "    gl_Position = u_projTrans * a_position;\n" +
+        "}";
+    private static final String frag =
+        "#ifdef GL_ES\n" +
+        "precision mediump float;\n" +
+        "#endif\n" +
+        "\n" +
+        "varying vec4 v_color;\n" +
+        "varying vec2 v_texCoords;\n" +
+        "uniform sampler2D u_texture;\n" +
+        "uniform vec4 u_silhouetteColor; // The solid color you want\n" +
+        "\n" +
+        "void main() {\n" +
+        "    vec4 texColor = texture2D(u_texture, v_texCoords);\n" +
+        "    gl_FragColor = vec4(u_silhouetteColor.rgb, texColor.a * u_silhouetteColor.a);\n" +
+        "}";
+    private final ShaderProgram fillShader;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
         assets.load(FONT, BitmapFont.class);
         assets.finishLoading();
+
+        fillShader = new ShaderProgram(vert, frag);
+        if (!fillShader.isCompiled()) {
+            throw new RuntimeException(fillShader.getLog());
+        }
 
         font = assets.get(FONT, BitmapFont.class);
         font.getData().markupEnabled = true;
@@ -65,6 +101,11 @@ public class Context {
 
         sb = new SpriteBatch();
         sm = new ScreenManager(new SplashScreen(this));
+    }
+
+    public void useFillShader(SpriteBatch sb, Color color) {
+        sb.setShader(fillShader);
+        fillShader.setUniformf("u_silhouetteColor", color);
     }
 
     public TextureRegion getImage(String key) {

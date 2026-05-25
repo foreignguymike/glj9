@@ -108,7 +108,7 @@ public class Main extends ApplicationAdapter {
         if (count == Constants.SEQUENCE.length) {
             Constants.SECRET_UNLOCKED = true;
             context.audio.playSound("select", 0.4f);
-            context.dialog = new Dialog(context, new String[] { "Secret Unlocked!"}, Constants.WIDTH / 2f, 10f, Constants.WIDTH * 2, 10);
+            context.dialog = new Dialog(context, new String[] { "Secret Unlocked!"}, Constants.WIDTH / 2f, Constants.HEIGHT / 2f, Constants.WIDTH * 2, 10);
         }
     }
 }
