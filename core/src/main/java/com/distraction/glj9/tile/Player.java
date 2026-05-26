@@ -206,7 +206,7 @@ public class Player extends Entity {
             Utils.drawCentered(sb, deadImage, x, y + 4);
         } else {
             for (Vector3 v : particles) {
-                sb.setColor(1, 1, 1, MathUtils.clamp(1 - 0.5f * (v.y - v.z) / PARTICLE_DIST, 0f, 1f));
+                sb.setColor(1, 1, 1, MathUtils.clamp(2 - 2 * (v.y - v.z) / PARTICLE_DIST, 0f, 1f));
                 sb.draw(pixel, v.x, v.y);
             }
             sb.setColor(1, 1, 1, 1);
