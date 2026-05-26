@@ -61,9 +61,11 @@ public class Main extends ApplicationAdapter {
         if (context.pixelPerfect) {
             fbo.end();
             context.sb.begin();
+            context.sb.disableBlending();
             context.sb.setColor(Color.WHITE);
             context.sb.setProjectionMatrix(cam.combined);
             context.sb.draw(region, 0, 0);
+            context.sb.enableBlending();
             context.sb.end();
         }
     }
