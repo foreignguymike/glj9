@@ -27,6 +27,7 @@ public class Context {
 
     private static final long SECRET = 0x5A17BEEFL;
     private static final long LEVEL_MASK = (1L << MAX_LEVELS) - 1L;
+    private static final long CHECK_MASK = (1L << (64 - MAX_LEVELS)) - 1L;
 
     public final AssetManager assets;
     public final AudioHandler audio;
@@ -131,14 +132,14 @@ public class Context {
         save();
     }
 
-    private int checksum(long saved) {
+    private long checksum(long saved) {
         long x = saved ^ SECRET;
-        x ^= (x >>> 17);
-        x *= 0xed5ad4bbL;
-        x ^= (x >>> 11);
-        x *= 0xac4c1b51L;
-        x ^= (x >>> 15);
-        return (int)(x & 0x0FFFFFFF);
+        x ^= (x >>> 33);
+        x *= 0xff51afd7ed558ccdL;
+        x ^= (x >>> 33);
+        x *= 0xc4ceb9fe1a85ec53L;
+        x ^= (x >>> 33);
+        return x & CHECK_MASK;
     }
 
     private void save() {
@@ -146,8 +147,7 @@ public class Context {
         for (int i = 0; i < completed.length; i++) {
             if (completed[i]) saved |= (1L << i);
         }
-        int check = checksum(saved);
-        long packed = saved | ((long)check << MAX_LEVELS);
+        long packed = saved | (checksum(saved) << MAX_LEVELS);
         prefs.putLong(KEY_COMPLETED, packed);
         prefs.flush();
     }

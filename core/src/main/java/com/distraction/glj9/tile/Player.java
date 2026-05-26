@@ -26,6 +26,7 @@ public class Player extends Entity {
     private static final int TOTAL_SUPER_STEPS = 10;
     private static final float PARTICLE_INTERVAL = 1/20f;
     private static final float PARTICLE_SPEED = 64;
+    private static final float PARTICLE_DIST = 24;
 
     private final Animation<TextureRegion> animation;
     private final TextureRegion[][] idleSprites;
@@ -184,7 +185,7 @@ public class Player extends Entity {
         for (int i = 0; i < particles.size(); i++) {
             Vector3 v = particles.get(i);
             v.y += PARTICLE_SPEED * speed * dt;
-            if (v.y - v.z > 30) particles.remove(i--);
+            if (v.y - v.z > PARTICLE_DIST) particles.remove(i--);
         }
         if (isSuper) {
             particleTime -= dt;
@@ -204,7 +205,11 @@ public class Player extends Entity {
         if (isDead) {
             Utils.drawCentered(sb, deadImage, x, y + 4);
         } else {
-            for (Vector3 v : particles) sb.draw(pixel, v.x, v.y);
+            for (Vector3 v : particles) {
+                sb.setColor(1, 1, 1, MathUtils.clamp(1 - 0.5f * (v.y - v.z) / PARTICLE_DIST, 0f, 1f));
+                sb.draw(pixel, v.x, v.y);
+            }
+            sb.setColor(1, 1, 1, 1);
             if (isSuper) Utils.drawCenteredOutline(context, sb, animation.get(), Constants.WHITE, x, y + 4);
             else Utils.drawCentered(sb, animation.get(), x, y + 4);
             sb.setColor(outline);
